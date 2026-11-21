@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pinar Press</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f4ecd8;--ink:#1c1917;--red:#c8102e;--navy:#002a8f}
+body{background:#09090b;color:#e4e4e7;font-family:Inter,system-ui,sans-serif}
+.newspaper{background-color:var(--cream);color:var(--ink);font-family:'Libre Baskerville',Georgia,serif;box-shadow:0 25px 50px -12px rgb(0 0 0/.55);position:relative}
+.newspaper.texture-low{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E")}
+.newspaper.texture-med{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+.newspaper.texture-high{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")}
+.newspaper.tint-cream{--cream:#f4ecd8}.newspaper.tint-warm{--cream:#f0e4d0}.newspaper.tint-sun{--cream:#f5e8c7}.newspaper.tint-old{--cream:#ebe0c8}
+.masthead{font-family:'Playfair Display',Georgia,serif;font-weight:900;letter-spacing:-.03em;line-height:.92}
+.section-head{font-family:'Playfair Display',Georgia,serif;color:var(--red);font-weight:700;border-bottom:1.5px solid var(--red);padding-bottom:1px;margin-bottom:6px;display:inline-block;font-size:12.5px}
+.col-text{font-size:10.5px;line-height:1.4;text-align:justify}
+.col-text.tight{font-size:10px;line-height:1.32}
+.thin-rule{border-color:#292524}
+.cuban-stripe{height:3px;background:linear-gradient(to right,var(--red) 0 33%,#fff 33% 66%,var(--navy) 66% 100%)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#18181b}::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px}
+input,textarea,select{background:#18181b;border:1px solid #27272a;color:#f4f4f5}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.btn{transition:all .12s}.btn:hover{filter:brightness(1.12)}
+.btn-primary{background:var(--red);color:#fff}
+.btn-secondary{background:#27272a;color:#e4e4e7;border:1px solid #3f3f46}
+.btn-ghost{background:transparent;color:#a1a1aa;border:1px solid #27272a}
+.preset-btn{font-size:11px;padding:6px 4px}
+.preset-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.panel-section{border-bottom:1px solid #27272a;padding-bottom:12px;margin-bottom:12px}
+.label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#71717a;margin-bottom:5px;display:block}
+.img-frame{position:relative;overflow:hidden;background:#d6d3d1;border:1px solid #a8a29e}
+.img-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;background:linear-gradient(160deg,#c4b5a0,#a89070 40%,#8b7355 70%,#6b5344);color:#3d3229;font-size:12px}
+.lang-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+[contenteditable="true"]{outline:1px dashed transparent;border-radius:2px;cursor:text}
+[contenteditable="true"]:hover{outline-color:#c8102e55}
+[contenteditable="true"]:focus{outline:1px solid var(--red);background:rgba(200,16,46,.04)}
+.layout-btn.active{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<header class="border-b border-zinc-800 bg-zinc-950 px-4 py-2.5 flex items-center justify-between sticky top-0 z-50 gap-2 flex-wrap">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-700 to-red-950 flex items-center justify-center text-white font-bold text-xs border border-red-900/40">PR</div>
+    <div>
+      <h1 class="font-semibold text-white text-sm tracking-tight leading-none">Pinar Press</h1>
+      <p class="text-[10px] text-zinc-500 mt-0.5">Diario de Cuba · Pinar del Río</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 flex-wrap justify-end">
+    <div class="flex rounded overflow-hidden border border-zinc-700">
+      <button id="langES" onclick="setLang('es')" class="lang-btn text-xs px-2.5 py-1 active">ES</button>
+      <button id="langEN" onclick="setLang('en')" class="lang-btn text-xs px-2.5 py-1 bg-zinc-800">EN</button>
+    </div>
+    <button onclick="undo()" class="btn btn-ghost text-xs px-2 py-1.5 rounded">Undo</button>
+    <button onclick="redo()" class="btn btn-ghost text-xs px-2 py-1.5 rounded">Redo</button>
+    <button onclick="surpriseMe()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Surprise</button>
+    <button onclick="randomMeta()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Random #</button>
+    <button onclick="saveProject()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Save</button>
+    <button onclick="document.getElementById('loadInput').click()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Load</button>
+    <input type="file" id="loadInput" accept=".json" class="hidden" onchange="loadProject(event)"/>
+    <button onclick="downloadPNG()" class="btn btn-primary text-xs px-4 py-1.5 rounded font-medium">Download PNG</button>
+  </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-[360px] border-r border-zinc-800 bg-zinc-950 overflow-y-auto flex-shrink-0">
+<div class="p-3.5 space-y-1">
+
+  <div class="panel-section">
+    <label class="label">Layout</label>
+    <div class="grid grid-cols-3 gap-1.5 mb-2">
+      <button onclick="setLayout('classic')" id="layClassic" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn active">Classic</button>
+      <button onclick="setLayout('interview')" id="layInterview" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn">Interview</button>
+      <button onclick="setLayout('split')" id="laySplit" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn">Split / Ads</button>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="text-[10px] text-zinc-500 mb-0.5 block">Columns</label>
+        <select id="colCount" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="4" selected>4</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] text-zinc-500 mb-0.5 block">Text density</label>
+        <select id="textTight" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="normal" selected>Normal</option>
+          <option value="tight">Tight</option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-2">
+      <label class="text-[10px] text-zinc-500 mb-0.5 block">Margins</label>
+      <select id="paperPad" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+        <option value="p-6">Tight</option>
+        <option value="p-8" selected>Normal</option>
+        <option value="p-10">Wide</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Presets</label>
+    <div class="grid grid-cols-2 gap-1.5" id="presetGrid"></div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Cuban Identity</label>
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Paper tint</label>
+          <select id="paperTint" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="cream">Cream</option>
+            <option value="warm" selected>Tobacco</option>
+            <option value="sun">Caribbean sun</option>
+            <option value="old">Aged</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Accent</label>
+          <select id="accentRed" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="#c8102e" selected>Flag red</option>
+            <option value="#b91c1c">Standard</option>
+            <option value="#9f1239">Deep rose</option>
+            <option value="#7f1d1d">Dark tobacco</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-[10px] text-zinc-500 mb-0.5 block">Quick motto</label>
+        <select id="mottoPick" onchange="applyMotto()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="">— choose —</option>
+          <option value="Provincia • Consejo">Provincia • Consejo</option>
+          <option value="Por la tierra y el pueblo">Por la tierra y el pueblo</option>
+          <option value="De Viñales al Consejo">De Viñales al Consejo</option>
+          <option value="Raíces firmes · Occidente vivo">Raíces firmes · Occidente vivo</option>
+          <option value="Cuba en el Consejo">Cuba en el Consejo</option>
+          <option value="Patria y provincia">Patria y provincia</option>
+          <option value="Province • Council">Province • Council</option>
+        </select>
+      </div>
+      <div class="flex gap-1.5">
+        <button onclick="setCubanMood('oficial')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Oficial</button>
+        <button onclick="setCubanMood('calido')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Cálido</button>
+        <button onclick="setCubanMood('historico')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Histórico</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Header</label>
+    <div class="space-y-2">
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Masthead</label>
+        <input id="masthead" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Byline</label>
+        <input id="byline" type="text" placeholder="by YourName · DiplomaticaMC" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div class="grid grid-cols-2 gap-2">
+        <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Motto</label>
+          <input id="motto" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+        <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Edition</label>
+          <input id="edition" type="text" value="001" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      </div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Date</label>
+        <input id="date" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div class="flex flex-wrap gap-3 pt-0.5">
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showStripe" checked onchange="onField()" class="rounded border-zinc-600"/> Stripe</label>
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showEmblem" checked onchange="onField()" class="rounded border-zinc-600"/> Emblem</label>
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showByline" checked onchange="onField()" class="rounded border-zinc-600"/> Byline</label>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Emblem style</label>
+          <select id="emblemStyle" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="flag" selected>Cuban flag</option>
+            <option value="monogram">P.R. monogram</option>
+            <option value="both">Flag + monogram</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Emblem size</label>
+          <select id="emblemSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="sm">Small</option>
+            <option value="md" selected>Medium</option>
+            <option value="lg">Large</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Main Story</label>
+    <div class="space-y-2">
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Headline</label>
+        <textarea id="headline" rows="2" class="w-full rounded px-2.5 py-1.5 text-sm resize-none" oninput="onField()"></textarea></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Subheadline</label>
+        <textarea id="subhead" rows="2" class="w-full rounded px-2.5 py-1.5 text-sm resize-none" oninput="onField()"></textarea></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Caption</label>
+        <input id="caption" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">1 · Hero Image</label>
+    <input type="file" id="heroUpload" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-800 file:text-zinc-200 mb-2" onchange="handleImage(event,'hero')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Height</label>
+        <select id="heroHeight" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="160">S</option><option value="200">M</option><option value="260" selected>L</option><option value="320">XL</option>
+        </select></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Focus</label>
+        <select id="heroPos" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="center">Center</option><option value="top">Top</option><option value="bottom">Bottom</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2">
+      <button onclick="clearImage('hero')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwHero" checked onchange="onField()" class="rounded border-zinc-600"/> B&W</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">2 · Secondary</label>
+    <input type="file" id="secUpload" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-800 file:text-zinc-200 mb-2" onchange="handleImage(event,'sec')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Place</label>
+        <select id="secPlace" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="none">Hidden</option><option value="afterHero">After hero</option>
+          <option value="col2">Col 2</option><option value="col3">Col 3</option><option value="col4">Col 4 / Ads</option>
+        </select></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Size</label>
+        <select id="secSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="90">S</option><option value="130" selected>M</option><option value="170">L</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2">
+      <button onclick="clearImage('sec')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwSec" checked onchange="onField()" class="rounded border-zinc-600"/> B&W</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">3 · Tertiary</label>
+    <input type="file" id="terUpload" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-800 file:text-zinc-200 mb-2" onchange="handleImage(event,'ter')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Place</label>
+        <select id="terPlace" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="none">Hidden</option><option value="afterHero">After hero</option>
+          <option value="col2">Col 2</option><option value="col3">Col 3</option><option value="col4">Col 4 / Ads</option>
+        </select></div>
+      <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Size</label>
+        <select id="terSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="90">S</option><option value="130" selected>M</option><option value="170">L</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2">
+      <button onclick="clearImage('ter')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwTer" checked onchange="onField()" class="rounded border-zinc-600"/> B&W</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Compression</label>
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Max size</label>
+          <select id="resizeMax" class="w-full rounded px-2 py-1 text-xs">
+            <option value="1200">1200</option><option value="1600" selected>1600</option><option value="2000">2000</option><option value="0">Original</option>
+          </select></div>
+        <div><label class="text-[10px] text-zinc-500 mb-0.5 block">Format</label>
+          <select id="resizeFormat" class="w-full rounded px-2 py-1 text-xs">
+            <option value="image/jpeg" selected>JPEG</option><option value="image/webp">WebP</option>
+          </select></div>
+      </div>
+      <div>
+        <label class="text-[10px] text-zinc-500 mb-0.5 block flex justify-between"><span>Quality</span><span id="qualityLabel">85%</span></label>
+        <input type="range" id="resizeQuality" min="50" max="98" value="85" class="w-full accent-red-700" oninput="$('qualityLabel').textContent=this.value+'%'"/>
+      </div>
+      <div class="flex gap-1.5">
+        <button onclick="setCompressPreset('discord')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Discord</button>
+        <button onclick="setCompressPreset('balanced')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Balanced</button>
+      </div>
+      <button onclick="reprocessImages()" class="btn btn-secondary text-xs w-full py-1.5 rounded">Re-process</button>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Paper & Export</label>
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Texture</label>
+          <select id="paperTexture" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="low">Low</option><option value="med" selected>Medium</option><option value="high">High</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-zinc-500 mb-0.5 block">Export</label>
+          <select id="exportScale" class="w-full rounded px-2 py-1 text-xs">
+            <option value="2">2×</option><option value="2.4" selected>2.4× Discord</option><option value="3">3×</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Columns / Ads text</label>
+    <div class="space-y-2.5">
+      <div><input id="col1Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col1Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col2Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col2Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col3Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col3Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col4Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col4Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+    </div>
+  </div>
+
+  <div class="pb-6 text-[10px] text-zinc-600">Pinar Press v3.0 · Cuba · Click text to edit · Ctrl+Z undo</div>
+</div>
+</aside>
+
+<main class="flex-1 overflow-auto bg-zinc-900 p-5 flex justify-center items-start">
+  <div id="newspaper" class="newspaper texture-med tint-warm w-[700px] p-8 select-none">
+    <!-- top byline row -->
+    <div id="bylineRow" class="flex justify-between items-center text-[9px] text-stone-600 mb-1 tracking-wide">
+      <span id="preview-byline" contenteditable="true" data-bind="byline"></span>
+      <span id="preview-dateTop"></span>
+    </div>
+
+    <div class="flex items-end justify-between mb-1 gap-2">
+      <div id="emblemWrap" class="flex-shrink-0 flex items-end gap-1.5">
+        <div id="flagEmblem" class="overflow-hidden border border-stone-600 shadow-sm">
+          <svg viewBox="0 0 60 30" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="60" height="6" y="0" fill="#002a8f"/>
+            <rect width="60" height="6" y="6" fill="#fff"/>
+            <rect width="60" height="6" y="12" fill="#002a8f"/>
+            <rect width="60" height="6" y="18" fill="#fff"/>
+            <rect width="60" height="6" y="24" fill="#002a8f"/>
+            <polygon points="0,0 26,15 0,30" fill="#cf142b"/>
+            <polygon fill="#fff" points="9.5,15 10.7,11.3 12.2,13.9 15.5,13.9 12.9,15.7 14.1,19.2 11.1,17.2 8.1,19.2 9.3,15.7 6.7,13.9 10,13.9"/>
+          </svg>
+        </div>
+        <div id="monogramWrap" class="rounded-full border-[1.5px] border-stone-800 flex items-center justify-center hidden">
+          <span class="font-bold tracking-tighter" style="font-family:'Playfair Display',serif">P.R.</span>
+        </div>
+      </div>
+      <div class="flex-1 text-center px-1 min-w-0">
+        <div id="preview-masthead" class="masthead text-[32px] text-stone-900" contenteditable="true" data-bind="masthead"></div>
+      </div>
+      <div class="text-right flex-shrink-0" style="width:7rem">
+        <div id="preview-motto" class="text-[10px] italic text-stone-700 leading-tight" contenteditable="true" data-bind="motto"></div>
+        <div id="preview-stripe" class="cuban-stripe mt-1 rounded-[1px]"></div>
+      </div>
+    </div>
+
+    <div class="border-t border-b thin-rule py-1 mb-3">
+      <div class="text-center text-[9.5px] tracking-[0.14em] uppercase text-stone-600">
+        CUBA · PINAR DEL RÍO · <span id="editionLabel">EDICIÓN N.º</span> <span id="preview-edition">001</span> · <span id="preview-date"></span>
+      </div>
+    </div>
+
+    <h1 id="preview-headline" class="leading-[1.12] font-bold text-center mb-1" style="font-family:'Playfair Display',serif;font-size:25px" contenteditable="true" data-bind="headline"></h1>
+    <p id="preview-subhead" class="text-center text-[12px] italic text-stone-700 mb-4 leading-snug max-w-[94%] mx-auto" contenteditable="true" data-bind="subhead"></p>
+
+    <div class="mb-1">
+      <div id="heroFrame" class="img-frame w-full" style="height:260px">
+        <img id="heroImg" alt="" class="hidden"/>
+        <div id="heroPh" class="placeholder">
+          <div style="font-size:11px;opacity:.75;letter-spacing:.1em">PINAR DEL RÍO</div>
+          <div style="font-size:13px;font-style:italic">Viñales · tabaco · mogotes</div>
+        </div>
+      </div>
+      <p id="preview-caption" class="text-center text-[10.5px] italic text-stone-600 mt-1" contenteditable="true" data-bind="caption"></p>
+    </div>
+    <div id="extraAfterHero" class="mb-3 space-y-2 hidden"></div>
+
+    <!-- CLASSIC -->
+    <div id="colsClassic" class="grid grid-cols-4 gap-3 mt-4 pt-3.5 border-t thin-rule">
+      <div><div id="p-col1Title" class="section-head" contenteditable="true" data-bind="col1Title"></div><div id="p-col1Text" class="col-text" contenteditable="true" data-bind="col1Text"></div></div>
+      <div><div id="p-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div><div id="imgCol2" class="mb-1.5 space-y-1.5"></div><div id="p-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div></div>
+      <div><div id="p-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div><div id="imgCol3" class="mb-1.5 space-y-1.5"></div><div id="p-col3Text" class="col-text" contenteditable="true" data-bind="col3Text"></div></div>
+      <div id="col4Wrap"><div id="p-col4Title" class="section-head" contenteditable="true" data-bind="col4Title"></div><div id="imgCol4" class="mb-1.5 space-y-1.5"></div><div id="p-col4Text" class="col-text" contenteditable="true" data-bind="col4Text"></div></div>
+    </div>
+
+    <!-- INTERVIEW -->
+    <div id="colsInterview" class="hidden mt-4 pt-3.5 border-t thin-rule">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-1 border-r border-stone-400 pr-3">
+          <div class="bg-stone-900 text-[11px] font-bold px-2 py-1.5 mb-2 tracking-wide text-white" id="intLabel">ENTREVISTA</div>
+          <div id="int-col1Title" class="section-head" contenteditable="true" data-bind="col1Title"></div>
+          <div id="int-col1Text" class="col-text" contenteditable="true" data-bind="col1Text"></div>
+          <div class="mt-3" id="int-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div>
+          <div id="int-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div>
+        </div>
+        <div class="col-span-2">
+          <div id="int-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div>
+          <div id="int-col3Text" class="col-text mb-3" contenteditable="true" data-bind="col3Text"></div>
+          <div id="intImgArea" class="mb-2"></div>
+          <div id="int-col4Title" class="section-head" contenteditable="true" data-bind="col4Title"></div>
+          <div id="int-col4Text" class="col-text" contenteditable="true" data-bind="col4Text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLIT / ADS -->
+    <div id="colsSplit" class="hidden mt-4 pt-3.5 border-t thin-rule">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2 border-r border-stone-400 pr-3">
+          <div id="spl-col1Title" class="section-head text-base" contenteditable="true" data-bind="col1Title"></div>
+          <div id="spl-col1Text" class="col-text mb-3" contenteditable="true" data-bind="col1Text" style="font-size:11.5px"></div>
+          <div id="spl-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div>
+          <div id="spl-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div>
+        </div>
+        <div class="col-span-1">
+          <div class="border border-stone-500 p-2 mb-2">
+            <div class="text-[10px] font-bold tracking-widest text-center mb-1.5 text-stone-600" id="adsLabel">AVISOS</div>
+            <div id="spl-col4Title" class="section-head text-[11px]" contenteditable="true" data-bind="col4Title"></div>
+            <div id="spl-col4Text" class="col-text text-[10px]" contenteditable="true" data-bind="col4Text"></div>
+            <div id="splImgAds" class="mt-2 space-y-1.5"></div>
+          </div>
+          <div id="spl-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div>
+          <div id="spl-col3Text" class="col-text" contenteditable="true" data-bind="col3Text"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 pt-2.5 border-t thin-rule text-center text-[9.5px] tracking-[0.12em] text-stone-600">
+      — <span id="footEditionLabel">EDICIÓN N.º</span> <span id="p-foot-ed">001</span> · <span id="p-foot-date"></span> · CUBA · PINAR DEL RÍO —
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+const PRESETS={
+es:{
+consejo:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Provincia • Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Redacción provincial · DiplomaticaMC',headline:'Pinar del Río reafirma su voz en el Consejo',subhead:'En sesión ordinaria se abordan temas clave para el desarrollo de la provincia y de Cuba.',caption:'Valle de Viñales, corazón del occidente cubano.',col1Title:'Provincia',col1Text:'Los delegados analizaron los desafíos de la economía y los servicios. Se ratificó el compromiso con la producción de alimentos y la atención al pueblo.',col2Title:'Consejo',col2Text:'Pinar del Río ocupa un lugar central en el Consejo de la estructura binacional. Diálogo y representación para el progreso común de Cuba.',col3Title:'Economía',col3Text:'El tabaco sigue siendo pilar. Avanzamos hacia un desarrollo sostenible que valore la tradición pinareña.',col4Title:'Avisos',col4Text:'Convocatoria a la próxima sesión abierta del Consejo. Propuestas del pueblo hasta el viernes.'},
+economy:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Por la tierra y el pueblo',date:'20 DE NOVIEMBRE DE 2026',byline:'Sección económica',headline:'Tabaco y turismo impulsan la economía de Pinar',subhead:'Nuevas inversiones fortalecen el desarrollo del occidente cubano.',caption:'Plantaciones de tabaco bajo el sol de Pinar.',col1Title:'Provincia',col1Text:'Avances sostenidos en los indicadores económicos. El sector agropecuario mantiene ritmo positivo.',col2Title:'Consejo',col2Text:'El Consejo analizó el plan de inversiones con énfasis en infraestructura rural y la industria del tabaco.',col3Title:'Economía',col3Text:'El tabaco de Pinar del Río sigue siendo un pilar de Cuba. El turismo de naturaleza crece en Viñales.',col4Title:'Avisos',col4Text:'Cursos de formación técnica en agroindustria y turismo. Inscripciones abiertas.'},
+culture:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Raíces firmes',date:'20 DE NOVIEMBRE DE 2026',byline:'Cultura y patrimonio',headline:'Cultura y tradiciones vivas en el corazón de Pinar',subhead:'Festivales y patrimonio consolidan la identidad cubana en el occidente.',caption:'Jornada cultural en la plaza.',col1Title:'Cultura',col1Text:'Jornadas culturales con artistas locales y agrupaciones de toda Cuba occidental.',col2Title:'Consejo',col2Text:'El Consejo aprobó recursos para la conservación de sitios patrimoniales en Viñales.',col3Title:'Economía',col3Text:'El turismo cultural se consolida como línea de crecimiento para la provincia.',col4Title:'Avisos',col4Text:'Próxima peña cultural. Entrada libre. ¡Viva Pinar!'},
+sports:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Occidente vivo',date:'20 DE NOVIEMBRE DE 2026',byline:'Deportes',headline:'Pinar del Río avanza con fuerza en el deporte',subhead:'Equipos provinciales cosechan resultados para Cuba.',caption:'Afición en el estadio provincial.',col1Title:'Deportes',col1Text:'El combinado de Pinar del Río continúa su buena racha en las ligas del servidor.',col2Title:'Consejo',col2Text:'El Consejo felicitó a los deportistas y anunció apoyo a instalaciones.',col3Title:'Provincia',col3Text:'La afición responde con entusiasmo. Las gradas se llenan cada fin de semana.',col4Title:'Avisos',col4Text:'Próximo partido en casa. Entradas en taquilla.'},
+diplomacy:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Cuba en el Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Asuntos del Consejo',headline:'Pinar del Río fortalece lazos en el Consejo binacional',subhead:'La provincia cubana consolida su papel en la estructura dual.',caption:'Sesión del Consejo.',col1Title:'Diplomacia',col1Text:'Representantes de Pinar participaron activamente en las últimas sesiones del Consejo.',col2Title:'Consejo',col2Text:'La provincia mantiene una voz clara por Cuba. El diálogo con el gobierno central es fluido.',col3Title:'Provincia',col3Text:'La identidad cubana y pinareña se mantiene firme dentro del marco común.',col4Title:'Avisos',col4Text:'Reuniones abiertas a observadores provinciales.'},
+development:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Patria y provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'Desarrollo',headline:'Nuevos proyectos de desarrollo llegan a Pinar del Río',subhead:'Infraestructura y producción marcan la agenda del occidente.',caption:'Obras en marcha.',col1Title:'Desarrollo',col1Text:'Proyectos de infraestructura en ejecución o planificación avanzada en varios municipios.',col2Title:'Consejo',col2Text:'Presupuesto extraordinario priorizando equilibrio urbano-rural en la provincia.',col3Title:'Economía',col3Text:'Las obras generarán empleo local. Preferencia a constructores de Pinar y de Cuba.',col4Title:'Avisos',col4Text:'Convocatoria abierta para empresas y cooperativas.'},
+interview:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Provincia • Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Entrevista exclusiva',headline:'Entrevista: la visión desde el Consejo de Cuba',subhead:'Un miembro del Consejo habla del presente y futuro de Pinar del Río.',caption:'Entrevista en la sede provincial.',col1Title:'Entrevista',col1Text:'"Nuestra identidad cubana no se diluye, se fortalece", afirmó el representante de Pinar.',col2Title:'Consejo',col2Text:'El trabajo conjunto se describe como maduro y respetuoso entre las partes.',col3Title:'Provincia',col3Text:'Desarrollo, cultura y representación justa de Pinar fueron los temas clave.',col4Title:'Avisos',col4Text:'Envíen preguntas para futuras entrevistas al diario.'},
+event:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'De Viñales al Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Crónica',headline:'Gran evento provincial reúne a miles en Pinar del Río',subhead:'Celebración, deporte y cultura marcan una jornada histórica para Cuba occidental.',caption:'Multitud en la plaza.',col1Title:'Evento',col1Text:'Miles de ciudadanos se congregaron. Ambiente de unidad, orgullo pinareño y cubano.',col2Title:'Consejo',col2Text:'Miembros del Consejo asistieron y destacaron el papel de la provincia.',col3Title:'Cultura',col3Text:'Artistas locales llenaron de música y color las calles de Pinar.',col4Title:'Avisos',col4Text:'Crónicas completas en la próxima edición.'},
+defense:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Patria y provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'Defensa',headline:'Defensa y seguridad: Pinar del Río mantiene su compromiso',subhead:'La provincia refuerza su capacidad de protección al servicio de Cuba.',caption:'Ejercicios de defensa provincial.',col1Title:'Defensa',col1Text:'Las fuerzas provinciales realizaron ejercicios y actualizaron protocolos.',col2Title:'Consejo',col2Text:'El Consejo respaldó las medidas de modernización y entrenamiento.',col3Title:'Provincia',col3Text:'La población valora la presencia discreta pero efectiva de las fuerzas de seguridad.',col4Title:'Avisos',col4Text:'Convocatoria a jóvenes interesados en el servicio provincial.'},
+blank:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Provincia • Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'',headline:'',subhead:'',caption:'',col1Title:'Provincia',col1Text:'',col2Title:'Consejo',col2Text:'',col3Title:'Economía',col3Text:'',col4Title:'Avisos',col4Text:''}
+},
+en:{
+consejo:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Province • Council',date:'20 NOVEMBER 2026',byline:'Provincial desk · DiplomaticaMC',headline:'Pinar del Río reaffirms its voice on the Council',subhead:'Ordinary session addresses key issues for the province and for Cuba.',caption:'Viñales Valley, heart of western Cuba.',col1Title:'Province',col1Text:'Delegates reviewed economic and service challenges. Commitment to food production and the people was reaffirmed.',col2Title:'Council',col2Text:'Pinar del Río holds a central place on the dual Council. Dialogue and representation for shared progress.',col3Title:'Economy',col3Text:'Tobacco remains a pillar. We move toward sustainable development that values Pinar tradition.',col4Title:'Notices',col4Text:'Call for the next open Council session. Proposals from the people until Friday.'},
+economy:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'From the land to the people',date:'20 NOVEMBER 2026',byline:'Economy desk',headline:'Tobacco and tourism drive Pinar’s economy',subhead:'New investments strengthen development in western Cuba.',caption:'Tobacco fields under the Pinar sun.',col1Title:'Province',col1Text:'Sustained progress in economic indicators. Agriculture keeps a positive pace.',col2Title:'Council',col2Text:'The Council reviewed the investment plan with focus on rural infrastructure and tobacco.',col3Title:'Economy',col3Text:'Pinar del Río tobacco remains a pillar of Cuba. Nature tourism grows in Viñales.',col4Title:'Notices',col4Text:'Technical training in agro-industry and tourism. Registration open.'},
+culture:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Deep roots',date:'20 NOVEMBER 2026',byline:'Culture',headline:'Culture and living traditions at the heart of Pinar',subhead:'Festivals and heritage strengthen Cuban identity in the west.',caption:'Cultural day in the square.',col1Title:'Culture',col1Text:'Cultural days with local artists and groups from western Cuba.',col2Title:'Council',col2Text:'The Council approved resources for heritage sites in Viñales.',col3Title:'Economy',col3Text:'Cultural tourism is consolidating as a growth line for the province.',col4Title:'Notices',col4Text:'Next cultural peña. Free entry.'},
+sports:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Western Cuba alive',date:'20 NOVEMBER 2026',byline:'Sports',headline:'Pinar del Río advances strongly in sports',subhead:'Provincial teams deliver results for Cuba.',caption:'Fans at the provincial stadium.',col1Title:'Sports',col1Text:'Pinar del Río’s team continues its good run in the server leagues.',col2Title:'Council',col2Text:'The Council congratulated the athletes and announced support for facilities.',col3Title:'Province',col3Text:'Local fans respond with enthusiasm. Stands fill every weekend.',col4Title:'Notices',col4Text:'Next home match. Tickets at the box office.'},
+diplomacy:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Cuba on the Council',date:'20 NOVEMBER 2026',byline:'Council affairs',headline:'Pinar del Río strengthens ties on the dual Council',subhead:'The Cuban province consolidates its role in the dual structure.',caption:'Council session.',col1Title:'Diplomacy',col1Text:'Pinar representatives took an active part in the latest Council sessions.',col2Title:'Council',col2Text:'The province keeps a clear voice for Cuba. Dialogue with the central government remains fluid.',col3Title:'Province',col3Text:'Cuban and Pinar identity stay firm within the common framework.',col4Title:'Notices',col4Text:'Meetings open to provincial observers.'},
+development:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Homeland and province',date:'20 NOVEMBER 2026',byline:'Development',headline:'New development projects reach Pinar del Río',subhead:'Infrastructure and production set the agenda in the west.',caption:'Works underway.',col1Title:'Development',col1Text:'Infrastructure projects are under way or in advanced planning across municipalities.',col2Title:'Council',col2Text:'Extraordinary budget prioritizing urban-rural balance in the province.',col3Title:'Economy',col3Text:'The works will create local jobs. Preference for builders from Pinar and Cuba.',col4Title:'Notices',col4Text:'Open call for companies and cooperatives.'},
+interview:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Province • Council',date:'20 NOVEMBER 2026',byline:'Exclusive interview',headline:'Interview: the view from Cuba’s Council',subhead:'A Council member on the present and future of Pinar del Río.',caption:'Interview at the provincial seat.',col1Title:'Interview',col1Text:'"Our Cuban identity is not diluted — it is strengthened," said Pinar’s representative.',col2Title:'Council',col2Text:'Joint work is described as mature and respectful.',col3Title:'Province',col3Text:'Development, culture and fair representation of Pinar were the key themes.',col4Title:'Notices',col4Text:'Send questions for future interviews.'},
+event:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'From Viñales to the Council',date:'20 NOVEMBER 2026',byline:'Chronicle',headline:'Major provincial event draws thousands in Pinar del Río',subhead:'Celebration, sport and culture mark a historic day for western Cuba.',caption:'Crowd in the square.',col1Title:'Event',col1Text:'Thousands of citizens gathered. Atmosphere of unity and Pinar pride.',col2Title:'Council',col2Text:'Council members attended and highlighted the province’s role.',col3Title:'Culture',col3Text:'Local artists filled the streets of Pinar with music and color.',col4Title:'Notices',col4Text:'Full reports in the next edition.'},
+defense:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Homeland and province',date:'20 NOVEMBER 2026',byline:'Defense',headline:'Defense and security: Pinar del Río keeps its commitment',subhead:'The province strengthens protection in service of Cuba.',caption:'Provincial defense exercises.',col1Title:'Defense',col1Text:'Provincial forces held exercises and updated response protocols.',col2Title:'Council',col2Text:'The Council backed modernization and ongoing training.',col3Title:'Province',col3Text:'Citizens value the discreet but effective presence of security forces.',col4Title:'Notices',col4Text:'Call for young people interested in provincial service.'},
+blank:{masthead:'DIARIO DE PINAR DEL RÍO',motto:'Province • Council',date:'20 NOVEMBER 2026',byline:'',headline:'',subhead:'',caption:'',col1Title:'Province',col1Text:'',col2Title:'Council',col2Text:'',col3Title:'Economy',col3Text:'',col4Title:'Notices',col4Text:''}
+}
+};
+const PRESET_KEYS=['consejo','economy','culture','sports','diplomacy','development','interview','event','defense','blank'];
+const PRESET_LABELS={es:{consejo:'Consejo',economy:'Economía',culture:'Cultura',sports:'Deportes',diplomacy:'Diplomacia',development:'Desarrollo',interview:'Entrevista',event:'Gran Evento',defense:'Defensa',blank:'En blanco'},en:{consejo:'Council',economy:'Economy',culture:'Culture',sports:'Sports',diplomacy:'Diplomacy',development:'Development',interview:'Interview',event:'Big Event',defense:'Defense',blank:'Blank'}};
+
+let lang='es',currentPreset='consejo',layout='classic';
+let images={hero:null,sec:null,ter:null},originalImages={hero:null,sec:null,ter:null};
+let history=[],histIndex=-1,applyingHistory=false;
+
+function $(id){return document.getElementById(id)}
+function snapshot(){
+  return{masthead:$('masthead').value,motto:$('motto').value,edition:$('edition').value,date:$('date').value,byline:$('byline').value,
+    headline:$('headline').value,subhead:$('subhead').value,caption:$('caption').value,
+    col1Title:$('col1Title').value,col1Text:$('col1Text').value,col2Title:$('col2Title').value,col2Text:$('col2Text').value,
+    col3Title:$('col3Title').value,col3Text:$('col3Text').value,col4Title:$('col4Title').value,col4Text:$('col4Text').value,
+    showStripe:$('showStripe').checked,showEmblem:$('showEmblem').checked,showByline:$('showByline').checked,
+    emblemStyle:$('emblemStyle').value,emblemSize:$('emblemSize').value,
+    heroHeight:$('heroHeight').value,heroPos:$('heroPos').value,bwHero:$('bwHero').checked,
+    secPlace:$('secPlace').value,secSize:$('secSize').value,bwSec:$('bwSec').checked,
+    terPlace:$('terPlace').value,terSize:$('terSize').value,bwTer:$('bwTer').checked,
+    colCount:$('colCount').value,textTight:$('textTight').value,paperTexture:$('paperTexture').value,
+    paperTint:$('paperTint').value,accentRed:$('accentRed').value,paperPad:$('paperPad').value,layout};
+}
+function pushHistory(){if(applyingHistory)return;const s=JSON.stringify(snapshot());if(histIndex>=0&&history[histIndex]===s)return;history=history.slice(0,histIndex+1);history.push(s);if(history.length>40)history.shift();histIndex=history.length-1}
+function applySnapshot(s){applyingHistory=true;Object.keys(s).forEach(k=>{if(k==='layout'){setLayout(s.layout,true);return}const el=$(k);if(!el)return;if(el.type==='checkbox')el.checked=s[k];else el.value=s[k]});applyingHistory=false;render()}
+function undo(){if(histIndex>0){histIndex--;applySnapshot(JSON.parse(history[histIndex]))}}
+function redo(){if(histIndex<history.length-1){histIndex++;applySnapshot(JSON.parse(history[histIndex]))}}
+function onField(){render();pushHistory()}
+
+function setLang(l){lang=l;$('langES').classList.toggle('active',l==='es');$('langEN').classList.toggle('active',l==='en');
+  $('editionLabel').textContent=l==='es'?'EDICIÓN N.º':'EDITION No.';$('footEditionLabel').textContent=l==='es'?'EDICIÓN N.º':'EDITION No.';
+  $('intLabel').textContent=l==='es'?'ENTREVISTA':'INTERVIEW';$('adsLabel').textContent=l==='es'?'AVISOS':'NOTICES';
+  buildPresetButtons();loadPreset(currentPreset,true)}
+function buildPresetButtons(){const g=$('presetGrid');g.innerHTML='';PRESET_KEYS.forEach(key=>{const b=document.createElement('button');b.className='btn btn-secondary preset-btn rounded'+(key===currentPreset?' active':'');b.dataset.preset=key;b.textContent=PRESET_LABELS[lang][key];b.onclick=()=>loadPreset(key);g.appendChild(b)})}
+function setActive(n){currentPreset=n;document.querySelectorAll('[data-preset]').forEach(b=>b.classList.toggle('active',b.dataset.preset===n))}
+function loadPreset(name,skip){const p=PRESETS[lang][name];if(!p)return;setActive(name);
+  ['masthead','motto','date','byline','headline','subhead','caption','col1Title','col1Text','col2Title','col2Text','col3Title','col3Text','col4Title','col4Text'].forEach(k=>{if($(k))$ (k).value=p[k]||''});
+  render();if(!skip)pushHistory()}
+function setLayout(mode,skip){layout=mode;
+  $('colsClassic').classList.toggle('hidden',mode!=='classic');
+  $('colsInterview').classList.toggle('hidden',mode!=='interview');
+  $('colsSplit').classList.toggle('hidden',mode!=='split');
+  document.querySelectorAll('.layout-btn').forEach(b=>b.classList.remove('active'));
+  if(mode==='classic')$('layClassic').classList.add('active');
+  if(mode==='interview')$('layInterview').classList.add('active');
+  if(mode==='split')$('laySplit').classList.add('active');
+  render();if(!skip)pushHistory()}
+
+function applyMotto(){const v=$('mottoPick').value;if(!v)return;$('motto').value=v;onField()}
+function setCubanMood(m){
+  if(m==='oficial'){$('paperTint').value='cream';$('accentRed').value='#c8102e';$('paperTexture').value='med';$('motto').value=lang==='es'?'Provincia • Consejo':'Province • Council'}
+  else if(m==='calido'){$('paperTint').value='warm';$('accentRed').value='#9f1239';$('paperTexture').value='high';$('motto').value=lang==='es'?'Por la tierra y el pueblo':'From the land to the people'}
+  else{$('paperTint').value='old';$('accentRed').value='#7f1d1d';$('paperTexture').value='high';$('motto').value=lang==='es'?'Raíces firmes · Occidente vivo':'Deep roots · Western Cuba'}
+  onField()}
+
+function getResizeSettings(){return{max:parseInt($('resizeMax').value,10)||1600,quality:(parseInt($('resizeQuality').value,10)||85)/100,format:$('resizeFormat').value||'image/jpeg'}}
+function setCompressPreset(n){if(n==='discord'){$('resizeMax').value='1200';$('resizeFormat').value='image/webp';$('resizeQuality').value='78'}else{$('resizeMax').value='1600';$('resizeFormat').value='image/jpeg';$('resizeQuality').value='85'}$('qualityLabel').textContent=$('resizeQuality').value+'%'}
+function resizeImage(dataUrl,maxSize=1600,quality=0.85,format='image/jpeg'){return new Promise(resolve=>{const img=new Image();img.onload=()=>{let{width,height}=img;if(maxSize>0&&(width>maxSize||height>maxSize)){const r=Math.min(maxSize/width,maxSize/height);width=Math.round(width*r);height=Math.round(height*r)}width-=width%2;height-=height%2;if(width<2)width=2;if(height<2)height=2;const c=document.createElement('canvas');c.width=width;c.height=height;const ctx=c.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,width,height);let out;try{out=c.toDataURL(format,quality);if(format==='image/webp'&&out.startsWith('data:image/png'))out=c.toDataURL('image/jpeg',quality)}catch(e){out=c.toDataURL('image/jpeg',quality)}resolve(out)};img.onerror=()=>resolve(dataUrl);img.src=dataUrl})}
+async function handleImage(e,slot){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{originalImages[slot]=ev.target.result;const{max,quality,format}=getResizeSettings();images[slot]=await resizeImage(ev.target.result,max,quality,format);render();pushHistory()};r.readAsDataURL(f)}
+async function reprocessImages(){const{max,quality,format}=getResizeSettings();for(const s of['hero','sec','ter']){if(originalImages[s])images[s]=await resizeImage(originalImages[s],max,quality,format)}render();pushHistory()}
+function clearImage(slot){images[slot]=null;originalImages[slot]=null;if(slot==='hero')$('heroUpload').value='';if(slot==='sec')$('secUpload').value='';if(slot==='ter')$('terUpload').value='';render();pushHistory()}
+
+function shortDate(str){if(!str)return'20 NOV 2026';return str.replace(/DE /gi,'').replace('NOVIEMBRE','NOV').replace('NOVEMBER','NOV').replace('DICIEMBRE','DIC').replace('DECEMBER','DEC').replace('ENERO','ENE').replace('JANUARY','JAN').replace('FEBRERO','FEB').replace('FEBRUARY','FEB').replace('MARZO','MAR').replace('MARCH','MAR').replace('ABRIL','ABR').replace('APRIL','APR').replace('MAYO','MAY').replace('JUNIO','JUN').replace('JUNE','JUN').replace('JULIO','JUL').replace('JULY','JUL').replace('AGOSTO','AGO').replace('AUGUST','AUG').replace('SEPTIEMBRE','SEP').replace('SEPTEMBER','SEP').replace('OCTUBRE','OCT').replace('OCTOBER','OCT')}
+function makeImgEl(src,h,bw){const w=document.createElement('div');w.className='img-frame';w.style.height=h+'px';const i=document.createElement('img');i.src=src;i.style.filter=bw?'grayscale(100%) contrast(1.05)':'none';w.appendChild(i);return w}
+
+function render(){
+  $('preview-masthead').textContent=$('masthead').value||'DIARIO DE PINAR DEL RÍO';
+  $('preview-motto').textContent=$('motto').value||'';
+  $('preview-edition').textContent=$('edition').value||'001';
+  $('preview-date').textContent=$('date').value||'';
+  $('preview-dateTop').textContent=$('date').value||'';
+  $('preview-byline').textContent=$('byline').value||'';
+  $('preview-headline').textContent=$('headline').value;
+  $('preview-subhead').textContent=$('subhead').value;
+  $('preview-caption').textContent=$('caption').value;
+  $('bylineRow').style.display=$('showByline').checked?'flex':'none';
+
+  // auto headline size
+  const hl=$('headline').value||'';
+  const hEl=$('preview-headline');
+  if(hl.length>70)hEl.style.fontSize='20px';
+  else if(hl.length>45)hEl.style.fontSize='22px';
+  else hEl.style.fontSize='25px';
+
+  ['col1Title','col2Title','col3Title','col4Title','col1Text','col2Text','col3Text','col4Text'].forEach(k=>{
+    const v=$(k).value;
+    document.querySelectorAll(`[data-bind="${k}"]`).forEach(n=>{if(!n.matches(':focus'))n.textContent=v});
+  });
+
+  $('p-foot-ed').textContent=$('edition').value||'001';
+  $('p-foot-date').textContent=shortDate($('date').value);
+  $('preview-stripe').style.display=$('showStripe').checked?'block':'none';
+
+  // emblem
+  const show=$('showEmblem').checked, style=$('emblemStyle').value, sz=$('emblemSize').value;
+  const flag=$('flagEmblem'), mono=$('monogramWrap');
+  const sizes={sm:{f:'w-9 h-6',m:'w-8 h-8 text-[12px]'},md:{f:'w-12 h-8',m:'w-10 h-10 text-[14px]'},lg:{f:'w-14 h-9',m:'w-12 h-12 text-[16px]'}};
+  const S=sizes[sz]||sizes.md;
+  flag.className='overflow-hidden border border-stone-600 shadow-sm '+S.f;
+  mono.className='rounded-full border-[1.5px] border-stone-800 flex items-center justify-center '+S.m+(style==='monogram'||style==='both'?'':' hidden');
+  if(!show){flag.style.display='none';mono.style.display='none'}
+  else if(style==='flag'){flag.style.display='block';mono.style.display='none'}
+  else if(style==='monogram'){flag.style.display='none';mono.style.display='flex'}
+  else{flag.style.display='block';mono.style.display='flex'}
+
+  // columns
+  const cc=$('colCount').value;
+  $('colsClassic').className='grid gap-3 mt-4 pt-3.5 border-t thin-rule '+(cc==='3'?'grid-cols-3':'grid-cols-4');
+  if($('col4Wrap'))$('col4Wrap').style.display=cc==='3'?'none':'block';
+  document.querySelectorAll('.col-text').forEach(el=>el.classList.toggle('tight',$('textTight').value==='tight'));
+
+  // paper
+  const paper=$('newspaper');
+  paper.classList.remove('texture-low','texture-med','texture-high','tint-cream','tint-warm','tint-sun','tint-old','p-6','p-8','p-10');
+  paper.classList.add('texture-'+$('paperTexture').value,'tint-'+$('paperTint').value,$('paperPad').value);
+  const accent=$('accentRed').value;
+  document.documentElement.style.setProperty('--red',accent);
+  document.querySelectorAll('.section-head').forEach(el=>{el.style.color=accent;el.style.borderBottomColor=accent});
+
+  // hero
+  $('heroFrame').style.height=$('heroHeight').value+'px';
+  const heroImg=$('heroImg'),heroPh=$('heroPh');
+  if(images.hero){heroImg.src=images.hero;heroImg.classList.remove('hidden');heroPh.classList.add('hidden');heroImg.style.objectPosition=$('heroPos').value;heroImg.style.filter=$('bwHero').checked?'grayscale(100%) contrast(1.05)':'none'}
+  else{heroImg.classList.add('hidden');heroPh.classList.remove('hidden')}
+
+  const after=$('extraAfterHero');after.innerHTML='';after.classList.add('hidden');
+  ['imgCol2','imgCol3','imgCol4','intImgArea','splImgAds'].forEach(id=>{const el=$(id);if(el)el.innerHTML=''});
+
+  [['sec',$('secPlace').value,$('secSize').value,$('bwSec').checked],['ter',$('terPlace').value,$('terSize').value,$('bwTer').checked]].forEach(([key,place,size,bw])=>{
+    if(!images[key]||place==='none')return;
+    const el=makeImgEl(images[key],size,bw);
+    if(place==='afterHero'){after.classList.remove('hidden');after.appendChild(el)}
+    else if(place==='col2'){if(layout==='classic')$('imgCol2').appendChild(el);else if($('intImgArea'))$('intImgArea').appendChild(el.cloneNode(true))}
+    else if(place==='col3'){if(layout==='classic')$('imgCol3').appendChild(el)}
+    else if(place==='col4'){if(layout==='classic')$('imgCol4').appendChild(el);if(layout==='split'&&$('splImgAds'))$('splImgAds').appendChild(el.cloneNode(true))}
+  });
+}
+
+document.addEventListener('focusout',e=>{
+  const el=e.target;if(!el.isContentEditable||!el.dataset.bind)return;
+  const key=el.dataset.bind,input=$(key);
+  if(input&&input.value!==el.textContent){input.value=el.textContent;document.querySelectorAll(`[data-bind="${key}"]`).forEach(n=>{if(n!==el)n.textContent=el.textContent});pushHistory()}
+});
+
+function randomMeta(){$('edition').value=String(Math.floor(Math.random()*80)+1).padStart(3,'0');
+  const months=lang==='es'?['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']:['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+  const d=Math.floor(Math.random()*28)+1,m=months[Math.floor(Math.random()*12)];
+  $('date').value=lang==='es'?`${d} DE ${m} DE 2026`:`${d} ${m} 2026`;onField()}
+function surpriseMe(){const keys=PRESET_KEYS.filter(k=>k!=='blank');loadPreset(keys[Math.floor(Math.random()*keys.length)]);randomMeta()}
+
+async function downloadPNG(){const btn=event.currentTarget,o=btn.textContent;btn.textContent='…';btn.disabled=true;document.querySelectorAll('[contenteditable]').forEach(el=>el.blur());
+  try{const scale=parseFloat($('exportScale').value)||2.4;const canvas=await html2canvas($('newspaper'),{scale,useCORS:true,backgroundColor:getComputedStyle($('newspaper')).backgroundColor||'#f4ecd8',logging:false});
+    const a=document.createElement('a');a.download=`Diario_Pinar_${$('edition').value||'001'}.png`;a.href=canvas.toDataURL('image/png');a.click()}
+  catch(err){console.error(err);alert('Export failed')}finally{btn.textContent=o;btn.disabled=false}}
+
+function saveProject(){const data={version:7,lang,layout,...snapshot(),images,originalImages,resizeMax:$('resizeMax').value,resizeQuality:$('resizeQuality').value,resizeFormat:$('resizeFormat').value};
+  const blob=new Blob([JSON.stringify(data)],{type:'application/json'});const a=document.createElement('a');a.download=`PinarPress_${data.edition||'001'}.json`;a.href=URL.createObjectURL(blob);a.click()}
+function loadProject(e){const file=e.target.files?.[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const data=JSON.parse(ev.target.result);if(data.lang)setLang(data.lang);if(data.layout)setLayout(data.layout,true);applySnapshot(data);if(data.images)images=data.images;if(data.originalImages)Object.assign(originalImages,data.originalImages);render();pushHistory()}catch(err){alert('Invalid file')}};r.readAsText(file);e.target.value=''}
+
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='z'){e.preventDefault();e.shiftKey?redo():undo()}if((e.metaKey||e.ctrlKey)&&e.key==='y'){e.preventDefault();redo()}});
+
+setLang('es');setCubanMood('calido');pushHistory();
+</script>
+</body>
+</html>

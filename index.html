@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pinar Press — Diario Cubano</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f2e8d5;
+  --ink:#1a1512;
+  --red:#c8102e;
+  --navy:#002a8f;
+  --rule:#3d3429;
+}
+body{background:#0c0a09;color:#e7e5e4;font-family:Inter,system-ui,sans-serif}
+.newspaper{
+  background-color:var(--cream);
+  color:var(--ink);
+  font-family:'Libre Baskerville',Georgia,serif;
+  box-shadow:0 30px 60px -15px rgb(0 0 0/.65);
+  position:relative;
+}
+/* Cuban paper textures */
+.newspaper.texture-low{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")}
+.newspaper.texture-med{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
+.newspaper.texture-high{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")}
+.newspaper.tint-cream{--cream:#f2e8d5}
+.newspaper.tint-warm{--cream:#efe0c4}
+.newspaper.tint-sun{--cream:#f3e4b8}
+.newspaper.tint-old{--cream:#e8d9b8}
+.masthead{
+  font-family:'Playfair Display','Cormorant Garamond',Georgia,serif;
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:0.88;
+  color:var(--ink);
+  text-rendering:optimizeLegibility;
+}
+#preview-headline{
+  text-wrap:balance;
+}
+.section-head{
+  font-family:'Playfair Display',Georgia,serif;
+  color:var(--red);
+  font-weight:700;
+  border-bottom:2px solid var(--red);
+  padding-bottom:2px;
+  margin-bottom:7px;
+  display:inline-block;
+  font-size:12px;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+}
+.col-text{
+  font-size:10.5px;line-height:1.42;text-align:justify;
+  overflow-wrap:break-word;word-wrap:break-word;
+  hyphens:auto;-webkit-hyphens:auto;
+  white-space:pre-line; /* respect intentional line breaks, collapse spaces */
+}
+.col-text.tight{font-size:10px;line-height:1.32}
+.double-rule{
+  border:none;
+  height:0;
+  border-top:1px solid var(--rule);
+  border-bottom:3px solid var(--rule);
+  margin:0;
+}
+.single-rule{border-color:var(--rule)}
+.cuban-bar{
+  height:4px;
+  background:linear-gradient(to right,
+    var(--navy) 0%, var(--navy) 20%,
+    #fff 20%, #fff 40%,
+    var(--red) 40%, var(--red) 60%,
+    #fff 60%, #fff 80%,
+    var(--navy) 80%, var(--navy) 100%);
+}
+.cuban-stripe{height:3px;background:linear-gradient(to right,var(--red) 0 33%,#fff 33% 66%,var(--navy) 66% 100%)}
+.ornament{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  color:var(--red);
+  letter-spacing:0.35em;
+  font-size:11px;
+}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#1c1917}::-webkit-scrollbar-thumb{background:#44403c;border-radius:3px}
+input,textarea,select{background:#1c1917;border:1px solid #292524;color:#f5f5f4}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.btn{transition:all .12s}.btn:hover{filter:brightness(1.12)}
+.btn-primary{background:var(--red);color:#fff}
+.btn-secondary{background:#292524;color:#e7e5e4;border:1px solid #44403c}
+.btn-ghost{background:transparent;color:#a8a29e;border:1px solid #292524}
+.preset-btn{font-size:11px;padding:6px 4px}
+.preset-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.panel-section{border-bottom:1px solid #292524;padding-bottom:12px;margin-bottom:12px}
+.label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#78716c;margin-bottom:5px;display:block}
+.img-frame{position:relative;overflow:hidden;background:#c4b5a0;border:1px solid #a8a29e}
+.img-frame img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.img-frame.fit-contain{background:#e8dcc8}
+.img-frame.fit-contain img{object-fit:contain}
+.placeholder{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;
+  background:linear-gradient(165deg,#c4a882 0%,#a89068 35%,#8b7355 70%,#5c4a38 100%);
+  color:#2c2419;font-size:12px;
+}
+.lang-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+[contenteditable="true"]{outline:1px dashed transparent;border-radius:2px;cursor:text}
+[contenteditable="true"]:hover{outline-color:#c8102e44}
+[contenteditable="true"]:focus{outline:1px solid var(--red);background:rgba(200,16,46,.05)}
+.layout-btn.active{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+.flag-frame{box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.ads-box{border:1.5px solid var(--rule);background:rgba(0,0,0,.03)}
+</style>
+</head>
+<body class="min-h-screen flex flex-col locked">
+
+<header class="border-b border-stone-800 bg-stone-950 px-4 py-2.5 flex items-center justify-between sticky top-0 z-50 gap-2 flex-wrap">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-sm overflow-hidden border border-stone-700 flex-shrink-0">
+      <svg viewBox="0 0 60 30" width="100%" height="100%"><rect width="60" height="6" y="0" fill="#002a8f"/><rect width="60" height="6" y="6" fill="#fff"/><rect width="60" height="6" y="12" fill="#002a8f"/><rect width="60" height="6" y="18" fill="#fff"/><rect width="60" height="6" y="24" fill="#002a8f"/><polygon points="0,0 26,15 0,30" fill="#cf142b"/><polygon fill="#fff" points="9.5,15 10.7,11.3 12.2,13.9 15.5,13.9 12.9,15.7 14.1,19.2 11.1,17.2 8.1,19.2 9.3,15.7 6.7,13.9 10,13.9"/></svg>
+    </div>
+    <div>
+      <h1 class="font-semibold text-white text-sm tracking-tight leading-none">Pinar Press</h1>
+      <p class="text-[10px] text-stone-500 mt-0.5">Cuban daily · Pinar del Río</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 flex-wrap justify-end">
+    <div class="flex rounded overflow-hidden border border-stone-700">
+      <button id="langES" onclick="setLang('es')" class="lang-btn text-xs px-2.5 py-1 active">ES</button>
+      <button id="langEN" onclick="setLang('en')" class="lang-btn text-xs px-2.5 py-1 bg-stone-800">EN</button>
+    </div>
+    <button onclick="undo()" class="btn btn-ghost text-xs px-2 py-1.5 rounded">Undo</button>
+    <button onclick="redo()" class="btn btn-ghost text-xs px-2 py-1.5 rounded">Redo</button>
+    <button onclick="surpriseMe()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Surprise</button>
+    <button onclick="randomMeta()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Random #</button>
+    <button onclick="saveToLibrary()" class="btn btn-ghost text-xs px-3 py-1.5 rounded" title="Save to browser library">Save</button>
+    <button onclick="toggleLibrary()" class="btn btn-ghost text-xs px-3 py-1.5 rounded" title="Open saved editions">Library</button>
+    <button onclick="exportJSON()" class="btn btn-ghost text-xs px-3 py-1.5 rounded" title="Download JSON file">Export</button>
+    <button onclick="document.getElementById('loadInput').click()" class="btn btn-ghost text-xs px-3 py-1.5 rounded">Import</button>
+    <input type="file" id="loadInput" accept=".json" class="hidden" onchange="loadProject(event)"/>
+    <button type="button" onclick="discordPack()" class="btn btn-secondary text-xs px-3 py-1.5 rounded" title="Optimize for Discord then download">Discord Pack</button>
+    <button type="button" id="downloadBtn" onclick="downloadPNG()" class="btn btn-primary text-xs px-4 py-1.5 rounded font-medium">Download PNG</button>
+  </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-[360px] border-r border-stone-800 bg-stone-950 overflow-y-auto flex-shrink-0">
+<div class="p-3.5 space-y-1">
+
+  <div class="panel-section">
+    <label class="label">Plantillas / Templates</label>
+    <div class="grid grid-cols-2 gap-1.5 mb-2">
+      <button onclick="setLayout('classic')" id="layClassic" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn active">Classic</button>
+      <button onclick="setLayout('interview')" id="layInterview" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn">Interview</button>
+      <button onclick="setLayout('split')" id="laySplit" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn">Split / Notices</button>
+      <button onclick="setLayout('banner')" id="layBanner" class="btn btn-secondary text-[10px] py-1.5 rounded layout-btn">Cuba Banner</button>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block">Columnas</label>
+        <select id="colCount" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block">Densidad</label>
+        <select id="textTight" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="normal" selected>Normal</option>
+          <option value="tight">Apretado</option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-2">
+      <label class="text-[10px] text-stone-500 mb-0.5 block">Margins</label>
+      <select id="paperPad" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+        <option value="p-5">Estrecho</option>
+        <option value="p-7" selected>Normal</option>
+        <option value="p-9">Amplio</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Temas de noticia</label>
+    <div class="grid grid-cols-2 gap-1.5" id="presetGrid"></div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Identidad cubana</label>
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Tinte papel</label>
+          <select id="paperTint" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="cream">Crema</option>
+            <option value="warm" selected>Tabaco</option>
+            <option value="sun">Caribbean sun</option>
+            <option value="old">Envejecido</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Rojo</label>
+          <select id="accentRed" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="#c8102e" selected>Bandera</option>
+            <option value="#b91c1c">Classic</option>
+            <option value="#9f1239">Rosa profundo</option>
+            <option value="#7f1d1d">Tabaco oscuro</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block">Quick motto</label>
+        <select id="mottoPick" onchange="applyMotto()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="">— elegir —</option>
+          <option value="Patria o Provincia">Patria o Provincia</option>
+          <option value="De Viñales al Consejo">De Viñales al Consejo</option>
+          <option value="Por la tierra y el pueblo">Por la tierra y el pueblo</option>
+          <option value="Raíces firmes · Occidente vivo">Raíces firmes · Occidente vivo</option>
+          <option value="Cuba en el Consejo">Cuba en el Consejo</option>
+          <option value="¡Viva Pinar del Río!">¡Viva Pinar del Río!</option>
+          <option value="Province • Council">Province • Council</option>
+        </select>
+      </div>
+      <div class="flex gap-1.5">
+        <button onclick="setCubanMood('oficial')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Official</button>
+        <button onclick="setCubanMood('calido')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Warm</button>
+        <button onclick="setCubanMood('historico')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Historic</button>
+      </div>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer">
+        <input type="checkbox" id="showCubanBar" checked onchange="onField()" class="rounded border-stone-600"/> Barra tricolor cubana
+      </label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Encabezado</label>
+    <div class="space-y-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Masthead</label>
+        <input id="masthead" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Masthead size</label>
+          <select id="mastSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="28">Chico</option>
+            <option value="34" selected>Medio</option>
+            <option value="40">Grande</option>
+            <option value="46">Enorme</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Show subhead</label>
+          <select id="showPaperSub" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="1" selected>Sí</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Paper subtitle</label>
+        <input id="paperSub" type="text" value="ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Byline / Autor</label>
+        <input id="byline" type="text" placeholder="Redacción · DiplomaticaMC" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div class="grid grid-cols-2 gap-2">
+        <div><label class="text-[10px] text-stone-500 mb-0.5 block">Lema</label>
+          <input id="motto" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+        <div><label class="text-[10px] text-stone-500 mb-0.5 block">Edition</label>
+          <input id="edition" type="text" value="001" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      </div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Date</label>
+        <input id="date" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+      <div class="flex flex-wrap gap-3 pt-0.5">
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showStripe" checked onchange="onField()" class="rounded border-stone-600"/> Franja</label>
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showEmblem" checked onchange="onField()" class="rounded border-stone-600"/> Emblema</label>
+        <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="showByline" checked onchange="onField()" class="rounded border-stone-600"/> Byline</label>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Emblema</label>
+          <select id="emblemStyle" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="flag" selected>Cuban flag</option>
+            <option value="monogram">Monograma P.R.</option>
+            <option value="both">Ambos</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] text-stone-500 mb-0.5 block">Size</label>
+          <select id="emblemSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+            <option value="sm">Chico</option>
+            <option value="md" selected>Medio</option>
+            <option value="lg">Grande</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Historia principal</label>
+    <div class="space-y-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Headline</label>
+        <textarea id="headline" rows="2" class="w-full rounded px-2.5 py-1.5 text-sm resize-none" oninput="onField()"></textarea></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Bajada</label>
+        <textarea id="subhead" rows="2" class="w-full rounded px-2.5 py-1.5 text-sm resize-none" oninput="onField()"></textarea></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Caption</label>
+        <input id="caption" type="text" class="w-full rounded px-2.5 py-1.5 text-sm" oninput="onField()"/></div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">1 · Main image</label>
+    <p class="text-[10px] text-stone-500 mb-1.5 leading-snug">Sube PNG/JPG. Si no llena el marco: cambia <b>Ajuste</b> a “Caber” o sube el <b>Zoom</b>.</p>
+    <input type="file" id="heroUpload" accept="image/*" class="w-full text-xs text-stone-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-stone-800 file:text-stone-200 mb-2" onchange="handleImage(event,'hero')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Alto</label>
+        <select id="heroHeight" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="150">S</option><option value="200">M</option><option value="250" selected>L</option><option value="310">XL</option><option value="380">XXL</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Ajuste</label>
+        <select id="heroFit" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="cover" selected>Llenar (recorta)</option>
+          <option value="contain">Caber (entero)</option>
+        </select></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Enfoque</label>
+        <select id="heroPos" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="center">Centro</option><option value="top">Arriba</option><option value="bottom">Abajo</option>
+          <option value="left">Izquierda</option><option value="right">Derecha</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Zoom</label>
+        <select id="heroZoom" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="1" selected>100%</option>
+          <option value="1.15">115%</option>
+          <option value="1.3">130%</option>
+          <option value="1.5">150%</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2 flex-wrap">
+      <button onclick="clearImage('hero')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwHero" checked onchange="onField()" class="rounded border-stone-600"/> B&N</label>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="hideEmptyHero" checked onchange="onField()" class="rounded border-stone-600"/> Ocultar si vacío</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Cuba images (samples)</label>
+    <p class="text-[10px] text-stone-500 mb-2 leading-snug">Un clic carga la foto en el hero. Wikimedia Commons · uso libre.</p>
+    <div class="grid grid-cols-2 gap-1.5">
+      <button onclick="loadSample('vinales')" class="btn btn-secondary text-[10px] py-1.5 rounded">Viñales valley</button>
+      <button onclick="loadSample('vinales2')" class="btn btn-secondary text-[10px] py-1.5 rounded">Viñales historic</button>
+      <button onclick="loadSample('tabaco')" class="btn btn-secondary text-[10px] py-1.5 rounded">Tobacco plantation</button>
+      <button onclick="loadSample('campo')" class="btn btn-secondary text-[10px] py-1.5 rounded">Campo de tabaco</button>
+    </div>
+    <div class="mt-2">
+      <label class="text-[10px] text-stone-500 mb-0.5 block">Cargar en</label>
+      <select id="sampleTarget" class="w-full rounded px-2 py-1 text-xs">
+        <option value="hero" selected>Hero (principal)</option>
+        <option value="sec">Secundaria</option>
+        <option value="ter">Terciaria</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">2 · Secondary image</label>
+    <input type="file" id="secUpload" accept="image/*" class="w-full text-xs text-stone-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-stone-800 file:text-stone-200 mb-2" onchange="handleImage(event,'sec')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Columna</label>
+        <select id="secPlace" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="none">Oculta</option>
+          <option value="afterHero">Bajo el hero (ancho)</option>
+          <option value="col1">Columna 1</option>
+          <option value="col2">Columna 2</option>
+          <option value="col3">Columna 3</option>
+          <option value="col4">Columna 4</option>
+          <option value="col5">Columna 5</option>
+          <option value="col6">Columna 6</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">En la columna</label>
+        <select id="secPos" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="top" selected>Arriba (antes del texto)</option>
+          <option value="mid">After the headline</option>
+          <option value="bot">Below (after text)</option>
+        </select></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Alto</label>
+        <select id="secSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="80">S</option><option value="110" selected>M</option><option value="150">L</option><option value="190">XL</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Ajuste</label>
+        <select id="secFit" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="cover" selected>Llenar</option>
+          <option value="contain">Caber</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2">
+      <button onclick="clearImage('sec')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwSec" checked onchange="onField()" class="rounded border-stone-600"/> B&N</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">3 · Third image</label>
+    <input type="file" id="terUpload" accept="image/*" class="w-full text-xs text-stone-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-stone-800 file:text-stone-200 mb-2" onchange="handleImage(event,'ter')"/>
+    <div class="grid grid-cols-2 gap-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Columna</label>
+        <select id="terPlace" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="none">Oculta</option>
+          <option value="afterHero">Bajo el hero (ancho)</option>
+          <option value="col1">Columna 1</option>
+          <option value="col2">Columna 2</option>
+          <option value="col3">Columna 3</option>
+          <option value="col4">Columna 4</option>
+          <option value="col5">Columna 5</option>
+          <option value="col6">Columna 6</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">En la columna</label>
+        <select id="terPos" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="top">Arriba (antes del texto)</option>
+          <option value="mid" selected>After the headline</option>
+          <option value="bot">Below (after text)</option>
+        </select></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Alto</label>
+        <select id="terSize" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="80">S</option><option value="110" selected>M</option><option value="150">L</option><option value="190">XL</option>
+        </select></div>
+      <div><label class="text-[10px] text-stone-500 mb-0.5 block">Ajuste</label>
+        <select id="terFit" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="cover" selected>Llenar</option>
+          <option value="contain">Caber</option>
+        </select></div>
+    </div>
+    <div class="flex items-center gap-3 mt-2">
+      <button onclick="clearImage('ter')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Clear</button>
+      <label class="flex items-center gap-1.5 text-xs cursor-pointer"><input type="checkbox" id="bwTer" checked onchange="onField()" class="rounded border-stone-600"/> B&N</label>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Compression</label>
+    <div class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div><label class="text-[10px] text-stone-500 mb-0.5 block">Max px</label>
+          <select id="resizeMax" class="w-full rounded px-2 py-1 text-xs">
+            <option value="1200">1200</option><option value="1600" selected>1600</option><option value="2000">2000</option><option value="0">Original</option>
+          </select></div>
+        <div><label class="text-[10px] text-stone-500 mb-0.5 block">Formato</label>
+          <select id="resizeFormat" class="w-full rounded px-2 py-1 text-xs">
+            <option value="image/jpeg" selected>JPEG</option><option value="image/webp">WebP</option>
+          </select></div>
+      </div>
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block flex justify-between"><span>Calidad</span><span id="qualityLabel">85%</span></label>
+        <input type="range" id="resizeQuality" min="50" max="98" value="85" class="w-full accent-red-700" oninput="$('qualityLabel').textContent=this.value+'%'"/>
+      </div>
+      <div class="flex gap-1.5">
+        <button onclick="setCompressPreset('discord')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Discord</button>
+        <button onclick="setCompressPreset('balanced')" class="btn btn-ghost text-[10px] px-2 py-1 rounded flex-1">Balance</button>
+      </div>
+      <button onclick="reprocessImages()" class="btn btn-secondary text-xs w-full py-1.5 rounded">Reprocess</button>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Papel y export</label>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block">Textura</label>
+        <select id="paperTexture" onchange="onField()" class="w-full rounded px-2 py-1 text-xs">
+          <option value="low">Baja</option><option value="med" selected>Media</option><option value="high">Alta</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] text-stone-500 mb-0.5 block">Export</label>
+        <select id="exportScale" class="w-full rounded px-2 py-1 text-xs">
+          <option value="2">2×</option><option value="2.4" selected>2.4× Discord</option><option value="3">3×</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <label class="label">Columns / Notices</label>
+    <p class="text-[10px] text-stone-500 mb-2 leading-snug">Pega texto limpio (Ctrl+V). Si se ve raro, pulsa <b>Clean texts</b>. También puedes pedir revisión en el chat.</p>
+    <button type="button" onclick="cleanAllTexts()" class="btn btn-secondary text-[10px] w-full py-1.5 rounded mb-2">Clean pasted texts</button>
+    <div class="space-y-2.5">
+      <div><input id="col1Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col1Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col2Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col2Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col3Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col3Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div><input id="col4Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()"/>
+        <textarea id="col4Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()"></textarea></div>
+      <div id="col5Fields"><input id="col5Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()" placeholder="Col 5 título"/>
+        <textarea id="col5Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()" placeholder="Col 5 texto"></textarea></div>
+      <div id="col6Fields"><input id="col6Title" type="text" class="w-full rounded px-2 py-1 text-xs font-medium mb-1" oninput="onField()" placeholder="Col 6 título"/>
+        <textarea id="col6Text" rows="3" class="w-full rounded px-2 py-1.5 text-xs resize-none" oninput="onField()" placeholder="Col 6 texto"></textarea></div>
+    </div>
+  </div>
+
+  <div class="pb-8 text-[10px] text-stone-600">Pinar Press v5 · Auto-save · Discord Pack · Polish</div>
+</div>
+</aside>
+
+<main class="flex-1 overflow-auto bg-stone-900 p-5 flex justify-center items-start">
+  <div id="newspaper" class="newspaper texture-med tint-warm w-[680px] p-7 select-none">
+
+    <!-- CUBAN TRICOLOR BAR -->
+    <div id="cubanBarTop" class="cuban-bar mb-2 rounded-[1px]"></div>
+
+    <div id="bylineRow" class="flex justify-between items-center text-[9px] text-stone-600 mb-1.5 tracking-wide">
+      <span id="preview-byline" contenteditable="true" data-bind="byline"></span>
+      <span id="preview-dateTop"></span>
+    </div>
+
+    <!-- MASTHEAD BLOCK -->
+    <div class="flex items-end justify-between gap-3 mb-1">
+      <div id="emblemWrap" class="flex-shrink-0 flex items-end gap-1.5">
+        <div id="flagEmblem" class="flag-frame overflow-hidden border border-stone-700">
+          <svg viewBox="0 0 60 30" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+            <rect width="60" height="6" y="0" fill="#002a8f"/>
+            <rect width="60" height="6" y="6" fill="#fff"/>
+            <rect width="60" height="6" y="12" fill="#002a8f"/>
+            <rect width="60" height="6" y="18" fill="#fff"/>
+            <rect width="60" height="6" y="24" fill="#002a8f"/>
+            <polygon points="0,0 26,15 0,30" fill="#cf142b"/>
+            <polygon fill="#fff" points="9.5,15 10.7,11.3 12.2,13.9 15.5,13.9 12.9,15.7 14.1,19.2 11.1,17.2 8.1,19.2 9.3,15.7 6.7,13.9 10,13.9"/>
+          </svg>
+        </div>
+        <div id="monogramWrap" class="rounded-full border-2 border-stone-800 flex items-center justify-center hidden bg-[var(--cream)]">
+          <span class="font-bold tracking-tighter" style="font-family:'Playfair Display',serif;color:var(--red)">P.R.</span>
+        </div>
+      </div>
+      <div class="flex-1 text-center min-w-0 px-1">
+        <div id="preview-masthead" class="masthead text-[34px]" contenteditable="true" data-bind="masthead"></div>
+        <div id="preview-paperSub" class="text-[9px] tracking-[0.22em] uppercase text-stone-600 mt-1 font-medium" contenteditable="true" data-bind="paperSub"></div>
+      </div>
+      <div class="text-right flex-shrink-0 w-28">
+        <div id="preview-motto" class="text-[10px] italic text-stone-700 leading-tight" contenteditable="true" data-bind="motto"></div>
+        <div id="preview-stripe" class="cuban-stripe mt-1.5 rounded-[1px]"></div>
+      </div>
+    </div>
+
+    <hr class="double-rule my-2"/>
+
+    <div class="text-center text-[9.5px] tracking-[0.16em] uppercase text-stone-600 mb-3">
+      <span class="text-[var(--navy)] font-semibold">CUBA</span>
+      <span class="mx-1.5">·</span>
+      PINAR DEL RÍO
+      <span class="mx-1.5">·</span>
+      <span id="editionLabel">EDICIÓN N.º</span> <span id="preview-edition">001</span>
+      <span class="mx-1.5">·</span>
+      <span id="preview-date"></span>
+    </div>
+
+    <h1 id="preview-headline" class="leading-[1.1] font-bold text-center mb-1.5" style="font-family:'Playfair Display',serif;font-size:26px" contenteditable="true" data-bind="headline"></h1>
+    <p id="preview-subhead" class="text-center text-[12px] italic text-stone-700 mb-4 leading-snug max-w-[94%] mx-auto" contenteditable="true" data-bind="subhead"></p>
+
+    <div class="mb-1">
+      <div id="heroFrame" class="img-frame w-full border-stone-500" style="height:250px">
+        <img id="heroImg" alt="" class="hidden"/>
+        <div id="heroPh" class="placeholder">
+          <div class="ornament">✦ ✦ ✦</div>
+          <div style="font-size:11px;letter-spacing:.12em;opacity:.8">PINAR DEL RÍO</div>
+          <div style="font-size:13px;font-style:italic">Viñales · tabaco · mogotes</div>
+        </div>
+      </div>
+      <p id="preview-caption" class="text-center text-[10.5px] italic text-stone-600 mt-1.5" contenteditable="true" data-bind="caption"></p>
+    </div>
+    <div id="extraAfterHero" class="mb-3 space-y-2 hidden"></div>
+
+    <!-- CLASSIC -->
+    <div id="colsClassic" class="grid grid-cols-4 gap-3.5 mt-4 pt-3 border-t-2 border-stone-700">
+      <div id="col1Wrap">
+        <div id="imgCol1Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col1Title" class="section-head" contenteditable="true" data-bind="col1Title"></div>
+        <div id="imgCol1Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col1Text" class="col-text" contenteditable="true" data-bind="col1Text"></div>
+        <div id="imgCol1Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+      <div id="col2Wrap">
+        <div id="imgCol2Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div>
+        <div id="imgCol2Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div>
+        <div id="imgCol2Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+      <div id="col3Wrap">
+        <div id="imgCol3Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div>
+        <div id="imgCol3Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col3Text" class="col-text" contenteditable="true" data-bind="col3Text"></div>
+        <div id="imgCol3Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+      <div id="col4Wrap">
+        <div id="imgCol4Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col4Title" class="section-head" contenteditable="true" data-bind="col4Title"></div>
+        <div id="imgCol4Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col4Text" class="col-text" contenteditable="true" data-bind="col4Text"></div>
+        <div id="imgCol4Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+      <div id="col5Wrap" class="hidden">
+        <div id="imgCol5Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col5Title" class="section-head" contenteditable="true" data-bind="col5Title"></div>
+        <div id="imgCol5Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col5Text" class="col-text" contenteditable="true" data-bind="col5Text"></div>
+        <div id="imgCol5Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+      <div id="col6Wrap" class="hidden">
+        <div id="imgCol6Top" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col6Title" class="section-head" contenteditable="true" data-bind="col6Title"></div>
+        <div id="imgCol6Mid" class="mb-1.5 space-y-1.5"></div>
+        <div id="p-col6Text" class="col-text" contenteditable="true" data-bind="col6Text"></div>
+        <div id="imgCol6Bot" class="mt-1.5 space-y-1.5"></div>
+      </div>
+    </div>
+
+    <!-- INTERVIEW -->
+    <div id="colsInterview" class="hidden mt-4 pt-3 border-t-2 border-stone-700">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-1 border-r-2 border-stone-400 pr-3">
+          <div class="bg-[var(--red)] text-white text-[10px] font-bold px-2 py-1.5 mb-2 tracking-[0.15em]" id="intLabel">ENTREVISTA</div>
+          <div id="int-col1Title" class="section-head" contenteditable="true" data-bind="col1Title"></div>
+          <div id="int-col1Text" class="col-text" contenteditable="true" data-bind="col1Text"></div>
+          <div class="mt-3"><div id="int-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div>
+          <div id="int-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div></div>
+        </div>
+        <div class="col-span-2">
+          <div id="int-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div>
+          <div id="int-col3Text" class="col-text mb-3" contenteditable="true" data-bind="col3Text"></div>
+          <div id="intImgArea" class="mb-2"></div>
+          <div id="int-col4Title" class="section-head" contenteditable="true" data-bind="col4Title"></div>
+          <div id="int-col4Text" class="col-text" contenteditable="true" data-bind="col4Text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLIT -->
+    <div id="colsSplit" class="hidden mt-4 pt-3 border-t-2 border-stone-700">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2 border-r-2 border-stone-400 pr-3">
+          <div id="spl-col1Title" class="section-head" contenteditable="true" data-bind="col1Title" style="font-size:14px"></div>
+          <div id="spl-col1Text" class="col-text mb-3" contenteditable="true" data-bind="col1Text" style="font-size:11.5px"></div>
+          <div id="spl-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div>
+          <div id="spl-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div>
+        </div>
+        <div class="col-span-1">
+          <div class="ads-box p-2.5 mb-2">
+            <div class="text-[9px] font-bold tracking-[0.2em] text-center mb-1.5 text-stone-600" id="adsLabel">AVISOS</div>
+            <div id="spl-col4Title" class="section-head text-[11px]" contenteditable="true" data-bind="col4Title"></div>
+            <div id="spl-col4Text" class="col-text text-[10px]" contenteditable="true" data-bind="col4Text"></div>
+            <div id="splImgAds" class="mt-2 space-y-1.5"></div>
+          </div>
+          <div id="spl-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div>
+          <div id="spl-col3Text" class="col-text" contenteditable="true" data-bind="col3Text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNER CUBA layout: full-width identity heavy -->
+    <div id="colsBanner" class="hidden mt-4 pt-3 border-t-2 border-stone-700">
+      <div class="text-center mb-3">
+        <div class="ornament mb-1">—— ✦ ——</div>
+        <div id="ban-col1Title" class="section-head text-sm" contenteditable="true" data-bind="col1Title" style="font-size:15px"></div>
+        <div id="ban-col1Text" class="col-text max-w-[90%] mx-auto mt-1" contenteditable="true" data-bind="col1Text" style="font-size:11.5px;text-align:center"></div>
+      </div>
+      <div class="grid grid-cols-3 gap-3 border-t border-stone-400 pt-3">
+        <div><div id="ban-col2Title" class="section-head" contenteditable="true" data-bind="col2Title"></div><div id="ban-col2Text" class="col-text" contenteditable="true" data-bind="col2Text"></div></div>
+        <div><div id="ban-col3Title" class="section-head" contenteditable="true" data-bind="col3Title"></div><div id="ban-col3Text" class="col-text" contenteditable="true" data-bind="col3Text"></div></div>
+        <div><div id="ban-col4Title" class="section-head" contenteditable="true" data-bind="col4Title"></div><div id="ban-col4Text" class="col-text" contenteditable="true" data-bind="col4Text"></div></div>
+      </div>
+    </div>
+
+    <div class="mt-5 pt-2">
+      <hr class="double-rule mb-2"/>
+      <div class="text-center text-[9.5px] tracking-[0.14em] text-stone-600">
+        — <span id="footEditionLabel">EDICIÓN N.º</span> <span id="p-foot-ed">001</span>
+        · <span id="p-foot-date"></span>
+        · <span class="text-[var(--navy)] font-semibold">CUBA</span>
+        · PINAR DEL RÍO —
+      </div>
+      <div id="cubanBarBot" class="cuban-bar mt-2 rounded-[1px]"></div>
+    </div>
+  </div>
+</main>
+</div>
+
+
+<!-- Library modal -->
+<div id="libraryModal" class="hidden fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4" onclick="if(event.target===this)toggleLibrary()">
+  <div class="bg-stone-900 border border-stone-700 rounded-xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col shadow-2xl">
+    <div class="px-4 py-3 border-b border-stone-700 flex items-center justify-between">
+      <div>
+        <div class="text-sm font-semibold text-white">Saved editions</div>
+        <div class="text-[10px] text-stone-500">Stored in this browser · like graphicmakerdmc</div>
+      </div>
+      <button onclick="toggleLibrary()" class="btn btn-ghost text-xs px-2 py-1 rounded">Close</button>
+    </div>
+    <div id="libraryList" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
+    <div class="px-4 py-3 border-t border-stone-700 flex gap-2">
+      <button onclick="saveToLibrary()" class="btn btn-primary text-xs px-3 py-1.5 rounded flex-1">Save current</button>
+      <button onclick="exportJSON()" class="btn btn-secondary text-xs px-3 py-1.5 rounded">Export JSON</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRESETS={
+es:{
+consejo:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Patria o Provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'Redacción provincial · DiplomaticaMC',headline:'Pinar del Río reafirma su voz en el Consejo de Cuba',subhead:'En sesión ordinaria se abordan temas clave para el desarrollo de la provincia y de la nación.',caption:'Valle de Viñales, corazón del occidente cubano.',col1Title:'Provincia',col1Text:'Los delegados analizaron los desafíos de la economía y los servicios. Se ratificó el compromiso con la producción de alimentos y la atención al pueblo pinareño.',col2Title:'Consejo',col2Text:'Pinar del Río ocupa un lugar central en el Consejo de la estructura binacional. Diálogo y representación para el progreso común de Cuba.',col3Title:'Economía',col3Text:'El tabaco sigue siendo pilar de nuestra tierra. Avanzamos hacia un desarrollo sostenible que valore la tradición pinareña.',col4Title:'Avisos',col4Text:'Convocatoria a la próxima sesión abierta del Consejo. Propuestas del pueblo hasta el viernes.'},
+economy:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Por la tierra y el pueblo',date:'20 DE NOVIEMBRE DE 2026',byline:'Sección económica',headline:'Tabaco y turismo impulsan la economía de Pinar',subhead:'Nuevas inversiones fortalecen el desarrollo del occidente cubano.',caption:'Plantaciones de tabaco bajo el sol de Pinar.',col1Title:'Provincia',col1Text:'Avances sostenidos en los indicadores económicos. El sector agropecuario mantiene ritmo positivo en todo el territorio.',col2Title:'Consejo',col2Text:'El Consejo analizó el plan de inversiones con énfasis en infraestructura rural y la industria del tabaco.',col3Title:'Economía',col3Text:'El tabaco de Pinar del Río sigue siendo un pilar de Cuba. El turismo de naturaleza crece en Viñales.',col4Title:'Avisos',col4Text:'Cursos de formación técnica en agroindustria y turismo. Inscripciones abiertas.'},
+culture:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Raíces firmes · Occidente vivo',date:'20 DE NOVIEMBRE DE 2026',byline:'Cultura y patrimonio',headline:'Cultura y tradiciones vivas en el corazón de Pinar',subhead:'Festivales y patrimonio consolidan la identidad cubana en el occidente.',caption:'Jornada cultural en la plaza de la ciudad.',col1Title:'Cultura',col1Text:'Jornadas culturales con artistas locales y agrupaciones de toda Cuba occidental. El público respondió con entusiasmo.',col2Title:'Consejo',col2Text:'El Consejo aprobó recursos para la conservación de sitios patrimoniales en Viñales y otros municipios.',col3Title:'Economía',col3Text:'El turismo cultural se consolida como línea de crecimiento para la provincia.',col4Title:'Avisos',col4Text:'Próxima peña cultural. Entrada libre. ¡Viva Pinar del Río!'},
+sports:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'¡Viva Pinar del Río!',date:'20 DE NOVIEMBRE DE 2026',byline:'Deportes',headline:'Pinar del Río avanza con fuerza en el deporte',subhead:'Equipos provinciales cosechan resultados para Cuba.',caption:'Afición en el estadio provincial.',col1Title:'Deportes',col1Text:'El combinado de Pinar del Río continúa su buena racha en las ligas del servidor.',col2Title:'Consejo',col2Text:'El Consejo felicitó a los deportistas y anunció apoyo a instalaciones deportivas.',col3Title:'Provincia',col3Text:'La afición responde con entusiasmo. Las gradas se llenan cada fin de semana.',col4Title:'Avisos',col4Text:'Próximo partido en casa. Entradas en taquilla.'},
+diplomacy:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Cuba en el Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Asuntos del Consejo',headline:'Pinar del Río fortalece lazos en el Consejo binacional',subhead:'La provincia cubana consolida su papel en la estructura dual del país.',caption:'Sesión del Consejo.',col1Title:'Diplomacia',col1Text:'Representantes de Pinar participaron activamente en las últimas sesiones del Consejo.',col2Title:'Consejo',col2Text:'La provincia mantiene una voz clara por Cuba. El diálogo con el gobierno central es fluido y respetuoso.',col3Title:'Provincia',col3Text:'La identidad cubana y pinareña se mantiene firme dentro del marco común.',col4Title:'Avisos',col4Text:'Reuniones abiertas a observadores provinciales.'},
+development:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'De Viñales al Consejo',date:'20 DE NOVIEMBRE DE 2026',byline:'Desarrollo',headline:'Nuevos proyectos de desarrollo llegan a Pinar del Río',subhead:'Infraestructura y producción marcan la agenda del occidente cubano.',caption:'Obras en marcha en la provincia.',col1Title:'Desarrollo',col1Text:'Proyectos de infraestructura en ejecución o planificación avanzada en varios municipios.',col2Title:'Consejo',col2Text:'Presupuesto extraordinario priorizando equilibrio urbano-rural en la provincia.',col3Title:'Economía',col3Text:'Las obras generarán empleo local. Preferencia a constructores de Pinar y de Cuba.',col4Title:'Avisos',col4Text:'Convocatoria abierta para empresas y cooperativas.'},
+interview:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Patria o Provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'Entrevista exclusiva',headline:'Entrevista: la visión desde el Consejo de Cuba',subhead:'Un miembro del Consejo habla del presente y futuro de Pinar del Río.',caption:'Entrevista en la sede provincial.',col1Title:'Entrevista',col1Text:'"Nuestra identidad cubana no se diluye, se fortalece desde Pinar", afirmó el representante provincial.',col2Title:'Consejo',col2Text:'El trabajo conjunto se describe como maduro y respetuoso entre las partes de la estructura dual.',col3Title:'Provincia',col3Text:'Desarrollo, cultura y representación justa de Pinar fueron los temas clave de la conversación.',col4Title:'Avisos',col4Text:'Envíen preguntas para futuras entrevistas al diario.'},
+event:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'¡Viva Pinar del Río!',date:'20 DE NOVIEMBRE DE 2026',byline:'Crónica',headline:'Gran evento provincial reúne a miles en Pinar del Río',subhead:'Celebración, deporte y cultura marcan una jornada histórica para Cuba occidental.',caption:'Multitud en la plaza de la ciudad.',col1Title:'Evento',col1Text:'Miles de ciudadanos se congregaron. Ambiente de unidad, orgullo pinareño y cubano.',col2Title:'Consejo',col2Text:'Miembros del Consejo asistieron y destacaron el papel de la provincia dentro de Cuba.',col3Title:'Cultura',col3Text:'Artistas locales llenaron de música y color las calles de Pinar del Río.',col4Title:'Avisos',col4Text:'Crónicas completas en la próxima edición del diario.'},
+defense:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Patria o Provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'Defensa',headline:'Defensa y seguridad: Pinar del Río mantiene su compromiso',subhead:'La provincia refuerza su capacidad de protección al servicio de Cuba.',caption:'Ejercicios de defensa provincial.',col1Title:'Defensa',col1Text:'Las fuerzas provinciales realizaron ejercicios y actualizaron protocolos de respuesta.',col2Title:'Consejo',col2Text:'El Consejo respaldó las medidas de modernización y entrenamiento continuo.',col3Title:'Provincia',col3Text:'La población valora la presencia discreta pero efectiva de las fuerzas de seguridad.',col4Title:'Avisos',col4Text:'Convocatoria a jóvenes interesados en el servicio provincial.'},
+blank:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ÓRGANO DE LA PROVINCIA DE PINAR DEL RÍO',motto:'Patria o Provincia',date:'20 DE NOVIEMBRE DE 2026',byline:'',headline:'',subhead:'',caption:'',col1Title:'Provincia',col1Text:'',col2Title:'Consejo',col2Text:'',col3Title:'Economía',col3Text:'',col4Title:'Avisos',col4Text:''}
+},
+en:{
+consejo:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Homeland or Province',date:'20 NOVEMBER 2026',byline:'Provincial desk · DiplomaticaMC',headline:'Pinar del Río reaffirms its voice on Cuba’s Council',subhead:'Ordinary session addresses key issues for the province and the nation.',caption:'Viñales Valley, heart of western Cuba.',col1Title:'Province',col1Text:'Delegates reviewed economic and service challenges. Commitment to food production and the people of Pinar was reaffirmed.',col2Title:'Council',col2Text:'Pinar del Río holds a central place on the dual Council. Dialogue and representation for shared progress for Cuba.',col3Title:'Economy',col3Text:'Tobacco remains a pillar of our land. We move toward sustainable development that values Pinar tradition.',col4Title:'Notices',col4Text:'Call for the next open Council session. Proposals from the people until Friday.'},
+economy:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'From the land to the people',date:'20 NOVEMBER 2026',byline:'Economy desk',headline:'Tobacco and tourism drive Pinar’s economy',subhead:'New investments strengthen development in western Cuba.',caption:'Tobacco fields under the Pinar sun.',col1Title:'Province',col1Text:'Sustained progress in economic indicators. Agriculture keeps a positive pace across the territory.',col2Title:'Council',col2Text:'The Council reviewed the investment plan with focus on rural infrastructure and tobacco.',col3Title:'Economy',col3Text:'Pinar del Río tobacco remains a pillar of Cuba. Nature tourism grows in Viñales.',col4Title:'Notices',col4Text:'Technical training in agro-industry and tourism. Registration open.'},
+culture:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Deep roots · Western Cuba alive',date:'20 NOVEMBER 2026',byline:'Culture',headline:'Culture and living traditions at the heart of Pinar',subhead:'Festivals and heritage strengthen Cuban identity in the west.',caption:'Cultural day in the city square.',col1Title:'Culture',col1Text:'Cultural days with local artists and groups from western Cuba. The public responded with enthusiasm.',col2Title:'Council',col2Text:'The Council approved resources for heritage sites in Viñales and other municipalities.',col3Title:'Economy',col3Text:'Cultural tourism is consolidating as a growth line for the province.',col4Title:'Notices',col4Text:'Next cultural peña. Free entry.'},
+sports:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Long live Pinar del Río!',date:'20 NOVEMBER 2026',byline:'Sports',headline:'Pinar del Río advances strongly in sports',subhead:'Provincial teams deliver results for Cuba.',caption:'Fans at the provincial stadium.',col1Title:'Sports',col1Text:'Pinar del Río’s team continues its good run in the server leagues.',col2Title:'Council',col2Text:'The Council congratulated the athletes and announced support for sports facilities.',col3Title:'Province',col3Text:'Local fans respond with enthusiasm. Stands fill every weekend.',col4Title:'Notices',col4Text:'Next home match. Tickets at the box office.'},
+diplomacy:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Cuba on the Council',date:'20 NOVEMBER 2026',byline:'Council affairs',headline:'Pinar del Río strengthens ties on the dual Council',subhead:'The Cuban province consolidates its role in the dual structure of the country.',caption:'Council session.',col1Title:'Diplomacy',col1Text:'Pinar representatives took an active part in the latest Council sessions.',col2Title:'Council',col2Text:'The province keeps a clear voice for Cuba. Dialogue with the central government remains fluid and respectful.',col3Title:'Province',col3Text:'Cuban and Pinar identity stay firm within the common framework.',col4Title:'Notices',col4Text:'Meetings open to provincial observers.'},
+development:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'From Viñales to the Council',date:'20 NOVEMBER 2026',byline:'Development',headline:'New development projects reach Pinar del Río',subhead:'Infrastructure and production set the agenda in western Cuba.',caption:'Works underway in the province.',col1Title:'Development',col1Text:'Infrastructure projects are under way or in advanced planning across municipalities.',col2Title:'Council',col2Text:'Extraordinary budget prioritizing urban-rural balance in the province.',col3Title:'Economy',col3Text:'The works will create local jobs. Preference for builders from Pinar and Cuba.',col4Title:'Notices',col4Text:'Open call for companies and cooperatives.'},
+interview:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Homeland or Province',date:'20 NOVEMBER 2026',byline:'Exclusive interview',headline:'Interview: the view from Cuba’s Council',subhead:'A Council member on the present and future of Pinar del Río.',caption:'Interview at the provincial seat.',col1Title:'Interview',col1Text:'"Our Cuban identity is not diluted — it is strengthened from Pinar," said the provincial representative.',col2Title:'Council',col2Text:'Joint work is described as mature and respectful between the parts of the dual structure.',col3Title:'Province',col3Text:'Development, culture and fair representation of Pinar were the key themes.',col4Title:'Notices',col4Text:'Send questions for future interviews.'},
+event:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Long live Pinar del Río!',date:'20 NOVEMBER 2026',byline:'Chronicle',headline:'Major provincial event draws thousands in Pinar del Río',subhead:'Celebration, sport and culture mark a historic day for western Cuba.',caption:'Crowd in the city square.',col1Title:'Event',col1Text:'Thousands of citizens gathered. Atmosphere of unity and Pinar pride.',col2Title:'Council',col2Text:'Council members attended and highlighted the province’s role within Cuba.',col3Title:'Culture',col3Text:'Local artists filled the streets of Pinar del Río with music and color.',col4Title:'Notices',col4Text:'Full reports in the next edition.'},
+defense:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Homeland or Province',date:'20 NOVEMBER 2026',byline:'Defense',headline:'Defense and security: Pinar del Río keeps its commitment',subhead:'The province strengthens protection in service of Cuba.',caption:'Provincial defense exercises.',col1Title:'Defense',col1Text:'Provincial forces held exercises and updated response protocols.',col2Title:'Council',col2Text:'The Council backed modernization and ongoing training.',col3Title:'Province',col3Text:'Citizens value the discreet but effective presence of security forces.',col4Title:'Notices',col4Text:'Call for young people interested in provincial service.'},
+blank:{masthead:'DIARIO DE PINAR DEL RÍO',paperSub:'ORGAN OF THE PROVINCE OF PINAR DEL RÍO',motto:'Homeland or Province',date:'20 NOVEMBER 2026',byline:'',headline:'',subhead:'',caption:'',col1Title:'Province',col1Text:'',col2Title:'Council',col2Text:'',col3Title:'Economy',col3Text:'',col4Title:'Notices',col4Text:''}
+}
+};
+const PRESET_KEYS=['consejo','economy','culture','sports','diplomacy','development','interview','event','defense','blank'];
+const PRESET_LABELS={es:{consejo:'Consejo',economy:'Economía',culture:'Cultura',sports:'Deportes',diplomacy:'Diplomacia',development:'Desarrollo',interview:'Entrevista',event:'Gran Evento',defense:'Defensa',blank:'En blanco'},en:{consejo:'Council',economy:'Economy',culture:'Culture',sports:'Sports',diplomacy:'Diplomacy',development:'Development',interview:'Interview',event:'Big Event',defense:'Defense',blank:'Blank'}};
+
+let lang='es',currentPreset='consejo',layout='classic';
+let images={hero:null,sec:null,ter:null},originalImages={hero:null,sec:null,ter:null};
+let history=[],histIndex=-1,applyingHistory=false;
+
+function $(id){return document.getElementById(id)}
+function snapshot(){
+  return{masthead:$('masthead').value,paperSub:$('paperSub').value,motto:$('motto').value,edition:$('edition').value,date:$('date').value,byline:$('byline').value,
+    headline:$('headline').value,subhead:$('subhead').value,caption:$('caption').value,
+    col1Title:$('col1Title').value,col1Text:$('col1Text').value,col2Title:$('col2Title').value,col2Text:$('col2Text').value,
+    col3Title:$('col3Title').value,col3Text:$('col3Text').value,col4Title:$('col4Title').value,col4Text:$('col4Text').value,
+    col5Title:$('col5Title')?$('col5Title').value:'',col5Text:$('col5Text')?$('col5Text').value:'',
+    col6Title:$('col6Title')?$('col6Title').value:'',col6Text:$('col6Text')?$('col6Text').value:'',
+    showStripe:$('showStripe').checked,showEmblem:$('showEmblem').checked,showByline:$('showByline').checked,showCubanBar:$('showCubanBar').checked,
+    mastSize:$('mastSize')?$('mastSize').value:'34',showPaperSub:$('showPaperSub')?$('showPaperSub').value:'1',
+    emblemStyle:$('emblemStyle').value,emblemSize:$('emblemSize').value,
+    heroHeight:$('heroHeight').value,heroPos:$('heroPos').value,heroFit:$('heroFit')?$('heroFit').value:'cover',heroZoom:$('heroZoom')?$('heroZoom').value:'1',bwHero:$('bwHero').checked,hideEmptyHero:$('hideEmptyHero')?$('hideEmptyHero').checked:true,
+    secPlace:$('secPlace').value,secPos:$('secPos')?$('secPos').value:'top',secSize:$('secSize').value,secFit:$('secFit')?$('secFit').value:'cover',bwSec:$('bwSec').checked,
+    terPlace:$('terPlace').value,terPos:$('terPos')?$('terPos').value:'mid',terSize:$('terSize').value,terFit:$('terFit')?$('terFit').value:'cover',bwTer:$('bwTer').checked,
+    colCount:$('colCount').value,textTight:$('textTight').value,paperTexture:$('paperTexture').value,
+    paperTint:$('paperTint').value,accentRed:$('accentRed').value,paperPad:$('paperPad').value,layout};
+}
+function pushHistory(){
+  if(applyingHistory)return;
+  const s=JSON.stringify(snapshot());
+  if(histIndex>=0&&history[histIndex]===s)return;
+  history=history.slice(0,histIndex+1);
+  history.push(s);
+  if(history.length>40)history.shift();
+  histIndex=history.length-1;
+  scheduleAutoSave();
+}
+let _autoSaveTimer=null;
+function scheduleAutoSave(){
+  clearTimeout(_autoSaveTimer);
+  _autoSaveTimer=setTimeout(()=>{
+    try{
+      const data=getProjectData();
+      data.name='(auto) '+data.name;
+      data.id='autosave';
+      localStorage.setItem('pinarPressAutosave_v1', JSON.stringify(data));
+    }catch(e){}
+  }, 800);
+}
+function restoreAutoSave(){
+  try{
+    const raw=localStorage.getItem('pinarPressAutosave_v1');
+    if(!raw)return false;
+    const data=JSON.parse(raw);
+    if(data && data.version){
+      if(confirm('Restore your last session?')){
+        applyProjectData(data);
+        return true;
+      }
+    }
+  }catch(e){}
+  return false;
+}
+function applySnapshot(s){applyingHistory=true;Object.keys(s).forEach(k=>{if(k==='layout'){setLayout(s.layout,true);return}const el=$(k);if(!el)return;if(el.type==='checkbox')el.checked=s[k];else el.value=s[k]});applyingHistory=false;render()}
+function undo(){if(histIndex>0){histIndex--;applySnapshot(JSON.parse(history[histIndex]))}}
+function redo(){if(histIndex<history.length-1){histIndex++;applySnapshot(JSON.parse(history[histIndex]))}}
+function cleanPasteText(raw){
+  if(raw==null) return '';
+  let s = String(raw);
+  // strip HTML if any
+  if(/<[^>]+>/.test(s)){
+    const d=document.createElement('div');
+    d.innerHTML=s;
+    s=d.innerText||d.textContent||'';
+  }
+  // normalize newlines and spaces
+  s = s.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  s = s.replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g,' '); // weird spaces
+  s = s.replace(/[“”]/g,'"').replace(/[‘’]/g,"'"); // smart quotes
+  s = s.replace(/[–—]/g,'-'); // em/en dashes
+  s = s.replace(/\t+/g,' ');
+  // collapse 3+ newlines to 2, then for column body prefer single breaks as spaces or keep paragraph
+  s = s.replace(/\n{3,}/g,'\n\n');
+  // trim each line
+  s = s.split('\n').map(l=>l.replace(/[ \t]+/g,' ').trim()).join('\n');
+  s = s.trim();
+  return s;
+}
+
+function cleanAllTexts(){
+  ['headline','subhead','caption','byline','motto','paperSub',
+   'col1Title','col1Text','col2Title','col2Text','col3Title','col3Text',
+   'col4Title','col4Text','col5Title','col5Text','col6Title','col6Text'].forEach(id=>{
+    const el=$(id); if(!el) return;
+    el.value = cleanPasteText(el.value);
+  });
+  onField();
+  if(typeof showImgStatus==='function') showImgStatus('Textos limpiados ✓');
+}
+
+function onPasteField(e){
+  e.preventDefault();
+  const raw = (e.clipboardData||window.clipboardData).getData('text/plain')
+    || (e.clipboardData||window.clipboardData).getData('text');
+  const cleaned = cleanPasteText(raw);
+  const el = e.target;
+  if(el.tagName==='TEXTAREA'||el.tagName==='INPUT'){
+    const start = el.selectionStart||0, end = el.selectionEnd||0;
+    const val = el.value||'';
+    el.value = val.slice(0,start)+cleaned+val.slice(end);
+    try{ el.selectionStart = el.selectionEnd = start+cleaned.length; }catch(_){}
+    onField();
+  } else if(el.isContentEditable){
+    // insert plain text only
+    document.execCommand('insertText', false, cleaned);
+    // sync back
+    if(el.dataset.bind){
+      const input = $(el.dataset.bind);
+      if(input){ input.value = cleanPasteText(el.innerText); }
+    }
+    pushHistory();
+  }
+}
+
+function onField(){render();pushHistory()}
+
+function setLang(l){lang=l;$('langES').classList.toggle('active',l==='es');$('langEN').classList.toggle('active',l==='en');
+  $('editionLabel').textContent=l==='es'?'EDICIÓN N.º':'EDITION No.';$('footEditionLabel').textContent=l==='es'?'EDICIÓN N.º':'EDITION No.';
+  $('intLabel').textContent=l==='es'?'ENTREVISTA':'INTERVIEW';$('adsLabel').textContent=l==='es'?'AVISOS':'NOTICES';
+  buildPresetButtons();loadPreset(currentPreset,true)}
+function buildPresetButtons(){const g=$('presetGrid');g.innerHTML='';PRESET_KEYS.forEach(key=>{const b=document.createElement('button');b.className='btn btn-secondary preset-btn rounded'+(key===currentPreset?' active':'');b.dataset.preset=key;b.textContent=PRESET_LABELS[lang][key];b.onclick=()=>loadPreset(key);g.appendChild(b)})}
+function setActive(n){currentPreset=n;document.querySelectorAll('[data-preset]').forEach(b=>b.classList.toggle('active',b.dataset.preset===n))}
+function loadPreset(name,skip){const p=PRESETS[lang][name];if(!p)return;setActive(name);
+  ['masthead','paperSub','motto','date','byline','headline','subhead','caption','col1Title','col1Text','col2Title','col2Text','col3Title','col3Text','col4Title','col4Text','col5Title','col5Text','col6Title','col6Text'].forEach(k=>{if($(k))$(k).value=p[k]||''});
+  render();if(!skip)pushHistory()}
+function setLayout(mode,skip){layout=mode;
+  ['colsClassic','colsInterview','colsSplit','colsBanner'].forEach(id=>{const el=$(id);if(el)el.classList.add('hidden')});
+  if(mode==='classic')$('colsClassic').classList.remove('hidden');
+  if(mode==='interview')$('colsInterview').classList.remove('hidden');
+  if(mode==='split')$('colsSplit').classList.remove('hidden');
+  if(mode==='banner')$('colsBanner').classList.remove('hidden');
+  document.querySelectorAll('.layout-btn').forEach(b=>b.classList.remove('active'));
+  const map={classic:'layClassic',interview:'layInterview',split:'laySplit',banner:'layBanner'};
+  if($(map[mode]))$(map[mode]).classList.add('active');
+  render();if(!skip)pushHistory()}
+
+const SAMPLE_URLS = {
+  vinales: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Landscape_of_Vi%C3%B1ales_Valley%2C_%28Pinar_del_R%C3%ADo_Province%2C_Cuba%29.jpg/800px-Landscape_of_Vi%C3%B1ales_Valley%2C_%28Pinar_del_R%C3%ADo_Province%2C_Cuba%29.jpg',
+  vinales2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Pinar_del_Rio_-_The_Vi%C3%B1ales_Valley.jpg/800px-Pinar_del_Rio_-_The_Vi%C3%B1ales_Valley.jpg',
+  tabaco: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Pinar_del_Rio_-_Tobacco_plantation.jpg/800px-Pinar_del_Rio_-_Tobacco_plantation.jpg',
+  campo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Cuba_-_In_tobacco_field.jpg/600px-Cuba_-_In_tobacco_field.jpg'
+};
+
+async function loadSample(key) {
+  const url = SAMPLE_URLS[key];
+  if (!url) return;
+  const slot = ($('sampleTarget') && $('sampleTarget').value) || 'hero';
+  showImgStatus('Cargando muestra de Cuba…');
+
+  // Method 1: Image element (most reliable for display + canvas)
+  await new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    const timer = setTimeout(() => {
+      img.src = '';
+      showImgStatus('Timeout — prueba subir tu propia foto', true);
+      resolve();
+    }, 12000);
+    img.onload = async () => {
+      clearTimeout(timer);
+      try {
+        const c = document.createElement('canvas');
+        const maxEdge = 1600;
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if (w > maxEdge || h > maxEdge) {
+          const r = Math.min(maxEdge/w, maxEdge/h);
+          w = Math.round(w*r); h = Math.round(h*r);
+        }
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#f2e8d5';
+        ctx.fillRect(0,0,w,h);
+        ctx.drawImage(img, 0, 0, w, h);
+        let data;
+        try { data = c.toDataURL('image/jpeg', 0.88); }
+        catch(e) { showImgStatus('CORS bloqueó la muestra. Sube tu foto.', true); resolve(); return; }
+        originalImages[slot] = data;
+        const {max, quality, format} = getResizeSettings();
+        images[slot] = await resizeImage(data, max, quality, format);
+        if (slot === 'sec' && $('secPlace').value === 'none') $('secPlace').value = 'afterHero';
+        if (slot === 'ter' && $('terPlace').value === 'none') $('terPlace').value = 'col3';
+        if (slot === 'hero') {
+          const caps = {
+            vinales: 'Valle de Viñales, Pinar del Río, Cuba.',
+            vinales2: 'Valle de Viñales — vista histórica.',
+            tabaco: 'Plantación de tabaco, Pinar del Río.',
+            campo: 'Campo de tabaco, Cuba.'
+          };
+          if (caps[key]) $('caption').value = caps[key];
+        }
+        render();
+        pushHistory();
+        showImgStatus('Muestra lista ✓');
+      } catch (err) {
+        console.error(err);
+        showImgStatus('Error con la muestra. Sube tu propia imagen.', true);
+      }
+      resolve();
+    };
+    img.onerror = () => {
+      clearTimeout(timer);
+      showImgStatus('No se pudo cargar (red/CORS). Sube tu foto.', true);
+      resolve();
+    };
+    img.src = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+  });
+}
+
+function applyMotto(){const v=$('mottoPick').value;if(!v)return;$('motto').value=v;onField()}
+function setCubanMood(m){
+  if(m==='oficial'){$('paperTint').value='cream';$('accentRed').value='#c8102e';$('paperTexture').value='med';$('motto').value=lang==='es'?'Patria o Provincia':'Homeland or Province';$('showCubanBar').checked=true}
+  else if(m==='calido'){$('paperTint').value='warm';$('accentRed').value='#9f1239';$('paperTexture').value='high';$('motto').value=lang==='es'?'Por la tierra y el pueblo':'From the land to the people';$('showCubanBar').checked=true}
+  else{$('paperTint').value='old';$('accentRed').value='#7f1d1d';$('paperTexture').value='high';$('motto').value=lang==='es'?'Raíces firmes · Occidente vivo':'Deep roots · Western Cuba';$('showCubanBar').checked=true}
+  onField()}
+
+function getResizeSettings(){return{max:parseInt($('resizeMax').value,10)||1600,quality:(parseInt($('resizeQuality').value,10)||85)/100,format:$('resizeFormat').value||'image/jpeg'}}
+function setCompressPreset(n){if(n==='discord'){$('resizeMax').value='1200';$('resizeFormat').value='image/webp';$('resizeQuality').value='78'}else{$('resizeMax').value='1600';$('resizeFormat').value='image/jpeg';$('resizeQuality').value='85'}$('qualityLabel').textContent=$('resizeQuality').value+'%'}
+function showImgStatus(msg, isErr){
+  let el = document.getElementById('imgStatus');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'imgStatus';
+    el.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;pointer-events:none;transition:opacity .3s';
+    document.body.appendChild(el);
+  }
+  el.style.background = isErr ? '#7f1d1d' : '#14532d';
+  el.style.color = '#fff';
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>{el.style.opacity='0'}, 2800);
+}
+
+function resizeImage(dataUrl, maxSize = 1600, quality = 0.85, format = 'image/jpeg'){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        let width = img.naturalWidth || img.width;
+        let height = img.naturalHeight || img.height;
+        if (!width || !height) {
+          resolve(dataUrl);
+          return;
+        }
+        if (maxSize > 0 && (width > maxSize || height > maxSize)) {
+          const r = Math.min(maxSize / width, maxSize / height);
+          width = Math.round(width * r);
+          height = Math.round(height * r);
+        }
+        // keep reasonable dims
+        width = Math.max(2, width - (width % 2));
+        height = Math.max(2, height - (height % 2));
+
+        const c = document.createElement('canvas');
+        c.width = width;
+        c.height = height;
+        const ctx = c.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        // white bg so transparent PNGs don't go black
+        ctx.fillStyle = '#f2e8d5';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Always prefer JPEG for stability; WebP only if requested and supported
+        let out;
+        const q = Math.min(0.98, Math.max(0.5, quality));
+        try {
+          if (format === 'image/webp') {
+            out = c.toDataURL('image/webp', q);
+            // browser lied / fell back to PNG
+            if (!out || out.startsWith('data:image/png')) {
+              out = c.toDataURL('image/jpeg', q);
+            }
+          } else {
+            out = c.toDataURL('image/jpeg', q);
+          }
+        } catch (e) {
+          out = c.toDataURL('image/jpeg', 0.85);
+        }
+        if (!out || out.length < 100) {
+          resolve(dataUrl); // fallback to original
+          return;
+        }
+        resolve(out);
+      } catch (err) {
+        console.error('resize error', err);
+        resolve(dataUrl);
+      }
+    };
+    img.onerror = () => {
+      console.error('image decode failed');
+      reject(new Error('decode'));
+    };
+    // data URLs don't need crossOrigin
+    img.src = dataUrl;
+  });
+}
+
+async function handleImage(e, slot){
+  const input = e.target;
+  const f = input.files && input.files[0];
+  if (!f) return;
+
+  // basic validation
+  if (!f.type || !f.type.startsWith('image/')) {
+    // allow empty type for some OS screenshots
+    if (!/\.(png|jpe?g|webp|gif|bmp)$/i.test(f.name || '')) {
+      showImgStatus('Archivo no es una imagen', true);
+      input.value = '';
+      return;
+    }
+  }
+  // hard size limit 25MB
+  if (f.size > 25 * 1024 * 1024) {
+    showImgStatus('Imagen demasiado grande (máx 25MB)', true);
+    input.value = '';
+    return;
+  }
+
+  showImgStatus('Procesando imagen…');
+
+  const r = new FileReader();
+  r.onerror = () => {
+    showImgStatus('Error al leer el archivo', true);
+    input.value = '';
+  };
+  r.onload = async ev => {
+    try {
+      const dataUrl = ev.target.result;
+      if (!dataUrl || typeof dataUrl !== 'string') {
+        showImgStatus('No se pudo leer la imagen', true);
+        return;
+      }
+      originalImages[slot] = dataUrl;
+      const { max, quality, format } = getResizeSettings();
+      let resized;
+      try {
+        resized = await resizeImage(dataUrl, max, quality, format);
+      } catch (err) {
+        // decode failed — try raw
+        resized = dataUrl;
+      }
+      images[slot] = resized;
+
+      // auto-show secondary images so uploads are never "invisible"
+      if (slot === 'sec' && $('secPlace') && $('secPlace').value === 'none') {
+        $('secPlace').value = 'col2';
+        if ($('secPos')) $('secPos').value = 'top';
+      }
+      if (slot === 'ter' && $('terPlace') && $('terPlace').value === 'none') {
+        $('terPlace').value = 'col3';
+        if ($('terPos')) $('terPos').value = 'mid';
+      }
+      // if hero was hidden because empty, force visible path
+      if (slot === 'hero' && $('hideEmptyHero')) {
+        // keep preference, but image exists so it will show
+      }
+
+      render();
+      pushHistory();
+      showImgStatus('Imagen lista ✓');
+    } catch (err) {
+      console.error(err);
+      showImgStatus('Error al procesar la imagen', true);
+    }
+  };
+  try {
+    r.readAsDataURL(f);
+  } catch (err) {
+    showImgStatus('No se pudo abrir el archivo', true);
+    input.value = '';
+  }
+}
+
+async function reprocessImages(){
+  showImgStatus('Reprocesando…');
+  const { max, quality, format } = getResizeSettings();
+  for (const s of ['hero','sec','ter']) {
+    if (originalImages[s]) {
+      try {
+        images[s] = await resizeImage(originalImages[s], max, quality, format);
+      } catch (e) {
+        images[s] = originalImages[s];
+      }
+    }
+  }
+  render();
+  pushHistory();
+  showImgStatus('Reprocesado ✓');
+}
+
+function clearImage(slot){
+  images[slot] = null;
+  originalImages[slot] = null;
+  if (slot === 'hero' && $('heroUpload')) $('heroUpload').value = '';
+  if (slot === 'sec' && $('secUpload')) $('secUpload').value = '';
+  if (slot === 'ter' && $('terUpload')) $('terUpload').value = '';
+  render();
+  pushHistory();
+}
+
+function shortDate(str){if(!str)return'20 NOV 2026';return str.replace(/DE /gi,'').replace('NOVIEMBRE','NOV').replace('NOVEMBER','NOV').replace('DICIEMBRE','DIC').replace('DECEMBER','DEC').replace('ENERO','ENE').replace('JANUARY','JAN').replace('FEBRERO','FEB').replace('FEBRUARY','FEB').replace('MARZO','MAR').replace('MARCH','MAR').replace('ABRIL','ABR').replace('APRIL','APR').replace('MAYO','MAY').replace('JUNIO','JUN').replace('JUNE','JUN').replace('JULIO','JUL').replace('JULY','JUL').replace('AGOSTO','AGO').replace('AUGUST','AUG').replace('SEPTIEMBRE','SEP').replace('SEPTEMBER','SEP').replace('OCTUBRE','OCT').replace('OCTOBER','OCT')}
+function makeImgEl(src,h,bw,fit){
+  const w=document.createElement('div');
+  w.className='img-frame'+(fit==='contain'?' fit-contain':'');
+  w.style.height=h+'px';
+  const i=document.createElement('img');
+  i.src=src;
+  i.style.objectFit=fit||'cover';
+  i.style.filter=bw?'grayscale(100%) contrast(1.05)':'none';
+  w.appendChild(i);
+  return w;
+}
+
+function render(){
+  $('preview-masthead').textContent=$('masthead').value||'DIARIO DE PINAR DEL RÍO';
+  const ms = $('mastSize') ? $('mastSize').value : '34';
+  $('preview-masthead').style.fontSize = ms + 'px';
+  const showSub = !$('showPaperSub') || $('showPaperSub').value !== '0';
+  $('preview-paperSub').style.display = showSub ? 'block' : 'none';
+  $('preview-paperSub').textContent=$('paperSub').value||'';
+  $('preview-motto').textContent=$('motto').value||'';
+  $('preview-edition').textContent=$('edition').value||'001';
+  $('preview-date').textContent=$('date').value||'';
+  $('preview-dateTop').textContent=$('date').value||'';
+  $('preview-byline').textContent=$('byline').value||'';
+  $('preview-headline').textContent=$('headline').value;
+  $('preview-subhead').textContent=$('subhead').value;
+  $('preview-caption').textContent=$('caption').value;
+  $('bylineRow').style.display=$('showByline').checked?'flex':'none';
+  const barOn=$('showCubanBar').checked;
+  $('cubanBarTop').style.display=barOn?'block':'none';
+  $('cubanBarBot').style.display=barOn?'block':'none';
+
+  const hl=$('headline').value||'';
+  const hEl=$('preview-headline');
+  if(hl.length>70)hEl.style.fontSize='20px';
+  else if(hl.length>48)hEl.style.fontSize='23px';
+  else hEl.style.fontSize='26px';
+
+  ['col1Title','col2Title','col3Title','col4Title','col1Text','col2Text','col3Text','col4Text','paperSub'].forEach(k=>{
+    let v=$(k)?$(k).value:'';
+    // titles: single line; body: keep paragraphs but no leading spaces
+    if(/Text$/.test(k)){
+      v = String(v).replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+    } else {
+      v = String(v).replace(/\s+/g,' ').trim();
+    }
+    document.querySelectorAll(`[data-bind="${k}"]`).forEach(n=>{if(!n.matches(':focus'))n.textContent=v});
+  });
+
+  $('p-foot-ed').textContent=$('edition').value||'001';
+  $('p-foot-date').textContent=shortDate($('date').value);
+  $('preview-stripe').style.display=$('showStripe').checked?'block':'none';
+
+  const show=$('showEmblem').checked, style=$('emblemStyle').value, sz=$('emblemSize').value;
+  const flag=$('flagEmblem'), mono=$('monogramWrap');
+  const sizes={sm:{f:'w-9 h-6',m:'w-8 h-8 text-[12px]'},md:{f:'w-12 h-8',m:'w-10 h-10 text-[14px]'},lg:{f:'w-14 h-9',m:'w-12 h-12 text-[16px]'}};
+  const S=sizes[sz]||sizes.md;
+  flag.className='flag-frame overflow-hidden border border-stone-700 '+S.f;
+  mono.className='rounded-full border-2 border-stone-800 flex items-center justify-center bg-[var(--cream)] '+S.m+(style==='monogram'||style==='both'?'':' hidden');
+  if(!show){flag.style.display='none';mono.style.display='none'}
+  else if(style==='flag'){flag.style.display='block';mono.style.display='none'}
+  else if(style==='monogram'){flag.style.display='none';mono.style.display='flex'}
+  else{flag.style.display='block';mono.style.display='flex'}
+
+  const cc=parseInt($('colCount').value,10)||4;
+  const classic=$('colsClassic');
+  classic.className='grid gap-2.5 mt-4 pt-3 border-t-2 border-stone-700';
+  // inline grid so 5/6 always work (Tailwind CDN may miss dynamic classes)
+  classic.style.gridTemplateColumns = 'repeat(' + cc + ', minmax(0, 1fr))';
+  classic.style.display = 'grid';
+  // show/hide column wraps
+  [1,2,3,4,5,6].forEach(n => {
+    const wrap = $('col' + n + 'Wrap');
+    if (!wrap) return;
+    if (n <= cc) {
+      wrap.classList.remove('hidden');
+      wrap.style.display = 'block';
+    } else {
+      wrap.classList.add('hidden');
+      wrap.style.display = 'none';
+    }
+  });
+  if($('col5Fields'))$('col5Fields').style.display=cc>=5?'block':'none';
+  if($('col6Fields'))$('col6Fields').style.display=cc>=6?'block':'none';
+  // wider page for more columns (paper var declared later)
+  const paperEl=$('newspaper');
+  if(cc>=6) paperEl.style.width='780px';
+  else if(cc>=5) paperEl.style.width='740px';
+  else paperEl.style.width='680px';
+  // slightly smaller text when many columns
+  document.querySelectorAll('.col-text').forEach(el=>{
+    el.classList.toggle('tight',$('textTight').value==='tight'||cc>=5);
+  });
+  // bind col5/6
+  ['col5Title','col5Text','col6Title','col6Text'].forEach(k=>{
+    const el=$(k); const v=el?el.value:'';
+    document.querySelectorAll(`[data-bind="${k}"]`).forEach(n=>{if(!n.matches(':focus'))n.textContent=v});
+  });
+
+  const paper=$('newspaper');
+  paper.classList.remove('texture-low','texture-med','texture-high','tint-cream','tint-warm','tint-sun','tint-old','p-5','p-7','p-9');
+  paper.classList.add('texture-'+$('paperTexture').value,'tint-'+$('paperTint').value,$('paperPad').value);
+  const accent=$('accentRed').value;
+  document.documentElement.style.setProperty('--red',accent);
+  document.querySelectorAll('.section-head').forEach(el=>{el.style.color=accent;el.style.borderBottomColor=accent});
+
+  const heroBlock = $('heroFrame').parentElement;
+  const hideEmpty = $('hideEmptyHero') && $('hideEmptyHero').checked;
+  if(!images.hero && hideEmpty){
+    heroBlock.style.display = 'none';
+  } else {
+    heroBlock.style.display = 'block';
+    const frame = $('heroFrame');
+    frame.style.height = $('heroHeight').value + 'px';
+    const heroImg = $('heroImg'), heroPh = $('heroPh');
+    const fit = ($('heroFit') && $('heroFit').value) || 'cover';
+    frame.classList.toggle('fit-contain', fit === 'contain');
+    if (images.hero) {
+      heroImg.src = images.hero;
+      heroImg.classList.remove('hidden');
+      heroPh.classList.add('hidden');
+      heroImg.style.objectFit = fit;
+      heroImg.style.objectPosition = ($('heroPos') && $('heroPos').value) || 'center';
+      const z = parseFloat(($('heroZoom') && $('heroZoom').value) || '1');
+      heroImg.style.transform = z !== 1 ? ('scale(' + z + ')') : '';
+      heroImg.style.transformOrigin = (($('heroPos') && $('heroPos').value) || 'center');
+      heroImg.style.filter = $('bwHero').checked ? 'grayscale(100%) contrast(1.05)' : 'none';
+    } else {
+      heroImg.classList.add('hidden');
+      heroPh.classList.remove('hidden');
+      heroImg.style.transform = '';
+    }
+  }
+
+  const after=$('extraAfterHero');after.innerHTML='';after.classList.add('hidden');
+  // clear all column image slots
+  ['1','2','3','4','5','6'].forEach(n=>{
+    ['Top','Mid','Bot'].forEach(p=>{const el=$('imgCol'+n+p);if(el)el.innerHTML=''});
+  });
+  ['intImgArea','splImgAds','imgCol2','imgCol3','imgCol4'].forEach(id=>{const el=$(id);if(el)el.innerHTML=''});
+
+  function placeColImage(key, place, pos, size, bw, fit){
+    if(!images[key]||!place||place==='none')return;
+    const el=makeImgEl(images[key], size, bw, fit);
+    if(place==='afterHero'){
+      after.classList.remove('hidden');
+      after.appendChild(el);
+      return;
+    }
+    // col1..col6
+    const n = place.replace('col','');
+    if(layout==='classic'){
+      const slot = pos==='top' ? $('imgCol'+n+'Top') : pos==='bot' ? $('imgCol'+n+'Bot') : $('imgCol'+n+'Mid');
+      if(slot) slot.appendChild(el);
+    } else if(layout==='interview' && $('intImgArea') && (n==='2'||n==='3')){
+      $('intImgArea').appendChild(el);
+    } else if(layout==='split' && $('splImgAds') && n==='4'){
+      $('splImgAds').appendChild(el);
+    } else if(layout==='classic'){
+      // fallback mid
+      const slot=$('imgCol'+n+'Mid'); if(slot) slot.appendChild(el);
+    }
+  }
+
+  placeColImage('sec',
+    $('secPlace').value,
+    ($('secPos')&&$('secPos').value)||'top',
+    $('secSize').value,
+    $('bwSec').checked,
+    ($('secFit')&&$('secFit').value)||'cover');
+  placeColImage('ter',
+    $('terPlace').value,
+    ($('terPos')&&$('terPos').value)||'mid',
+    $('terSize').value,
+    $('bwTer').checked,
+    ($('terFit')&&$('terFit').value)||'cover');
+}
+
+document.addEventListener('focusout',e=>{
+  const el=e.target;if(!el.isContentEditable||!el.dataset.bind)return;
+  const key=el.dataset.bind,input=$(key);
+  if(input&&input.value!==el.textContent){input.value=el.textContent;document.querySelectorAll(`[data-bind="${key}"]`).forEach(n=>{if(n!==el)n.textContent=el.textContent});pushHistory()}
+});
+
+function randomMeta(){$('edition').value=String(Math.floor(Math.random()*80)+1).padStart(3,'0');
+  const months=lang==='es'?['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']:['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+  const d=Math.floor(Math.random()*28)+1,m=months[Math.floor(Math.random()*12)];
+  $('date').value=lang==='es'?`${d} DE ${m} DE 2026`:`${d} ${m} 2026`;onField()}
+function surpriseMe(){const keys=PRESET_KEYS.filter(k=>k!=='blank');loadPreset(keys[Math.floor(Math.random()*keys.length)]);randomMeta()}
+
+async function discordPack(){
+  // optimal settings for Discord newspaper posts
+  if($('exportScale')) $('exportScale').value='2.4';
+  if($('resizeMax')) $('resizeMax').value='1200';
+  if($('resizeFormat')) $('resizeFormat').value='image/webp';
+  if($('resizeQuality')){ $('resizeQuality').value='80'; if($('qualityLabel'))$('qualityLabel').textContent='80%'; }
+  if($('hideEmptyHero')) $('hideEmptyHero').checked=true;
+  // reprocess images if any
+  if(typeof reprocessImages==='function'){
+    try{ await reprocessImages(); }catch(e){}
+  }
+  render();
+  if(typeof showImgStatus==='function') showImgStatus('Discord settings on — downloading…');
+  await downloadPNG();
+}
+
+function getProjectData(){
+  return {
+    version: 9,
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+    savedAt: new Date().toISOString(),
+    name: (($('masthead').value||'Diario') + ' · ' + ($('edition').value||'001') + ' · ' + ($('headline').value||'Sin título')).slice(0,80),
+    lang, layout,
+    ...snapshot(),
+    images, originalImages,
+    resizeMax: $('resizeMax')?$('resizeMax').value:'1600',
+    resizeQuality: $('resizeQuality')?$('resizeQuality').value:'85',
+    resizeFormat: $('resizeFormat')?$('resizeFormat').value:'image/jpeg'
+  };
+}
+
+function applyProjectData(data){
+  if(!data) return;
+  if(data.lang) setLang(data.lang);
+  if(data.layout) setLayout(data.layout, true);
+  applySnapshot(data);
+  if(data.images) images = data.images;
+  if(data.originalImages) Object.assign(originalImages, data.originalImages);
+  if(data.resizeMax && $('resizeMax')) $('resizeMax').value = data.resizeMax;
+  if(data.resizeQuality && $('resizeQuality')) {
+    $('resizeQuality').value = data.resizeQuality;
+    if($('qualityLabel')) $('qualityLabel').textContent = data.resizeQuality + '%';
+  }
+  if(data.resizeFormat && $('resizeFormat')) $('resizeFormat').value = data.resizeFormat;
+  render();
+  pushHistory();
+}
+
+async function downloadPNG(){
+  const btn = $('downloadBtn') || document.querySelector('#downloadBtn');
+  const originalLabel = btn ? btn.textContent : 'Download PNG';
+  if(btn){ btn.textContent = 'Rendering…'; btn.disabled = true; }
+  // blur editors so outlines don't show
+  document.querySelectorAll('[contenteditable]').forEach(el => el.blur());
+  // wait a frame for layout
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+  if(typeof html2canvas !== 'function'){
+    alert('Export library failed to load. Check your internet connection and reload.');
+    if(btn){ btn.textContent = originalLabel; btn.disabled = false; }
+    return;
+  }
+
+  try {
+    const paper = $('newspaper');
+    const scale = parseFloat(($('exportScale') && $('exportScale').value) || '2.4') || 2.4;
+    const canvas = await html2canvas(paper, {
+      scale: scale,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: '#f2e8d5',
+      logging: false,
+      imageTimeout: 15000,
+      onclone: (doc) => {
+        // remove focus outlines in clone
+        doc.querySelectorAll('[contenteditable]').forEach(el => {
+          el.style.outline = 'none';
+          el.style.boxShadow = 'none';
+        });
+      }
+    });
+    const dataUrl = canvas.toDataURL('image/png', 1.0);
+    if(!dataUrl || dataUrl.length < 100){
+      throw new Error('Empty canvas');
+    }
+    const a = document.createElement('a');
+    a.download = 'Diario_Pinar_' + (($('edition') && $('edition').value) || '001') + '.png';
+    a.href = dataUrl;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    if(typeof showImgStatus === 'function') showImgStatus('PNG descargado ✓');
+  } catch (err) {
+    console.error('PNG export error', err);
+    alert('Download failed: ' + (err && err.message ? err.message : 'unknown error') + '\\n\\nTip: try a smaller export scale (2×) or remove large images.');
+  } finally {
+    if(btn){ btn.textContent = originalLabel; btn.disabled = false; }
+  }
+}
+
+const LIB_KEY = 'pinarPressLibrary_v1';
+
+function readLibrary(){
+  try {
+    const raw = localStorage.getItem(LIB_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch(e){ return []; }
+}
+function writeLibrary(arr){
+  try {
+    localStorage.setItem(LIB_KEY, JSON.stringify(arr));
+    return true;
+  } catch(e){
+    alert('Could not save (storage full?). Export JSON instead, or remove old editions from Library.');
+    return false;
+  }
+}
+
+function saveToLibrary(){
+  const data = getProjectData();
+  // strip originalImages to save space if needed - keep images for preview
+  let lib = readLibrary();
+  // replace if same edition+headline exists recently
+  lib.unshift(data);
+  if(lib.length > 25) lib = lib.slice(0, 25);
+  if(writeLibrary(lib)){
+    if(typeof showImgStatus === 'function') showImgStatus('Guardado en Library ✓');
+    renderLibraryList();
+  }
+}
+
+function toggleLibrary(){
+  const m = $('libraryModal');
+  if(!m) return;
+  m.classList.toggle('hidden');
+  if(!m.classList.contains('hidden')) renderLibraryList();
+}
+
+function renderLibraryList(){
+  const list = $('libraryList');
+  if(!list) return;
+  const lib = readLibrary();
+  if(!lib.length){
+    list.innerHTML = '<div class="text-center text-stone-500 text-xs py-8">No saved editions yet.<br/>Click <b>Save current</b> to store one here.</div>';
+    return;
+  }
+  list.innerHTML = lib.map((item, idx) => {
+    const date = item.savedAt ? new Date(item.savedAt).toLocaleString() : '';
+    const name = (item.name || 'Edition').replace(/</g,'&lt;');
+    return '<div class="border border-stone-700 rounded-lg p-2.5 bg-stone-950/50 flex gap-2 items-start">'
+      + '<div class="flex-1 min-w-0">'
+      + '<div class="text-xs text-stone-200 font-medium truncate">' + name + '</div>'
+      + '<div class="text-[10px] text-stone-500 mt-0.5">' + date + '</div>'
+      + '</div>'
+      + '<button onclick="loadFromLibrary(' + idx + ')" class="btn btn-primary text-[10px] px-2 py-1 rounded">Load</button>'
+      + '<button onclick="deleteFromLibrary(' + idx + ')" class="btn btn-ghost text-[10px] px-2 py-1 rounded">Del</button>'
+      + '</div>';
+  }).join('');
+}
+
+function loadFromLibrary(idx){
+  const lib = readLibrary();
+  const data = lib[idx];
+  if(!data) return;
+  applyProjectData(data);
+  toggleLibrary();
+  if(typeof showImgStatus === 'function') showImgStatus('Edición cargada ✓');
+}
+
+function deleteFromLibrary(idx){
+  let lib = readLibrary();
+  lib.splice(idx, 1);
+  writeLibrary(lib);
+  renderLibraryList();
+}
+
+function exportJSON(){
+  const data = getProjectData();
+  const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.download = 'PinarPress_' + (data.edition || '001') + '.json';
+  a.href = URL.createObjectURL(blob);
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function loadProject(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      applyProjectData(data);
+      if(typeof showImgStatus === 'function') showImgStatus('JSON importado ✓');
+    } catch(err) {
+      alert('Invalid file');
+    }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+}
+
+// keep old name working
+function saveProject(){ saveToLibrary(); }
+
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='z'){e.preventDefault();e.shiftKey?redo():undo()}
+  if((e.metaKey||e.ctrlKey)&&e.key==='y'){e.preventDefault();redo()}
+  if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();saveToLibrary()}
+  if((e.metaKey||e.ctrlKey)&&e.key==='e'){e.preventDefault();downloadPNG()}
+});
+
+// clean paste on all text fields
+document.querySelectorAll('textarea,input[type="text"]').forEach(el=>{
+  el.addEventListener('paste', onPasteField);
+});
+document.getElementById('newspaper').addEventListener('paste', function(e){
+  if(e.target && e.target.isContentEditable) onPasteField(e);
+});
+
+setLang('es');setCubanMood('calido');
+if(!restoreAutoSave()){
+  pushHistory();
+}
+
+</script>
+<style>
+#ppSite{position:fixed;inset:0;z-index:90;overflow:auto;display:none}
+#ppComp{position:fixed;inset:0;z-index:100;background:#000b;display:none;align-items:center;justify-content:center;padding:16px}
+#ppComp .m,#ppM2 .m{background:#18181b;border:1px solid #3f3f46;border-radius:8px;padding:16px;width:560px;max-width:100%;max-height:92vh;overflow:auto;color:#e4e4e7;font:13px Inter,sans-serif}
+#ppComp label,#ppM2 label{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#a1a1aa;margin:9px 0 3px}
+#ppComp input[type=text],#ppComp select,#ppComp textarea,#ppM2 input[type=text],#ppM2 textarea{width:100%;background:#09090b;border:1px solid #3f3f46;color:#fff;border-radius:4px;padding:6px 8px;font:13px Inter,sans-serif}
+body.locked>*:not(#ppSite):not(#ppComp){display:none!important}
+</style>
+<script>
+/* ===== Sitio web: Pinar Press as a news-station website (posts, composer, static export) ===== */
+const SITECSS=`.ppsite{font-family:'Libre Baskerville',Georgia,serif;background:#f6efe0;color:#1a1512;min-height:100%}.ppsite *{box-sizing:border-box}
+.ppsite .stripe{height:6px;background:linear-gradient(90deg,#002a8f 33%,#fff 33% 66%,#c8102e 66%)}
+.ppsite .top{background:#0e1a3d;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ppsite .brand{font:900 32px 'Playfair Display',serif;letter-spacing:-.02em;line-height:1}.ppsite .brand small{display:block;font:400 10px Inter,sans-serif;letter-spacing:.16em;opacity:.7;margin-top:4px}
+.ppsite .tk{background:#c8102e;color:#fff;font:600 12px Inter,sans-serif;display:flex;gap:12px;padding:6px 24px;overflow:hidden;white-space:nowrap}.ppsite .tk b{background:#fff;color:#c8102e;padding:0 7px}
+.ppsite nav{display:flex;padding:0 24px;border-bottom:2px solid #1a1512;overflow-x:auto}.ppsite nav a{padding:10px 12px;font:600 12px Inter,sans-serif;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}.ppsite nav a.on{color:#c8102e;box-shadow:inset 0 -3px #c8102e}
+.ppsite .w{max-width:1080px;margin:0 auto;padding:22px 24px}.ppsite .g{display:grid;grid-template-columns:2fr 1fr;gap:26px}
+.ppsite img,.ppsite .ph{display:block;width:100%;object-fit:cover}.ppsite .lead img,.ppsite .lead .ph{height:340px}.ppsite .ph{height:140px;background:linear-gradient(135deg,#0e1a3d,#8b1020)}.ppsite .lead .ph{height:340px}
+.ppsite h2{font:900 34px/1.05 'Playfair Display',serif;margin:10px 0 6px}.ppsite h3{font:700 17px/1.15 'Playfair Display',serif;margin:6px 0 3px}
+.ppsite .kick{color:#c8102e;font:700 11px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-top:8px}.ppsite .meta{font:12px Inter,sans-serif;color:#6b5f52}
+.ppsite .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px;border-top:3px double #1a1512;padding-top:16px}.ppsite .card,.ppsite .lead,.ppsite .si{cursor:pointer}
+.ppsite .card img,.ppsite .card .ph{height:150px}.ppsite .side{border-left:1px solid #a8a29e;padding-left:20px}.ppsite .side h4{font:900 13px 'Playfair Display',serif;letter-spacing:.14em;color:#002a8f;border-bottom:2px solid #c8102e;margin:0 0 8px;padding-bottom:3px}.ppsite .si{padding:8px 0;border-bottom:1px dotted #78716c;font-size:14px;line-height:1.25}
+.ppsite article{max-width:720px;margin:0 auto}.ppsite article img{max-height:430px}.ppsite article p{font-size:16px;line-height:1.7}.ppsite .lnk{cursor:pointer;color:#002a8f;font:600 13px Inter,sans-serif}
+.ppsite .btn{background:#c8102e;color:#fff;border:0;border-radius:4px;padding:6px 12px;font:600 12px Inter,sans-serif;cursor:pointer}.ppsite .btn.d{background:#44403c}
+.ppsite footer{text-align:center;font:11px Inter,sans-serif;color:#6b5f52;padding:24px;border-top:3px double #1a1512;margin-top:30px}
+.ppsite a{color:inherit;text-decoration:none}.ppsite a.card,.ppsite a.si,.ppsite a.lead{display:block}.ppsite a:focus-visible,.ppsite button:focus-visible,.ppsite input:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+.ppsite .skip{position:absolute;left:-999px;background:#f2b705;color:#000;padding:8px 12px;z-index:5}.ppsite .skip:focus{left:8px;top:8px}
+.ppsite .tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.ppsite .tools button{background:#ffffff22;color:#fff;border:1px solid #ffffff55;border-radius:4px;padding:6px 10px;font:600 12px Inter,sans-serif;cursor:pointer}
+.ppsite nav{align-items:center}.ppsite nav input{margin-left:auto;padding:6px 10px;border:1px solid #78716c;border-radius:4px;font:13px Inter,sans-serif;background:#fffdf7;min-width:150px}
+.ppsite main{outline:none}.ppsite img.cov{object-fit:contain;background:#e7dcc4;max-height:none}.ppsite article img.cov{height:auto}
+.ppsite .more{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;border-top:1px solid #1a1512;padding-top:14px}
+.ppsite .pn{display:flex;justify-content:space-between;gap:12px;margin:18px 0;font:600 13px Inter,sans-serif}.ppsite .pn a{color:#002a8f;max-width:48%}
+.ppsite .share{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.ppsite .fl{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:8px}.ppsite .fl a,.ppsite .fl button{color:#002a8f;font:600 12px Inter,sans-serif;background:none;border:0;cursor:pointer;text-decoration:underline}
+.ppsite.fs1 .w{zoom:1.15}.ppsite.fs2 .w{zoom:1.3}.ppsite.hc{background:#fff;color:#000}.ppsite.hc .kick,.ppsite.hc .lnk,.ppsite.hc .pn a{color:#7a0000}.ppsite.hc .meta{color:#111}
+@media(max-width:760px){.ppsite .g,.ppsite .grid3{grid-template-columns:1fr}.ppsite .side{border:0;padding:0}}`;
+/* Shared renderer: runs live in the editor AND inside the exported public site. A = admin object (null in public export). */
+function renderSite(root,posts,A,staff,cfg){staff=staff||[];cfg=cfg||{};
+ let q='',fs=0,hc=0,last='';
+ try{fs=+localStorage.getItem('pp_fs')||0;hc=+localStorage.getItem('pp_hc')||0}catch(e){}
+ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const SECS=['Home','Province','World','Economy','Sports','Culture','Countryside','Opinion','Print Edition','Team'];
+ const dt=t=>new Date(t).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
+ const adm=()=>!!(A&&A.on),sp=s=>s==='Home'?'#':'#s-'+encodeURIComponent(s);
+ const im=p=>p.img?'<img class="'+(p.sec==='Print Edition'?'cov':'')+'" src="'+p.img+'" alt="'+esc(p.cap||p.title)+'">':'<div class="ph" role="img" aria-label="No image"></div>';
+ const route=()=>{const h=decodeURIComponent(location.hash.slice(1));if(/^n\d+$/.test(h))return{art:+h.slice(1),sec:'Home'};if(/^e\d+$/.test(h))return{art:null,st:+h.slice(1),sec:'Team'};if(h.indexOf('s-')===0)return{art:null,sec:h.slice(2)};return{art:null,sec:'Home'}};
+ const card=p=>'<a class="card" href="#n'+p.id+'">'+im(p)+'<span class="kick">'+esc(p.sec)+'</span><h3>'+esc(p.title)+'</h3><span class="meta">'+dt(p.t)+'</span></a>';
+ const by=a=>{const m=staff.find(x=>x.name===a);return m?'<a class="lnk" href="#e'+m.id+'">'+esc(a)+'</a>':esc(a)};const sc=m=>'<a class="card" href="#e'+m.id+'">'+(m.photo?'<img src="'+m.photo+'" alt="'+esc(m.name)+'" style="height:180px">':'<div class="ph" role="img" aria-label="No photo" style="height:180px"></div>')+'<h3>'+esc(m.name)+'</h3><span class="kick" style="margin:0">'+esc(m.role)+'</span></a>';const look=()=>{root.classList.toggle('fs1',fs===1);root.classList.toggle('fs2',fs===2);root.classList.toggle('hc',!!hc)};
+ function draw(){
+  const R=route(),art=R.art,st=R.st,sec=R.sec,all=posts.filter(p=>adm()||!p.draft).sort((a,b)=>b.t-a.t),br=all.filter(p=>p.br&&!p.draft).slice(0,4),ql=q.trim().toLowerCase();
+  let list=sec==='Home'?all:all.filter(p=>p.sec===sec);if(ql)list=all.filter(p=>(p.title+' '+p.deck+' '+p.body+' '+p.author).toLowerCase().indexOf(ql)>-1);
+  let h='<a class="skip" href="#main">Skip to content</a><div class="stripe"></div><header class="top"><a class="brand" href="#">PINAR PRESS<small>NEWS · CUBAN DAILY · PINAR DEL RÍO</small></a><div class="tools"><button data-t="fs" aria-label="Change text size">A+ / A−</button><button data-t="hc" aria-pressed="'+(hc?'true':'false')+'">High contrast</button>'+(adm()?'<button data-a="new">+ New post</button><button data-a="exp">Export site</button><button data-a="cfg">Settings &amp; Discord</button><button data-a="app">Newspaper editor</button><button data-a="out">Log out</button>':'')+'</div></header>';
+  if(br.length)h+='<div class="tk" role="region" aria-label="Breaking news"><b>BREAKING NEWS</b>'+br.map(p=>'<a href="#n'+p.id+'">'+esc(p.title)+'</a>').join('<span>•</span>')+'</div>';
+  h+='<nav aria-label="Sections">'+SECS.map(s=>'<a href="'+sp(s)+'" '+(s===sec&&!art&&!ql?'class="on" aria-current="page"':'')+'>'+s+'</a>').join('')+'<input id="q" type="search" placeholder="Search news…" aria-label="Search news" value="'+esc(q)+'"></nav><main id="main" class="w" tabindex="-1">';
+  const p=art&&posts.find(x=>x.id===art);
+  if(!ql&&st&&staff.find(x=>x.id===st)){const m=staff.find(x=>x.id===st),ar=all.filter(x=>x.author===m.name);h+='<article><a class="lnk" href="#s-Team">← Team</a><h2>'+esc(m.name)+'</h2><div class="kick">'+esc(m.role)+'</div>'+(m.photo?'<img src="'+m.photo+'" alt="'+esc(m.name)+'" style="max-height:320px;width:auto;margin:10px 0">':'')+(m.bio||'').split(/\n\s*\n/).map(x=>'<p>'+esc(x)+'</p>').join('')+'<h3>Posts</h3>'+(ar.length?'<div class="more">'+ar.map(card).join('')+'</div>':'<p>No posts yet.</p>')+(adm()?'<div class="share"><button class="btn d" data-a="editstaff" data-id="'+m.id+'">Edit</button><button class="btn d" data-a="delstaff" data-id="'+m.id+'">Delete</button></div>':'')+'</article>'}
+  else if(!ql&&sec==='Team'){h+='<h2>Our team</h2>'+(staff.length?'<div class="grid3" style="border:0;margin:0">'+staff.map(sc).join('')+'</div>':'<p>We will introduce our newsroom soon.</p>')+(cfg.invite?'<p><a class="btn" href="'+esc(cfg.invite)+'" target="_blank" rel="noopener" style="display:inline-block;padding:8px 14px">Join the team on Discord</a></p>':'')+(adm()?'<p><button class="btn" data-a="newstaff">+ New member</button></p>':'')}
+  else if(ql){h+='<h2>Results for “'+esc(q)+'”</h2>'+(list.length?'<div class="grid3" style="border:0;margin:0">'+list.map(card).join('')+'</div>':'<p>Nothing found. Try another word.</p>')}
+  else if(p){const i=all.findIndex(x=>x.id===p.id),nx=all[i-1],pv=all[i+1],rel=all.filter(x=>x.sec===p.sec&&x.id!==p.id).slice(0,3);
+   h+='<article><a class="kick" href="'+sp(p.sec)+'" style="display:block">'+esc(p.sec)+(p.draft?' · DRAFT':'')+'</a><h2>'+esc(p.title)+'</h2><p class="meta"><i>'+esc(p.deck)+'</i></p><div class="meta">By '+by(p.author)+' · '+dt(p.t)+'</div>'+im(p)+'<div class="meta"><i>'+esc(p.cap)+'</i></div>'+(p.body||'').split(/\n\s*\n/).map(x=>'<p>'+esc(x)+'</p>').join('')+
+   '<div class="share"><button class="btn d" data-sh="copy">Copy link</button>'+(navigator.share?'<button class="btn d" data-sh="share" data-title="'+esc(p.title)+'">Share</button>':'')+'</div>'+
+   (adm()?'<div class="share"><button class="btn d" data-a="edit" data-id="'+p.id+'">Edit</button><button class="btn d" data-a="paper" data-id="'+p.id+'">Send to newspaper</button><button class="btn d" data-a="discord" data-id="'+p.id+'">Post to Discord</button><button class="btn d" data-a="del" data-id="'+p.id+'">Delete</button></div>':'')+
+   '<div class="pn"><span>'+(pv?'<a href="#n'+pv.id+'">← '+esc(pv.title)+'</a>':'')+'</span><span style="text-align:right">'+(nx?'<a href="#n'+nx.id+'">'+esc(nx.title)+' →</a>':'')+'</span></div></article>'+(rel.length?'<h3>More in '+esc(p.sec)+'</h3><div class="more">'+rel.map(card).join('')+'</div>':'')}
+  else if(!list.length)h+='<h2>'+esc(sec)+'</h2><p>No posts in this section yet.</p>';
+  else{const L=list[0],Rs=list.slice(1);h+=(sec!=='Home'?'<div class="kick">'+esc(sec)+'</div>':'')+'<div class="g"><a class="lead" href="#n'+L.id+'">'+im(L)+'<span class="kick">'+esc(L.sec)+'</span><h2>'+esc(L.title)+'</h2><p>'+esc(L.deck)+'</p><span class="meta">By '+esc(L.author)+' · '+dt(L.t)+' · Read story →</span></a><aside class="side" aria-label="Latest"><h4>LATEST</h4>'+(Rs.slice(0,5).map(x=>'<a class="si" href="#n'+x.id+'"><span class="kick" style="margin:0">'+esc(x.sec)+'</span>'+esc(x.title)+'</a>').join('')||'<div class="meta">No more news.</div>')+'</aside></div>'+(Rs.length>2?'<div class="grid3">'+Rs.slice(2).map(card).join('')+'</div>':'')}
+  h+='</main><footer><div class="fl">'+SECS.map(s=>'<a href="'+sp(s)+'">'+s+'</a>').join('')+(cfg.invite?'<a href="'+esc(cfg.invite)+'" target="_blank" rel="noopener">Join the team (Discord)</a>':'')+(A&&!A.on?'<button data-a="lock">Newsroom</button>':'')+'</div>© Pinar Press · Fictional site and content</footer>';
+  root.innerHTML=h;look()}
+ root.onclick=e=>{const t=e.target.closest('[data-t],[data-a],[data-sh]');if(!t)return;const d=t.dataset;
+  if(d.t==='fs'){fs=(fs+1)%3;try{localStorage.setItem('pp_fs',fs)}catch(x){}look()}
+  else if(d.t==='hc'){hc=hc?0:1;try{localStorage.setItem('pp_hc',hc)}catch(x){}draw()}
+  else if(d.sh==='copy'){(navigator.clipboard?navigator.clipboard.writeText(location.href):Promise.reject()).then(()=>t.textContent='Link copied!',()=>t.textContent='Copy the browser address')}
+  else if(d.sh==='share'){navigator.share({title:d.title,url:location.href}).catch(()=>{})}
+  else if(d.a&&A&&A[d.a])A[d.a](+d.id)};
+ root.oninput=e=>{if(e.target.id==='q'){q=e.target.value;const p=e.target.selectionStart;draw();const n=root.querySelector('#q');n.focus();n.setSelectionRange(p,p)}};
+ window.addEventListener('hashchange',()=>{if(location.hash==='#main'){history.replaceState(null,'',last||location.pathname+location.search);const m=root.querySelector('main');m&&m.focus();return}
+  last=location.hash;q='';draw();window.scrollTo(0,0);root.scrollTop=0;const m=root.querySelector('main');m&&m.focus({preventScroll:true})});
+ draw();return draw}
+
+(()=>{
+const SEED=[['Countryside','Harvest advances in the Vuelta Abajo with high-quality leaf','After this week’s rain, growers report even color and good body in the wrapper leaf.','Mara Vega',1,'Growers in San Juan y Martínez and San Luis work from first light: cutting, stringing and moving the leaf to the curing barns.\n\nCooperative technicians advise watching humidity as hurricane season approaches.'],
+['Culture','A night of son and trova at the provincial theater','The hall opens Saturday with local groups and free admission.','Luis Cárdenas',0,'Four groups will move through son, trova and danzón in a program starting at 8:00 p.m.\n\nOrganizers expect a full house and ask guests to arrive early.'],
+['Sports','Vegueros win 7–3 in a packed stadium','A four-run burst in the sixth inning decided the classic.','Sports Desk',0,'The home starter pitched seven solid innings and the bullpen closed it out without drama.\n\nFans sent the team off with flags and drums.']];
+let posts=[];try{posts=JSON.parse(localStorage.getItem('pp_posts')||'[]')}catch(e){}
+const SM={Inicio:'Home',Provincia:'Province',Mundo:'World','Economy':'Economy',Deportes:'Sports',Cultura:'Culture',Campo:'Countryside','Opinion':'Opinion','Print Edition':'Print Edition',Equipo:'Team'};
+posts=posts.filter(p=>!(p.id<=3&&['Mara Vega','Luis Cárdenas','Redacción Deportes'].indexOf(p.author)>-1));posts.forEach(p=>{if(SM[p.sec])p.sec=SM[p.sec]});
+if(!posts.length)posts=SEED.map((s,i)=>({id:i+1,t:Date.now()-i*36e5,sec:s[0],title:s[1],deck:s[2],author:s[3],br:!!s[4],draft:false,cap:'Photo: Diario archive',body:s[5],img:null}));
+let staff=[];try{staff=JSON.parse(localStorage.getItem('pp_staff')||'[]')}catch(e){}
+const cfg={invite:'',site:'',hook:''};try{Object.assign(cfg,JSON.parse(localStorage.getItem('pp_cfg')||'{}'))}catch(e){}
+const persistS=()=>{try{localStorage.setItem('pp_staff',JSON.stringify(staff))}catch(e){alert('Storage full: use smaller photos.')}};
+const persistC=()=>{try{localStorage.setItem('pp_cfg',JSON.stringify(cfg))}catch(e){}};
+async function shrink(f,m,q){const bm=await createImageBitmap(f),k=Math.min(1,m/bm.width),c=document.createElement('canvas');c.width=bm.width*k;c.height=bm.height*k;c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return c.toDataURL('image/jpeg',q)}
+const M=document.createElement('div');M.id='ppM2';M.style.cssText='position:fixed;inset:0;z-index:110;background:#000b;display:none;align-items:center;justify-content:center;padding:16px';document.body.append(M);
+function modal(title,fields,ok){const bs='border:0;border-radius:4px;padding:7px 14px;color:#fff;';M.innerHTML='<div class="m" role="dialog" aria-label="'+title+'"><b>'+title+'</b>'+fields.map(f=>f[2]==='textarea'?'<label for="m-'+f[0]+'">'+f[1]+'</label><textarea id="m-'+f[0]+'" rows="4"></textarea>':f[2]==='file'?'<label for="m-'+f[0]+'">'+f[1]+'</label><input type="file" id="m-'+f[0]+'" accept="image/*">':'<label for="m-'+f[0]+'">'+f[1]+'</label><input type="text" id="m-'+f[0]+'">').join('')+'<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button type="button" id="m-x" style="'+bs+'background:#27272a">Cancel</button><button type="button" id="m-ok" style="'+bs+'background:#c8102e">Save</button></div></div>';
+ fields.forEach(f=>{const e=document.getElementById('m-'+f[0]);if(f[2]!=='file')e.value=f[3]||''});M.style.display='flex';
+ document.getElementById('m-x').onclick=()=>M.style.display='none';
+ document.getElementById('m-ok').onclick=async()=>{const v={};for(const f of fields){const e=document.getElementById('m-'+f[0]);v[f[0]]=f[2]==='file'?(e.files[0]?await shrink(e.files[0],500,.8):null):e.value}if(await ok(v))M.style.display='none'}}
+/* Discord: post an article through a webhook (image attached as a file, since embedded photos have no public URL) */
+async function toDiscord(p){if(!cfg.hook){alert('Discord webhook is missing (Settings & Discord).');return}
+ const emb={title:p.title,description:p.deck||'',color:0xc8102e,author:{name:'Pinar Press · '+p.sec},footer:{text:'By '+p.author}};
+ if(/^https?:/.test(cfg.site))emb.url=cfg.site.split('#')[0]+'#n'+p.id;
+ const fd=new FormData();if(p.img){fd.append('files[0]',await(await fetch(p.img)).blob(),'foto.jpg');emb.image={url:'attachment://foto.jpg'}}
+ fd.append('payload_json',JSON.stringify({embeds:[emb]}));
+ try{const r=await fetch(cfg.hook,{method:'POST',body:fd});alert(r.ok?'Posted to Discord.':'Discord returned error '+r.status)}catch(e){alert('Could not send. Check the webhook.')}}
+const persist=()=>{try{localStorage.setItem('pp_posts',JSON.stringify(posts));return true}catch(e){alert('Storage full: delete posts or use smaller images.');return false}};
+const ov=document.createElement('div');ov.id='ppSite';ov.className='ppsite';ov.style.display='block';document.body.append(ov);
+const st=document.createElement('style');st.textContent=SITECSS;document.head.append(st);
+const byId=id=>posts.find(p=>p.id===id);let redraw,editId=null,cur=null;
+const A={on:false,
+ lock:()=>{const c=prompt('Newsroom code');if(c==='2011'){A.on=true;try{sessionStorage.setItem('pp_adm','1')}catch(e){}document.body.classList.remove('locked');redraw()}else if(c!==null)alert('Wrong code')},
+ out:()=>{A.on=false;try{sessionStorage.removeItem('pp_adm')}catch(e){}document.body.classList.add('locked');ov.style.display='block';redraw()},
+ app:()=>{ov.style.display='none'},
+ cfg:()=>modal('Settings &amp; Discord',[['invite','Discord invite link','text',cfg.invite],['site','Public site URL (https://…)','text',cfg.site],['hook','Discord webhook (secret; stored only in this browser)','text',cfg.hook]],v=>{Object.assign(cfg,{invite:v.invite.trim(),site:v.site.trim(),hook:v.hook.trim()});persistC();redraw();return true}),
+ discord:id=>toDiscord(byId(id)),
+ newstaff:()=>modal('New member',[['name','Name','text',''],['role','Role','text','Reporter'],['bio','Bio','textarea',''],['photo','Photo','file']],v=>{if(!v.name.trim()){alert('Name is missing');return false}staff.push({id:Date.now(),name:v.name.trim(),role:v.role,bio:v.bio,photo:v.photo});persistS();redraw();return true}),
+ editstaff:id=>{const m=staff.find(x=>x.id===id);modal('Edit member',[['name','Name','text',m.name],['role','Role','text',m.role],['bio','Bio','textarea',m.bio],['photo','New photo (optional)','file']],v=>{if(!v.name.trim()){alert('Name is missing');return false}posts.forEach(p=>{if(p.author===m.name)p.author=v.name.trim()});persist();Object.assign(m,{name:v.name.trim(),role:v.role,bio:v.bio,photo:v.photo||m.photo});persistS();redraw();return true})},
+ delstaff:id=>{if(confirm('Delete this member?')){staff.splice(staff.findIndex(x=>x.id===id),1);persistS();location.hash='#s-Team';redraw()}},new:()=>comp(),edit:id=>comp(id),
+ del:id=>{if(confirm('Delete this post?')){posts.splice(posts.findIndex(p=>p.id===id),1);persist();location.hash='';redraw()}},
+ paper:id=>{const p=byId(id);$('headline').value=p.title;$('subhead').value=p.deck;$('byline').value='By '+p.author;$('caption').value=p.cap||'';if(p.img)images.hero=p.img;ov.style.display='none';onField();render()},
+ exp:()=>{const data=JSON.stringify(posts.filter(p=>!p.draft)).replace(/</g,'\\u003c');
+  const html='<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pinar Press — News</title><meta name="description" content="Pinar Press: news from Pinar del Río and the world."><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet"><style>body{margin:0}'+SITECSS+'</style></head><body><div id="root" class="ppsite"></div><script>'+renderSite.toString()+';renderSite(document.getElementById("root"),'+data+',null,'+JSON.stringify(staff).replace(/</g,'\\u003c')+','+JSON.stringify({invite:cfg.invite,site:cfg.site}).replace(/</g,'\\u003c')+')<\/script></body></html>';
+  const a=document.createElement('a');a.download='index.html';a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.click()}};
+try{if(sessionStorage.getItem('pp_adm')==='1'){A.on=true;document.body.classList.remove('locked')}}catch(e){}
+redraw=renderSite(ov,posts,A,staff,cfg);
+const C=document.createElement('div');C.id='ppComp';
+C.innerHTML=`<div class="m" role="dialog" aria-label="Post"><b>Post</b><label for="pc-t">Title</label><input type="text" id="pc-t"><label for="pc-d">Subhead</label><input type="text" id="pc-d">
+<label for="pc-s">Section</label><select id="pc-s">${['Province','World','Economy','Sports','Culture','Countryside','Opinion'].map(s=>`<option>${s}</option>`).join('')}</select>
+<label for="pc-a">Author</label><input type="text" id="pc-a"><label for="pc-f">Image</label><input type="file" id="pc-f" accept="image/*"><div style="margin-top:5px"><button type="button" id="pc-u" style="background:#27272a;color:#e4e4e7;border:1px solid #3f3f46;border-radius:4px;padding:4px 8px;font-size:11px">Use the newspaper image</button> <span id="pc-m" style="font-size:11px;color:#a1a1aa"></span></div>
+<label for="pc-c">Caption / alt text</label><input type="text" id="pc-c"><label for="pc-b">Body (blank line = new paragraph)</label><textarea id="pc-b" rows="7"></textarea>
+<div style="margin-top:8px"><label style="display:inline"><input type="checkbox" id="pc-br"> Breaking news</label> &nbsp; <label style="display:inline"><input type="checkbox" id="pc-dr"> Draft</label> &nbsp; <label style="display:inline"><input type="checkbox" id="pc-dc"> Also post to Discord</label></div>
+<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button type="button" id="pc-x" style="background:#27272a;color:#fff;border:0;border-radius:4px;padding:7px 14px">Cancel</button><button type="button" id="pc-ok" style="background:#c8102e;color:#fff;border:0;border-radius:4px;padding:7px 14px">Publish</button></div></div>`;
+document.body.append(C);const g=id=>document.getElementById(id);
+function comp(id){editId=id||null;const p=id?byId(id):null;cur=p?p.img:null;g('pc-t').value=p?p.title:'';g('pc-d').value=p?p.deck:'';g('pc-s').value=p&&p.sec!=='Print Edition'?p.sec:'Province';g('pc-a').value=p?p.author:'Pinar Press Newsroom';g('pc-c').value=p?p.cap:'Photo: Diario archive';g('pc-b').value=p?p.body:'';g('pc-br').checked=!!(p&&p.br);g('pc-dr').checked=!!(p&&p.draft);g('pc-dc').checked=false;g('pc-f').value='';g('pc-m').textContent=cur?'Image loaded':'';C.style.display='flex';g('pc-t').focus()}
+g('pc-x').onclick=()=>C.style.display='none';
+g('pc-u').onclick=()=>{if(images.hero){cur=images.hero;g('pc-m').textContent='Using the newspaper’s main image'}else g('pc-m').textContent='The newspaper has no main image'};
+g('pc-f').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const bm=await createImageBitmap(f),k=Math.min(1,1000/bm.width),c=document.createElement('canvas');c.width=bm.width*k;c.height=bm.height*k;c.getContext('2d').drawImage(bm,0,0,c.width,c.height);cur=c.toDataURL('image/jpeg',.78);g('pc-m').textContent='Image ready'}catch(err){g('pc-m').textContent='Could not read the image'}};
+g('pc-ok').onclick=()=>{const t=g('pc-t').value.trim();if(!t){alert('Title is missing');return}
+ const o={title:t,deck:g('pc-d').value,sec:g('pc-s').value,author:g('pc-a').value||'Newsroom',cap:g('pc-c').value,body:g('pc-b').value,br:g('pc-br').checked,draft:g('pc-dr').checked,img:cur};
+ if(editId)Object.assign(byId(editId),o);else posts.push({id:Date.now(),t:Date.now(),...o});
+ const post=editId?byId(editId):posts[posts.length-1];if(persist()){C.style.display='none';redraw();if(g('pc-dc').checked&&!o.draft)toDiscord(post)}};
+/* editor header buttons: back to site + publish the printed front page as an e-paper post */
+async function cover(){try{const c=await html2canvas($('newspaper'),{scale:1.6,useCORS:true,backgroundColor:null,logging:false}),k=Math.min(1,1200/c.width),o=document.createElement('canvas');o.width=c.width*k;o.height=c.height*k;o.getContext('2d').drawImage(c,0,0,o.width,o.height);
+ const d=new Date();posts.push({id:Date.now(),t:Date.now(),sec:'Print Edition',title:'Front page, '+d.toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'}),deck:$('headline').value||'',author:'Newsroom',cap:'Print edition front page',body:'See today’s front page.',br:false,draft:false,img:o.toDataURL('image/jpeg',.82)});
+ if(persist())alert('Front page posted to the “Print Edition” section of the site.')}catch(e){alert('Could not capture the front page')}}
+try{setLang('en')}catch(e){}
+const hb=document.querySelector('header .justify-end');
+[['Post front page to the site',cover],['Website',()=>{ov.style.display='block';redraw()}]].forEach(([t,f])=>{const b=document.createElement('button');b.className='btn btn-secondary text-xs px-3 py-1.5 rounded';b.textContent=t;b.onclick=f;hb.prepend(b)});
+})();
+</script>
+</body>
+</html>

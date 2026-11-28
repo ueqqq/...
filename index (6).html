@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pinar Press — Diario de Pinar del Río</title>
+<meta name="description" content="Pinar Press — news from Pinar del Río, the Vuelta Abajo, and Cuba."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #f3ead6;
+    --ink: #1a1512;
+    --ink-soft: #3d3429;
+    --red: #c8102e;
+    --navy: #002a8f;
+    --meta: #6b5f52;
+    --paper-shadow: 0 25px 50px -12px rgba(0,0,0,.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    background: #0c0a09;
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .paper-world {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -20%, #1a1512 0%, transparent 55%),
+      radial-gradient(ellipse 80% 50% at 80% 100%, #1a0f0c 0%, transparent 45%),
+      #0c0a09;
+    padding: 28px 16px 60px;
+  }
+  @media (max-width: 640px) {
+    .paper-world { padding: 12px 8px 40px; }
+  }
+  .paper {
+    max-width: 1120px;
+    margin: 0 auto;
+    background-color: var(--cream);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    box-shadow: var(--paper-shadow);
+    position: relative;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .cuban-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--navy) 0 20%, #fff 20% 40%, var(--red) 40% 60%, #fff 60% 80%, var(--navy) 80% 100%);
+  }
+  .topbar {
+    background: #0e1a3d;
+    color: #f5f0e6;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 640px) {
+    .topbar { padding: 12px 16px; gap: 10px; }
+  }
+  .brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(22px, 5vw, 28px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #fff;
+    text-decoration: none;
+  }
+  .brand small {
+    display: block;
+    font-family: Inter, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    opacity: 0.65;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .top-tools {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .top-tools button {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #f5f0e6;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .top-tools button:hover {
+    background: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .top-tools button.admin {
+    background: var(--red);
+    border-color: var(--red);
+  }
+  .ticker {
+    background: var(--red);
+    color: #fff;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .ticker { padding: 7px 14px; gap: 10px; font-size: 11px; }
+  }
+  .ticker b {
+    background: #fff;
+    color: var(--red);
+    padding: 2px 8px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 18px;
+    white-space: nowrap;
+    animation: marquee 32s linear infinite;
+  }
+  .ticker a {
+    color: #fff;
+    text-decoration: none;
+    max-width: 420px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ticker a:hover { text-decoration: underline; }
+  .ticker span { opacity: 0.55; flex-shrink: 0; }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 2px solid var(--ink);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 2px;
+    background: var(--cream);
+    scrollbar-width: thin;
+  }
+  nav a {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 12px 11px;
+    white-space: nowrap;
+    position: relative;
+    transition: color .15s;
+  }
+  nav a:hover { color: var(--red); }
+  nav a.on { color: var(--red); }
+  nav a.on::after {
+    content: '';
+    position: absolute;
+    left: 11px; right: 11px; bottom: -2px;
+    height: 3px;
+    background: var(--red);
+  }
+  .search-wrap {
+    margin-left: auto;
+    padding: 8px 0 8px 12px;
+    flex-shrink: 0;
+  }
+  .search-wrap input {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    padding: 7px 12px;
+    border: 1px solid #a89f8f;
+    border-radius: 4px;
+    background: #fffdf8;
+    color: var(--ink);
+    min-width: 140px;
+    max-width: 180px;
+    width: 100%;
+    outline: none;
+  }
+  .search-wrap input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 2px rgba(200,16,46,0.15);
+  }
+  @media (max-width: 640px) {
+    nav { padding: 0 10px; }
+    nav a { padding: 11px 9px; font-size: 11px; letter-spacing: 0.04em; }
+    .search-wrap { padding: 6px 0 6px 6px; }
+    .search-wrap input { min-width: 110px; max-width: 130px; font-size: 12px; padding: 6px 10px; }
+  }
+  main {
+    padding: 28px 28px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  @media (max-width: 640px) {
+    main { padding: 18px 16px 28px; }
+  }
+  .lead-grid {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 32px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 820px) {
+    .lead-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .lead {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .lead-img, .lead img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(145deg, #0e1a3d, #6b1a28);
+  }
+  .lead .ph {
+    height: 360px;
+    background: linear-gradient(145deg, #0e1a3d 0%, #4a1520 50%, #8b1020 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.25);
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+  }
+  @media (max-width: 640px) {
+    .lead img, .lead .ph { height: 220px; }
+    article img { max-height: 260px !important; }
+  }
+  .kick {
+    color: var(--red);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 14px;
+    display: block;
+  }
+  .lead h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 8px 0 10px;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .lead p {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 38em;
+    overflow-wrap: break-word;
+  }
+  .meta {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--meta);
+    margin-top: 10px;
+  }
+  .side {
+    border-left: 1px solid #b5a994;
+    padding-left: 24px;
+  }
+  @media (max-width: 820px) {
+    .side { border-left: 0; padding-left: 0; border-top: 1px solid #b5a994; padding-top: 20px; }
+  }
+  .side h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--navy);
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 5px;
+    margin-bottom: 12px;
+  }
+  .si {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 11px 0;
+    border-bottom: 1px dotted #9a8f7c;
+  }
+  .si:last-child { border-bottom: 0; }
+  .si .kick { margin-top: 0; font-size: 10px; }
+  .si h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 15.5px;
+    line-height: 1.3;
+    margin-top: 3px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .si:hover h3 { color: var(--red); }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 3px double var(--ink);
+  }
+  @media (max-width: 900px) {
+    .grid3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .grid3 { grid-template-columns: 1fr; gap: 20px; }
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s ease;
+  }
+  .card:hover { transform: translateY(-2px); }
+  .card img, .card .ph {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+  .card .ph {
+    background: linear-gradient(145deg, #0e1a3d, #6b1a28);
+  }
+  .card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.25;
+    margin: 6px 0 4px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .card:hover h3 { color: var(--red); }
+  article {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  article .kick { margin-bottom: 4px; }
+  article h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin: 6px 0 12px;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  article .deck {
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    overflow-wrap: break-word;
+  }
+  article .byline {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    color: var(--meta);
+    margin-bottom: 20px;
+  }
+  article img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 8px;
+  }
+  article .cap {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--meta);
+    margin-bottom: 24px;
+    overflow-wrap: break-word;
+  }
+  article p {
+    font-size: 16.5px;
+    line-height: 1.72;
+    margin-bottom: 1.15em;
+    overflow-wrap: break-word;
+  }
+  article p:first-of-type::first-letter {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 3.4em;
+    float: left;
+    line-height: 0.78;
+    margin: 0.05em 0.1em 0 0;
+    color: var(--red);
+  }
+  .share {
+    display: flex;
+    gap: 10px;
+    margin: 28px 0 20px;
+    flex-wrap: wrap;
+  }
+  .share button, .admin-actions button {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 4px;
+    border: 1px solid #a89f8f;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .share button:hover, .admin-actions button:hover {
+    background: rgba(0,0,0,0.04);
+    border-color: var(--ink);
+  }
+  .admin-actions {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .admin-actions button.danger {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .admin-actions button.primary {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+  .pn {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid #b5a994;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+  }
+  .pn a {
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .pn a:hover { color: var(--red); }
+  .sec-head {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .grid-team {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .grid-team { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .grid-team { grid-template-columns: 1fr; }
+  }
+  .team-card {
+    text-decoration: none;
+    color: inherit;
+  }
+  .team-card img, .team-card .ph {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  .team-card .ph {
+    background: linear-gradient(145deg, #0e1a3d, #4a1520);
+  }
+  .team-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 10px 0 2px;
+  }
+  footer {
+    text-align: center;
+    padding: 28px 24px 0;
+    border-top: 3px double var(--ink);
+    margin-top: 20px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    color: var(--meta);
+  }
+  footer .fl {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 18px;
+    margin-bottom: 14px;
+  }
+  footer a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  footer a:hover { color: var(--red); }
+  footer .copy {
+    margin-bottom: 18px;
+  }
+
+  /* Cuban flag banner — authentic proportions */
+  .cuba-banner {
+    width: 100%;
+    margin-top: 10px;
+    line-height: 0;
+    position: relative;
+  }
+  .cuba-banner svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 2 / 1;
+    max-height: 72px;
+  }
+  @media (max-width: 640px) {
+    .cuba-banner svg { max-height: 52px; }
+  }
+  @media (max-width: 420px) {
+    .cuba-banner svg { max-height: 40px; }
+  }
+  .hc { --cream: #fff; --ink: #000; --ink-soft: #111; --meta: #222; }
+  .fs1 main { font-size: 1.06em; }
+  .fs2 main { font-size: 1.14em; }
+  .skip {
+    position: absolute;
+    left: -9999px;
+    background: #f2b705;
+    color: #000;
+    padding: 8px 14px;
+    z-index: 20;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+  }
+  .skip:focus { left: 12px; top: 12px; }
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--meta);
+  }
+  .empty h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  /* Modal / composer */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--cream);
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 6px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  @media (max-width: 520px) {
+    .modal-bg { padding: 8px; align-items: flex-end; }
+    .modal {
+      max-height: 92vh;
+      border-radius: 12px 12px 0 0;
+      padding: 18px 16px 24px;
+    }
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .modal label {
+    display: block;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--meta);
+    margin: 12px 0 5px;
+  }
+  .modal input, .modal textarea, .modal select {
+    width: 100%;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 14px;
+    padding: 9px 12px;
+    border: 1px solid #a89f8f;
+    border-radius: 4px;
+    background: #fffdf8;
+    color: var(--ink);
+    outline: none;
+  }
+  .modal input:focus, .modal textarea:focus, .modal select:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 2px rgba(200,16,46,0.12);
+  }
+  .modal textarea { min-height: 120px; resize: vertical; }
+  .modal .row {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    justify-content: flex-end;
+  }
+  .modal .row button {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
+  }
+  .modal .row .cancel {
+    background: #e8e0d0;
+    color: var(--ink);
+  }
+  .modal .row .save {
+    background: var(--red);
+    color: #fff;
+  }
+  .modal .checks {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+  }
+  .modal .checks label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+  }
+  .img-preview {
+    margin-top: 8px;
+    max-height: 120px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="paper-world">
+  <div class="paper" id="root"></div>
+</div>
+
+<!-- Composer modal -->
+<div class="modal-bg" id="composer">
+  <div class="modal" role="dialog" aria-label="Post">
+    <h2 id="comp-title">New post</h2>
+    <label for="pc-t">Title</label>
+    <input type="text" id="pc-t" placeholder="Headline">
+    <label for="pc-d">Subhead / deck</label>
+    <input type="text" id="pc-d" placeholder="One-line summary">
+    <label for="pc-s">Section</label>
+    <select id="pc-s">
+      <option>Province</option>
+      <option>World</option>
+      <option>Economy</option>
+      <option>Sports</option>
+      <option>Culture</option>
+      <option>Countryside</option>
+      <option>Opinion</option>
+      <option>Print Edition</option>
+    </select>
+    <label for="pc-a">Author (staff)</label>
+    <select id="pc-a"></select>
+    <p style="font-family:Inter,sans-serif;font-size:11px;color:var(--meta);margin-top:4px">
+      Manage staff from the Team page while logged in.
+    </p>
+    <label for="pc-f">Image</label>
+    <input type="file" id="pc-f" accept="image/*">
+    <img id="pc-preview" class="img-preview" style="display:none" alt="">
+    <label for="pc-c">Caption</label>
+    <input type="text" id="pc-c" placeholder="Photo: Diario archive" value="Photo: Diario archive">
+    <label for="pc-b">Body (blank line = new paragraph)</label>
+    <textarea id="pc-b" rows="7" placeholder="Write the story…"></textarea>
+    <div class="checks">
+      <label><input type="checkbox" id="pc-br"> Breaking news</label>
+      <label><input type="checkbox" id="pc-dr"> Draft (hidden)</label>
+    </div>
+    <div class="row">
+      <button type="button" class="cancel" id="pc-x">Cancel</button>
+      <button type="button" class="save" id="pc-ok">Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Staff modal -->
+<div class="modal-bg" id="staffModal">
+  <div class="modal" role="dialog" aria-label="Staff member">
+    <h2 id="st-title">New staff member</h2>
+    <label for="st-name">Name</label>
+    <input type="text" id="st-name" placeholder="Full name">
+    <label for="st-role">Role</label>
+    <input type="text" id="st-role" placeholder="Reporter, Editor, Photographer…">
+    <label for="st-bio">Bio</label>
+    <textarea id="st-bio" rows="4" placeholder="Short bio…"></textarea>
+    <label for="st-photo">Photo</label>
+    <input type="file" id="st-photo" accept="image/*">
+    <img id="st-preview" class="img-preview" style="display:none" alt="">
+    <div class="row">
+      <button type="button" class="cancel" id="st-x">Cancel</button>
+      <button type="button" class="save" id="st-ok">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────
+   Pinar Press — Public site + Newsroom (code 2011)
+   ───────────────────────────────────────────── */
+
+const SECS = ['Home','Province','World','Economy','Sports','Culture','Countryside','Opinion','Print Edition','Team'];
+const NEWSROOM_CODE = '2011';
+
+const SEED = [
+  {
+    id: 1, t: Date.now() - 3600000,
+    sec: 'Countryside',
+    title: 'Harvest advances in the Vuelta Abajo with high-quality leaf',
+    deck: 'After this week’s rain, growers report even color and good body in the wrapper leaf.',
+    author: 'Mara Vega',
+    br: true, draft: false,
+    cap: 'Photo: Diario archive',
+    body: 'Growers in San Juan y Martínez and San Luis work from first light: cutting, stringing and moving the leaf to the curing barns.\n\nCooperative technicians advise watching humidity as hurricane season approaches. The quality of this year’s crop has already drawn attention from buyers in Havana and beyond.',
+    img: null
+  },
+  {
+    id: 2, t: Date.now() - 7200000,
+    sec: 'Culture',
+    title: 'A night of son and trova at the provincial theater',
+    deck: 'The hall opens Saturday with local groups and free admission.',
+    author: 'Luis Cárdenas',
+    br: false, draft: false,
+    cap: 'Photo: Diario archive',
+    body: 'Four groups will move through son, trova and danzón in a program starting at 8:00 p.m.\n\nOrganizers expect a full house and ask guests to arrive early. The evening is part of a continuing effort to keep provincial stages alive with live music.',
+    img: null
+  },
+  {
+    id: 3, t: Date.now() - 10800000,
+    sec: 'Sports',
+    title: 'Vegueros win 7–3 in a packed stadium',
+    deck: 'A four-run burst in the sixth inning decided the classic.',
+    author: 'Sports Desk',
+    br: false, draft: false,
+    cap: 'Photo: Diario archive',
+    body: 'The home starter pitched seven solid innings and the bullpen closed it out without drama.\n\nFans sent the team off with flags and drums. The victory keeps the Vegueros in strong position as the season enters its final stretch.',
+    img: null
+  }
+];
+
+let posts = [];
+try { posts = JSON.parse(localStorage.getItem('pp_posts') || '[]'); } catch(e) {}
+if (!posts.length) posts = SEED.map(p => ({...p}));
+
+let staff = [];
+try { staff = JSON.parse(localStorage.getItem('pp_staff') || '[]'); } catch(e) {}
+
+const cfg = { invite: '', site: '' };
+try { Object.assign(cfg, JSON.parse(localStorage.getItem('pp_cfg') || '{}')); } catch(e) {}
+
+const root = document.getElementById('root');
+let q = '', fs = 0, hc = 0, lastHash = '';
+let admin = false;
+let editId = null;
+let curImg = null;
+let staffEditId = null;
+let staffPhoto = null;
+
+try {
+  fs = +localStorage.getItem('pp_fs') || 0;
+  hc = +localStorage.getItem('pp_hc') || 0;
+  if (sessionStorage.getItem('pp_adm') === '1') admin = true;
+} catch(e) {}
+
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+const dt = t => new Date(t).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function persist() {
+  try {
+    localStorage.setItem('pp_posts', JSON.stringify(posts));
+    return true;
+  } catch(e) {
+    alert('Storage full. Delete some posts or use smaller images.');
+    return false;
+  }
+}
+
+function persistStaff() {
+  try {
+    localStorage.setItem('pp_staff', JSON.stringify(staff));
+    return true;
+  } catch(e) {
+    alert('Storage full. Use a smaller photo.');
+    return false;
+  }
+}
+
+function fillAuthorSelect(selected) {
+  const sel = document.getElementById('pc-a');
+  if (!sel) return;
+  const names = staff.map(s => s.name);
+  if (!names.length) {
+    sel.innerHTML = `<option value="Pinar Press Newsroom">Pinar Press Newsroom (add staff on Team page)</option>`;
+    return;
+  }
+  sel.innerHTML = names.map(n =>
+    `<option value="${esc(n)}"${n === selected ? ' selected' : ''}>${esc(n)}</option>`
+  ).join('');
+  if (selected && !names.includes(selected)) {
+    sel.innerHTML = `<option value="${esc(selected)}" selected>${esc(selected)}</option>` + sel.innerHTML;
+  }
+}
+
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (/^n\d+$/.test(h)) return { art: +h.slice(1), sec: 'Home' };
+  if (/^e\d+$/.test(h)) return { art: null, st: +h.slice(1), sec: 'Team' };
+  if (h.indexOf('s-') === 0) return { art: null, sec: h.slice(2) };
+  return { art: null, sec: 'Home' };
+}
+
+function imgHtml(p, tall) {
+  if (p.img) {
+    return `<img src="${p.img}" alt="${esc(p.cap || p.title)}" ${tall ? 'style="height:360px"' : ''}>`;
+  }
+  return `<div class="ph" role="img" aria-label="No image"${tall ? ' style="height:360px"' : ''}>PINAR PRESS</div>`;
+}
+
+function card(p) {
+  return `<a class="card" href="#n${p.id}">
+    ${imgHtml(p)}
+    <span class="kick">${esc(p.sec)}${p.draft ? ' · DRAFT' : ''}</span>
+    <h3>${esc(p.title)}</h3>
+    <span class="meta">${dt(p.t)}</span>
+  </a>`;
+}
+
+function byline(author) {
+  const m = staff.find(x => x.name === author);
+  if (m) {
+    return `<a href="#e${m.id}" style="color:var(--navy);font-weight:600">${esc(author)}</a>` +
+      (m.role ? ` <span style="color:var(--meta);font-weight:400">· ${esc(m.role)}</span>` : '');
+  }
+  return esc(author || 'Newsroom');
+}
+
+function look() {
+  root.classList.toggle('fs1', fs === 1);
+  root.classList.toggle('fs2', fs === 2);
+  root.classList.toggle('hc', !!hc);
+}
+
+function login() {
+  const code = prompt('Newsroom code');
+  if (code === NEWSROOM_CODE) {
+    admin = true;
+    try { sessionStorage.setItem('pp_adm', '1'); } catch(e) {}
+    draw();
+  } else if (code !== null) {
+    alert('Wrong code');
+  }
+}
+
+function logout() {
+  admin = false;
+  try { sessionStorage.removeItem('pp_adm'); } catch(e) {}
+  draw();
+}
+
+function openComposer(id) {
+  editId = id || null;
+  const p = id ? posts.find(x => x.id === id) : null;
+  curImg = p ? p.img : null;
+
+  document.getElementById('comp-title').textContent = id ? 'Edit post' : 'New post';
+  document.getElementById('pc-t').value = p ? p.title : '';
+  document.getElementById('pc-d').value = p ? p.deck : '';
+  document.getElementById('pc-s').value = p && p.sec !== 'Home' ? p.sec : 'Province';
+  fillAuthorSelect(p ? p.author : (staff[0] && staff[0].name) || 'Pinar Press Newsroom');
+  document.getElementById('pc-c').value = p ? p.cap : 'Photo: Diario archive';
+  document.getElementById('pc-b').value = p ? p.body : '';
+  document.getElementById('pc-br').checked = !!(p && p.br);
+  document.getElementById('pc-dr').checked = !!(p && p.draft);
+  document.getElementById('pc-f').value = '';
+
+  const prev = document.getElementById('pc-preview');
+  if (curImg) {
+    prev.src = curImg;
+    prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
+  }
+
+  document.getElementById('composer').classList.add('open');
+  document.getElementById('pc-t').focus();
+}
+
+function closeComposer() {
+  document.getElementById('composer').classList.remove('open');
+  editId = null;
+  curImg = null;
+}
+
+async function handleImage(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    const bm = await createImageBitmap(f);
+    const k = Math.min(1, 1000 / bm.width);
+    const c = document.createElement('canvas');
+    c.width = bm.width * k;
+    c.height = bm.height * k;
+    c.getContext('2d').drawImage(bm, 0, 0, c.width, c.height);
+    curImg = c.toDataURL('image/jpeg', 0.78);
+    const prev = document.getElementById('pc-preview');
+    prev.src = curImg;
+    prev.style.display = 'block';
+  } catch(err) {
+    alert('Could not read the image');
+  }
+}
+
+function savePost() {
+  const title = document.getElementById('pc-t').value.trim();
+  if (!title) { alert('Title is required'); return; }
+
+  const o = {
+    title,
+    deck: document.getElementById('pc-d').value,
+    sec: document.getElementById('pc-s').value,
+    author: document.getElementById('pc-a').value || 'Newsroom',
+    cap: document.getElementById('pc-c').value,
+    body: document.getElementById('pc-b').value,
+    br: document.getElementById('pc-br').checked,
+    draft: document.getElementById('pc-dr').checked,
+    img: curImg
+  };
+
+  if (editId) {
+    Object.assign(posts.find(p => p.id === editId), o);
+  } else {
+    posts.push({ id: Date.now(), t: Date.now(), ...o });
+  }
+
+  if (persist()) {
+    closeComposer();
+    draw();
+  }
+}
+
+function deletePost(id) {
+  if (!confirm('Delete this post?')) return;
+  posts = posts.filter(p => p.id !== id);
+  persist();
+  location.hash = '';
+  draw();
+}
+
+function openStaffModal(id) {
+  staffEditId = id || null;
+  const m = id ? staff.find(x => x.id === id) : null;
+  staffPhoto = m ? m.photo : null;
+
+  document.getElementById('st-title').textContent = id ? 'Edit staff member' : 'New staff member';
+  document.getElementById('st-name').value = m ? m.name : '';
+  document.getElementById('st-role').value = m ? m.role : 'Reporter';
+  document.getElementById('st-bio').value = m ? (m.bio || '') : '';
+  document.getElementById('st-photo').value = '';
+
+  const prev = document.getElementById('st-preview');
+  if (staffPhoto) {
+    prev.src = staffPhoto;
+    prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
+  }
+
+  document.getElementById('staffModal').classList.add('open');
+  document.getElementById('st-name').focus();
+}
+
+function closeStaffModal() {
+  document.getElementById('staffModal').classList.remove('open');
+  staffEditId = null;
+  staffPhoto = null;
+}
+
+async function handleStaffPhoto(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    const bm = await createImageBitmap(f);
+    const k = Math.min(1, 600 / bm.width);
+    const c = document.createElement('canvas');
+    c.width = bm.width * k;
+    c.height = bm.height * k;
+    c.getContext('2d').drawImage(bm, 0, 0, c.width, c.height);
+    staffPhoto = c.toDataURL('image/jpeg', 0.8);
+    const prev = document.getElementById('st-preview');
+    prev.src = staffPhoto;
+    prev.style.display = 'block';
+  } catch(err) {
+    alert('Could not read the photo');
+  }
+}
+
+function saveStaff() {
+  const name = document.getElementById('st-name').value.trim();
+  if (!name) { alert('Name is required'); return; }
+
+  const role = document.getElementById('st-role').value.trim() || 'Reporter';
+  const bio = document.getElementById('st-bio').value;
+
+  if (staffEditId) {
+    const m = staff.find(x => x.id === staffEditId);
+    const oldName = m.name;
+    Object.assign(m, { name, role, bio, photo: staffPhoto || m.photo });
+    // Keep posts in sync if name changed
+    if (oldName !== name) {
+      posts.forEach(p => { if (p.author === oldName) p.author = name; });
+      persist();
+    }
+  } else {
+    staff.push({ id: Date.now(), name, role, bio, photo: staffPhoto });
+  }
+
+  if (persistStaff()) {
+    closeStaffModal();
+    draw();
+  }
+}
+
+function deleteStaff(id) {
+  const m = staff.find(x => x.id === id);
+  if (!m) return;
+  if (!confirm('Remove ' + m.name + ' from the team? Posts keep their byline text.')) return;
+  staff = staff.filter(x => x.id !== id);
+  persistStaff();
+  location.hash = '#s-Team';
+  draw();
+}
+
+function draw() {
+  const R = route();
+  const art = R.art, st = R.st, sec = R.sec;
+  const all = posts.filter(p => admin || !p.draft).sort((a,b) => b.t - a.t);
+  const br = all.filter(p => p.br && !p.draft).slice(0, 4);
+  const ql = q.trim().toLowerCase();
+
+  let list = sec === 'Home' ? all : all.filter(p => p.sec === sec);
+  if (ql) list = all.filter(p =>
+    (p.title + ' ' + p.deck + ' ' + p.body + ' ' + p.author).toLowerCase().includes(ql)
+  );
+
+  let h = `
+    <div class="cuban-stripe"></div>
+    <header class="topbar">
+      <a class="brand" href="#">PINAR PRESS<small>News · Cuban Daily · Pinar del Río</small></a>
+      <div class="top-tools">
+        <button data-t="fs" aria-label="Change text size">A+ / A−</button>
+        <button data-t="hc" aria-pressed="${hc ? 'true' : 'false'}">High contrast</button>
+        ${admin
+          ? `<button class="admin" data-a="new">+ New post</button>
+             <button data-a="out">Log out</button>`
+          : `<button data-a="lock">Newsroom</button>`}
+      </div>
+    </header>`;
+
+  if (br.length) {
+    const items = br.map(p => `<a href="#n${p.id}">${esc(p.title)}</a>`).join('<span>•</span>');
+    h += `<div class="ticker" role="region" aria-label="Breaking news">
+      <b>BREAKING</b>
+      <div class="ticker-track">${items}${items}</div>
+    </div>`;
+  }
+
+  h += `<nav aria-label="Sections">
+    ${SECS.map(s =>
+      `<a href="${s === 'Home' ? '#' : '#s-' + encodeURIComponent(s)}"
+         ${s === sec && !art && !ql ? 'class="on" aria-current="page"' : ''}>${s}</a>`
+    ).join('')}
+    <div class="search-wrap">
+      <input id="q" type="search" placeholder="Search news…" aria-label="Search news" value="${esc(q)}">
+    </div>
+  </nav>
+  <main id="main" tabindex="-1">`;
+
+  /* Staff member */
+  if (!ql && st && staff.find(x => x.id === st)) {
+    const m = staff.find(x => x.id === st);
+    const ar = all.filter(x => x.author === m.name);
+    h += `<article>
+      <a class="kick" href="#s-Team" style="display:inline-block;margin-bottom:8px">← Team</a>
+      <h1>${esc(m.name)}</h1>
+      <div class="kick" style="margin:0 0 12px">${esc(m.role)}</div>
+      ${m.photo ? `<img src="${m.photo}" alt="${esc(m.name)}" style="max-height:320px;width:auto;margin:12px 0">` : ''}
+      ${(m.bio || '').split(/\n\s*\n/).map(x => `<p>${esc(x)}</p>`).join('')}
+      ${admin ? `<div class="admin-actions">
+        <button class="primary" data-a="editstaff" data-id="${m.id}">Edit profile</button>
+        <button class="danger" data-a="delstaff" data-id="${m.id}">Remove</button>
+      </div>` : ''}
+      <h3 style="font-family:'Playfair Display',serif;margin:28px 0 12px">Posts by ${esc(m.name)}</h3>
+      ${ar.length ? `<div class="grid3" style="border:0;margin:0;padding:0">${ar.map(card).join('')}</div>` : '<p class="meta">No posts yet.</p>'}
+    </article>`;
+  }
+
+  /* Team */
+  else if (!ql && sec === 'Team') {
+    h += `<div class="sec-head">Our team</div>`;
+    if (staff.length) {
+      h += `<div class="grid-team">${staff.map(m =>
+        `<a class="team-card" href="#e${m.id}">
+          ${m.photo ? `<img src="${m.photo}" alt="${esc(m.name)}">` : `<div class="ph"></div>`}
+          <h3>${esc(m.name)}</h3>
+          <span class="kick" style="margin:0">${esc(m.role)}</span>
+        </a>`
+      ).join('')}</div>`;
+    } else {
+      h += `<div class="empty"><h2>We will introduce our newsroom soon.</h2></div>`;
+    }
+    if (admin) {
+      h += `<p style="margin-top:24px">
+        <button data-a="newstaff" style="background:var(--red);color:#fff;border:0;padding:10px 18px;border-radius:4px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;cursor:pointer">+ Add staff member</button>
+      </p>`;
+    }
+    if (cfg.invite) {
+      h += `<p style="margin-top:16px"><a href="${esc(cfg.invite)}" target="_blank" rel="noopener"
+        style="display:inline-block;background:var(--navy);color:#fff;padding:10px 18px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;text-decoration:none;border-radius:4px">
+        Join the team on Discord</a></p>`;
+    }
+  }
+
+  /* Search */
+  else if (ql) {
+    h += `<h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:28px;margin-bottom:16px">
+      Results for “${esc(q)}”</h2>`;
+    h += list.length
+      ? `<div class="grid3" style="border:0;margin:0;padding:0">${list.map(card).join('')}</div>`
+      : `<div class="empty"><h2>Nothing found</h2><p>Try another word.</p></div>`;
+  }
+
+  /* Article */
+  else if (art) {
+    const p = posts.find(x => x.id === art);
+    if (!p || (!admin && p.draft)) {
+      h += `<div class="empty"><h2>Article not found</h2></div>`;
+    } else {
+      const i = all.findIndex(x => x.id === p.id);
+      const nx = all[i - 1], pv = all[i + 1];
+      const rel = all.filter(x => x.sec === p.sec && x.id !== p.id).slice(0, 3);
+
+      h += `<article>
+        <a class="kick" href="#s-${encodeURIComponent(p.sec)}" style="display:inline-block">${esc(p.sec)}${p.draft ? ' · DRAFT' : ''}</a>
+        <h1>${esc(p.title)}</h1>
+        <p class="deck">${esc(p.deck)}</p>
+        <div class="byline">By ${byline(p.author)} · ${dt(p.t)}</div>
+        ${imgHtml(p, true)}
+        <div class="cap">${esc(p.cap)}</div>
+        ${(p.body || '').split(/\n\s*\n/).map(x => `<p>${esc(x)}</p>`).join('')}
+        <div class="share">
+          <button data-sh="copy">Copy link</button>
+          ${navigator.share ? `<button data-sh="share" data-title="${esc(p.title)}">Share</button>` : ''}
+        </div>`;
+
+      if (admin) {
+        h += `<div class="admin-actions">
+          <button class="primary" data-a="edit" data-id="${p.id}">Edit</button>
+          <button class="danger" data-a="del" data-id="${p.id}">Delete</button>
+        </div>`;
+      }
+
+      h += `<div class="pn">
+          <span>${pv ? `<a href="#n${pv.id}">← ${esc(pv.title)}</a>` : ''}</span>
+          <span style="text-align:right">${nx ? `<a href="#n${nx.id}">${esc(nx.title)} →</a>` : ''}</span>
+        </div>
+      </article>`;
+
+      if (rel.length) {
+        h += `<h3 style="font-family:'Playfair Display',serif;font-weight:700;margin:40px 0 16px;font-size:18px">
+          More in ${esc(p.sec)}</h3>
+          <div class="grid3" style="border:0;margin:0;padding:0">${rel.map(card).join('')}</div>`;
+      }
+    }
+  }
+
+  /* Empty section */
+  else if (!list.length) {
+    h += `<div class="empty"><h2>${esc(sec)}</h2><p>No posts in this section yet.</p>
+      ${admin ? '<p style="margin-top:16px"><button class="admin" data-a="new" style="background:var(--red);color:#fff;border:0;padding:10px 18px;border-radius:4px;font-family:Inter,sans-serif;font-weight:600;cursor:pointer">+ Write the first post</button></p>' : ''}
+    </div>`;
+  }
+
+  /* Home / section */
+  else {
+    const L = list[0];
+    const Rs = list.slice(1);
+
+    if (sec !== 'Home') {
+      h += `<div class="sec-head">${esc(sec)}</div>`;
+    }
+
+    h += `<div class="lead-grid">
+      <a class="lead" href="#n${L.id}">
+        ${imgHtml(L, true)}
+        <span class="kick">${esc(L.sec)}${L.draft ? ' · DRAFT' : ''}</span>
+        <h2>${esc(L.title)}</h2>
+        <p>${esc(L.deck)}</p>
+        <div class="meta">By ${esc(L.author)} · ${dt(L.t)} · Read story →</div>
+      </a>
+      <aside class="side" aria-label="Latest">
+        <h4>LATEST</h4>
+        ${Rs.slice(0, 5).map(x =>
+          `<a class="si" href="#n${x.id}">
+            <span class="kick">${esc(x.sec)}${x.draft ? ' · DRAFT' : ''}</span>
+            <h3>${esc(x.title)}</h3>
+          </a>`
+        ).join('') || '<div class="meta">No more news.</div>'}
+      </aside>
+    </div>`;
+
+    if (Rs.length > 2) {
+      h += `<div class="grid3">${Rs.slice(2).map(card).join('')}</div>`;
+    }
+  }
+
+  h += `</main>
+  <footer>
+    <div class="fl">
+      ${SECS.map(s =>
+        `<a href="${s === 'Home' ? '#' : '#s-' + encodeURIComponent(s)}">${s}</a>`
+      ).join('')}
+      ${cfg.invite ? `<a href="${esc(cfg.invite)}" target="_blank" rel="noopener">Join the team</a>` : ''}
+      ${!admin ? `<a href="#" data-a="lock">Newsroom</a>` : ''}
+    </div>
+    <div class="copy">© Pinar Press · Fictional site and content · Pinar del Río</div>
+    <div class="cuba-banner" aria-label="Bandera de Cuba">
+      <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cuban flag">
+        <defs>
+          <linearGradient id="stripeBlue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0033a0"/>
+            <stop offset="100%" stop-color="#002a8f"/>
+          </linearGradient>
+          <linearGradient id="triRed" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e0183a"/>
+            <stop offset="100%" stop-color="#cf142b"/>
+          </linearGradient>
+          <filter id="flagShade" x="-2%" y="-2%" width="104%" height="104%">
+            <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-opacity="0.18"/>
+          </filter>
+        </defs>
+        <!-- Five horizontal stripes -->
+        <rect y="0" width="600" height="60" fill="url(#stripeBlue)"/>
+        <rect y="60" width="600" height="60" fill="#ffffff"/>
+        <rect y="120" width="600" height="60" fill="url(#stripeBlue)"/>
+        <rect y="180" width="600" height="60" fill="#ffffff"/>
+        <rect y="240" width="600" height="60" fill="url(#stripeBlue)"/>
+        <!-- Red equilateral-ish triangle (official: height = flag height, base ≈ 1/3 width) -->
+        <polygon points="0,0 250,150 0,300" fill="url(#triRed)"/>
+        <!-- Official-style 5-point star, centered in triangle -->
+        <polygon
+          transform="translate(83,150) scale(1.05)"
+          points="0,-28 6.5,-9 28,-9 11,3 17,22 0,11 -17,22 -11,3 -28,-9 -6.5,-9"
+          fill="#ffffff"
+          filter="url(#flagShade)"/>
+      </svg>
+    </div>
+  </footer>`;
+
+  root.innerHTML = h;
+  look();
+}
+
+/* Events */
+root.addEventListener('click', e => {
+  const t = e.target.closest('[data-t],[data-a],[data-sh]');
+  if (!t) return;
+  const d = t.dataset;
+
+  if (d.t === 'fs') {
+    fs = (fs + 1) % 3;
+    try { localStorage.setItem('pp_fs', fs); } catch(x) {}
+    look();
+  } else if (d.t === 'hc') {
+    hc = hc ? 0 : 1;
+    try { localStorage.setItem('pp_hc', hc); } catch(x) {}
+    draw();
+  } else if (d.sh === 'copy') {
+    (navigator.clipboard
+      ? navigator.clipboard.writeText(location.href)
+      : Promise.reject()
+    ).then(() => t.textContent = 'Link copied!')
+     .catch(() => t.textContent = 'Copy the address bar');
+  } else if (d.sh === 'share') {
+    navigator.share({ title: d.title, url: location.href }).catch(() => {});
+  } else if (d.a === 'lock') {
+    e.preventDefault();
+    login();
+  } else if (d.a === 'out') {
+    logout();
+  } else if (d.a === 'new') {
+    openComposer();
+  } else if (d.a === 'edit') {
+    openComposer(+d.id);
+  } else if (d.a === 'del') {
+    deletePost(+d.id);
+  } else if (d.a === 'newstaff') {
+    openStaffModal();
+  } else if (d.a === 'editstaff') {
+    openStaffModal(+d.id);
+  } else if (d.a === 'delstaff') {
+    deleteStaff(+d.id);
+  }
+});
+
+root.addEventListener('input', e => {
+  if (e.target.id === 'q') {
+    q = e.target.value;
+    const pos = e.target.selectionStart;
+    draw();
+    const n = root.querySelector('#q');
+    if (n) { n.focus(); n.setSelectionRange(pos, pos); }
+  }
+});
+
+document.getElementById('pc-x').onclick = closeComposer;
+document.getElementById('pc-ok').onclick = savePost;
+document.getElementById('pc-f').onchange = handleImage;
+
+document.getElementById('composer').addEventListener('click', e => {
+  if (e.target.id === 'composer') closeComposer();
+});
+
+document.getElementById('st-x').onclick = closeStaffModal;
+document.getElementById('st-ok').onclick = saveStaff;
+document.getElementById('st-photo').onchange = handleStaffPhoto;
+document.getElementById('staffModal').addEventListener('click', e => {
+  if (e.target.id === 'staffModal') closeStaffModal();
+});
+
+window.addEventListener('hashchange', () => {
+  if (location.hash === '#main') {
+    history.replaceState(null, '', lastHash || location.pathname + location.search);
+    const m = root.querySelector('main');
+    m && m.focus();
+    return;
+  }
+  lastHash = location.hash;
+  q = '';
+  draw();
+  window.scrollTo(0, 0);
+  const m = root.querySelector('main');
+  m && m.focus({ preventScroll: true });
+});
+
+draw();
+</script>
+</body>
+</html>

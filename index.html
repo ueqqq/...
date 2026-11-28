@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Pinar Press — Diario de Pinar del Río</title>
 <meta name="description" content="Pinar Press — news from Pinar del Río, the Vuelta Abajo, and Cuba."/>
+<link rel="icon" type="image/png" href="Images.png"/>
+<link rel="apple-touch-icon" href="Images.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -75,16 +77,6 @@
     line-height: 1;
     color: #fff;
     text-decoration: none;
-  }
-  .brand small {
-    display: block;
-    font-family: Inter, system-ui, sans-serif;
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    opacity: 0.65;
-    margin-top: 5px;
-    text-transform: uppercase;
   }
   .top-tools {
     display: flex;
@@ -547,25 +539,26 @@
     margin-bottom: 18px;
   }
 
-  /* Cuban flag banner — authentic proportions */
+  /* Cuban flag banner — real flag image */
   .cuba-banner {
     width: 100%;
     margin-top: 10px;
     line-height: 0;
     position: relative;
+    overflow: hidden;
   }
-  .cuba-banner svg {
+  .cuba-banner img {
     width: 100%;
-    height: auto;
+    height: 56px;
+    object-fit: cover;
+    object-position: center;
     display: block;
-    aspect-ratio: 2 / 1;
-    max-height: 72px;
   }
   @media (max-width: 640px) {
-    .cuba-banner svg { max-height: 52px; }
+    .cuba-banner img { height: 42px; }
   }
   @media (max-width: 420px) {
-    .cuba-banner svg { max-height: 40px; }
+    .cuba-banner img { height: 32px; }
   }
   .hc { --cream: #fff; --ink: #000; --ink-soft: #111; --meta: #222; }
   .fs1 main { font-size: 1.06em; }
@@ -937,15 +930,20 @@ function logout() {
   draw();
 }
 
-function openComposer(id) {
+function openComposer(id, defaultSec) {
   editId = id || null;
   const p = id ? posts.find(x => x.id === id) : null;
   curImg = p ? p.img : null;
 
+  // Prefer: editing existing → current section page → Province
+  let secVal = 'Province';
+  if (p && p.sec && p.sec !== 'Home') secVal = p.sec;
+  else if (defaultSec && defaultSec !== 'Home' && defaultSec !== 'Team') secVal = defaultSec;
+
   document.getElementById('comp-title').textContent = id ? 'Edit post' : 'New post';
   document.getElementById('pc-t').value = p ? p.title : '';
   document.getElementById('pc-d').value = p ? p.deck : '';
-  document.getElementById('pc-s').value = p && p.sec !== 'Home' ? p.sec : 'Province';
+  document.getElementById('pc-s').value = secVal;
   fillAuthorSelect(p ? p.author : (staff[0] && staff[0].name) || 'Pinar Press Newsroom');
   document.getElementById('pc-c').value = p ? p.cap : 'Photo: Diario archive';
   document.getElementById('pc-b').value = p ? p.body : '';
@@ -1006,15 +1004,19 @@ function savePost() {
     img: curImg
   };
 
+  let savedId = editId;
   if (editId) {
     Object.assign(posts.find(p => p.id === editId), o);
   } else {
-    posts.push({ id: Date.now(), t: Date.now(), ...o });
+    savedId = Date.now();
+    posts.push({ id: savedId, t: Date.now(), ...o });
   }
 
   if (persist()) {
     closeComposer();
-    draw();
+    // Open the post so you see it in its section context
+    if (!o.draft) location.hash = '#n' + savedId;
+    else draw();
   }
 }
 
@@ -1125,12 +1127,11 @@ function draw() {
   let h = `
     <div class="cuban-stripe"></div>
     <header class="topbar">
-      <a class="brand" href="#">PINAR PRESS<small>News · Cuban Daily · Pinar del Río</small></a>
+      <a class="brand" href="#">PINAR PRESS</a>
       <div class="top-tools">
-        <button data-t="fs" aria-label="Change text size">A+ / A−</button>
-        <button data-t="hc" aria-pressed="${hc ? 'true' : 'false'}">High contrast</button>
         ${admin
           ? `<button class="admin" data-a="new">+ New post</button>
+             <button data-a="editor" title="Open newspaper designer">Editor</button>
              <button data-a="out">Log out</button>`
           : `<button data-a="lock">Newsroom</button>`}
       </div>
@@ -1302,37 +1303,9 @@ function draw() {
       ${cfg.invite ? `<a href="${esc(cfg.invite)}" target="_blank" rel="noopener">Join the team</a>` : ''}
       ${!admin ? `<a href="#" data-a="lock">Newsroom</a>` : ''}
     </div>
-    <div class="copy">© Pinar Press · Fictional site and content · Pinar del Río</div>
+    <div class="copy">© Pinar Press · Pinar del Río</div>
     <div class="cuba-banner" aria-label="Bandera de Cuba">
-      <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cuban flag">
-        <defs>
-          <linearGradient id="stripeBlue" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#0033a0"/>
-            <stop offset="100%" stop-color="#002a8f"/>
-          </linearGradient>
-          <linearGradient id="triRed" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#e0183a"/>
-            <stop offset="100%" stop-color="#cf142b"/>
-          </linearGradient>
-          <filter id="flagShade" x="-2%" y="-2%" width="104%" height="104%">
-            <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-opacity="0.18"/>
-          </filter>
-        </defs>
-        <!-- Five horizontal stripes -->
-        <rect y="0" width="600" height="60" fill="url(#stripeBlue)"/>
-        <rect y="60" width="600" height="60" fill="#ffffff"/>
-        <rect y="120" width="600" height="60" fill="url(#stripeBlue)"/>
-        <rect y="180" width="600" height="60" fill="#ffffff"/>
-        <rect y="240" width="600" height="60" fill="url(#stripeBlue)"/>
-        <!-- Red equilateral-ish triangle (official: height = flag height, base ≈ 1/3 width) -->
-        <polygon points="0,0 250,150 0,300" fill="url(#triRed)"/>
-        <!-- Official-style 5-point star, centered in triangle -->
-        <polygon
-          transform="translate(83,150) scale(1.05)"
-          points="0,-28 6.5,-9 28,-9 11,3 17,22 0,11 -17,22 -11,3 -28,-9 -6.5,-9"
-          fill="#ffffff"
-          filter="url(#flagShade)"/>
-      </svg>
+      <img src="Images.png" alt="Bandera de Cuba"/>
     </div>
   </footer>`;
 
@@ -1368,7 +1341,8 @@ root.addEventListener('click', e => {
   } else if (d.a === 'out') {
     logout();
   } else if (d.a === 'new') {
-    openComposer();
+    const R = route();
+    openComposer(null, R.sec);
   } else if (d.a === 'edit') {
     openComposer(+d.id);
   } else if (d.a === 'del') {
@@ -1379,6 +1353,14 @@ root.addEventListener('click', e => {
     openStaffModal(+d.id);
   } else if (d.a === 'delstaff') {
     deleteStaff(+d.id);
+  } else if (d.a === 'editor') {
+    // Newspaper designer — prefer same folder, then package layout
+    const paths = [
+      './pinar_press_site.html',
+      'pinar_press_site.html',
+      '../original/pinar_press_site.html'
+    ];
+    window.open(paths[0], '_blank');
   }
 });
 
